@@ -90,6 +90,16 @@ class PemesananController extends Controller
         ]);
     }
 
+    private function csvAman(string $value): string
+    {
+        // Cegah formula injection saat dibuka di Excel/LibreOffice.
+        if (preg_match('/^[=+\-@]/', $value) === 1) {
+            return "'".$value;
+        }
+
+        return $value;
+    }
+
     public function ekspor(Request $request): StreamedResponse
     {
         $rental = $request->user()->rental()->firstOrFail();
@@ -105,15 +115,15 @@ class PemesananController extends Controller
 
             foreach ($pemesanan as $p) {
                 fputcsv($out, [
-                    $p->kode,
-                    $p->unit->nama,
-                    $p->nama_penyewa,
-                    $p->wa,
-                    $p->mulai->format('Y-m-d H:i'),
-                    $p->selesai->format('Y-m-d H:i'),
-                    number_format((float) $p->total, 2, ',', ''),
-                    number_format((float) $p->dp_nominal, 2, ',', ''),
-                    $p->status->label(),
+                    $this->csvAman($p->kode),
+                    $this->csvAman($p->unit->nama),
+                    $this->csvAman($p->nama_penyewa),
+                    $this->csvAman($p->wa),
+                    $this->csvAman($p->mulai->format('Y-m-d H:i')),
+                    $this->csvAman($p->selesai->format('Y-m-d H:i')),
+                    $this->csvAman(number_format((float) $p->total, 2, ',', '')),
+                    $this->csvAman(number_format((float) $p->dp_nominal, 2, ',', '')),
+                    $this->csvAman($p->status->label()),
                 ], ';');
             }
 

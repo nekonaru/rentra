@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Struk {{ $pemesanan->kode }} - {{ $pemesanan->rental->nama }}</title>
+        @vite(['resources/js/app.js'])
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
         <style>
@@ -54,7 +55,8 @@
             @endif
 
             <div class="footer">Dibuat dengan Rentra</div>
-            <div class="aksi"><button onclick="window.print()">Cetak</button></div>
+            <div class="aksi"><button data-print>Cetak</button></div>
         </div>
     </body>
 </html>
+
