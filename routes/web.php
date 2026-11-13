@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,17 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Halaman publik rental. Didaftarkan paling akhir supaya route aplikasi menang.
+Route::get('/{slug}', [PublicController::class, 'show'])
+    ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
+    ->name('public.show');
+Route::get('/{slug}/{unit}', [PublicController::class, 'unit'])
+    ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
+    ->whereNumber('unit')
+    ->name('public.unit');
+Route::post('/{slug}/{unit}/harga-preview', [PublicController::class, 'preview'])
+    ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
+    ->whereNumber('unit')
+    ->middleware('throttle:60,1')
+    ->name('public.preview');
