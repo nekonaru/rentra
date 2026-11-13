@@ -270,14 +270,15 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test        # test feature dan unit (SQLite in-memory)
-vendor/bin/pint --test  # cek gaya kode
-npm run build           # build frontend tanpa error
+php artisan test                  # seluruh 74 test (feature dan unit, SQLite in-memory)
+php artisan test --filter=KeamananTest   # 9 test keamanan khusus
+vendor/bin/pint --test            # cek gaya kode
+npm run build                     # build frontend tanpa error
 ```
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 61 test) |
+| Test suite | Semua test lulus (saat ini 74 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |
