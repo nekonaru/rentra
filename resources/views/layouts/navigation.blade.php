@@ -22,6 +22,12 @@
                     <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
                         {{ __('Verifikasi') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+                        {{ __('Booking') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
+                        {{ __('Blok') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -87,6 +93,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
                 {{ __('Verifikasi') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+                {{ __('Booking') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
+                {{ __('Blok') }}
             </x-responsive-nav-link>
         </div>
 

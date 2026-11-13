@@ -24,4 +24,9 @@ class BookingPolicy
         return $user->rental?->id === $booking->rental_id
             && $booking->status === BookingStatus::MenungguVerifikasi;
     }
+
+    public function kelola(User $user, Booking $booking): bool
+    {
+        return $user->rental?->id === $booking->rental_id;
+    }
 }

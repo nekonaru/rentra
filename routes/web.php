@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicBookingController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\UnitBlockController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/verifikasi/{booking}/terima', [VerifikasiController::class, 'terima'])->name('verifikasi.terima');
         Route::post('/verifikasi/{booking}/tolak', [VerifikasiController::class, 'tolak'])->name('verifikasi.tolak');
         Route::get('/booking/{booking}/bukti', [PublicBookingController::class, 'bukti'])->name('bookings.bukti');
+
+        Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
+        Route::post('/bookings/{booking}/serah-terima', [BookingsController::class, 'serahTerima'])->name('bookings.serah-terima');
+        Route::post('/bookings/{booking}/selesai', [BookingsController::class, 'selesai'])->name('bookings.selesai');
+        Route::post('/bookings/{booking}/batal', [BookingsController::class, 'batal'])->name('bookings.batal');
+
+        Route::get('/blok', [UnitBlockController::class, 'index'])->name('blok.index');
+        Route::post('/blok', [UnitBlockController::class, 'store'])->name('blok.store');
+        Route::delete('/blok/{unitBlock}', [UnitBlockController::class, 'destroy'])->name('blok.destroy');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
