@@ -4,6 +4,7 @@
   <p><b>Ubah "kak, masih ready?" menjadi satu link publik dengan ketersediaan langsung,<br/>
   kalkulasi harga otomatis, dan verifikasi bukti DP.</b></p>
 
+  <a href="https://github.com/nekonaru/rentra/releases"><img src="https://img.shields.io/github/v/release/nekonaru/rentra?style=flat-square&color=blue" alt="Release" /></a>
   <a href="https://github.com/nekonaru/rentra/actions/workflows/ci.yml"><img src="https://github.com/nekonaru/rentra/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP" />
   <img src="https://img.shields.io/badge/Platform-Web-0F766E?style=flat-square" alt="Platform" />
