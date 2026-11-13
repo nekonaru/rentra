@@ -12,7 +12,23 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                rentra: {
+                    DEFAULT: '#0F766E',
+                    ink: '#0B1F24',
+                    accent: '#F59E0B',
+                    bg: '#F6FAF9',
+                },
+                status: {
+                    tersedia: '#16A34A',
+                    ditahan: '#F59E0B',
+                    verifikasi: '#2563EB',
+                    terkonfirmasi: '#0F766E',
+                    terlambat: '#DC2626',
+                    diblok: '#6B7280',
+                },
             },
         },
     },
