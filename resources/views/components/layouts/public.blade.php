@@ -8,6 +8,7 @@
         <title>{{ isset($title) ? $title . ' - ' : '' }}{{ $rental->nama ?? config('app.name') }}</title>
         <meta name="description" content="Cek ketersediaan unit, kalkulator harga, dan booking langsung di {{ $rental->nama ?? 'Rentra' }}.">
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -43,3 +44,4 @@
         </footer>
     </body>
 </html>
+

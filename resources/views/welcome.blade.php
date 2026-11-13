@@ -8,6 +8,7 @@
         <title>Rentra - Link publik untuk rental kamu</title>
         <meta name="description" content="Satu link untuk cek ketersediaan unit, kalkulator harga otomatis, booking, dan kirim bukti DP. Selesai urusan 'masih ready kak?'.">
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -72,3 +73,4 @@
         </footer>
     </body>
 </html>
+

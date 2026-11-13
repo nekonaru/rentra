@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Rentra</title>
+  <g fill="none" stroke="currentColor" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M84 212V92"/>
+    <path d="M84 152a60 60 0 0 1 60-60h36"/>
+    <path d="M152 66l30 26-30 26"/>
+  </g>
+</svg>
