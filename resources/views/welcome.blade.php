@@ -6,15 +6,15 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Rentra - Link publik untuk rental kamu</title>
-        <meta name="description" content="Satu link untuk cek ketersediaan unit, kalkulator harga otomatis, booking, dan kirim bukti DP. Selesai urusan 'masih ready kak?'.">
+        <meta name="description" content="Satu link untuk cek ketersediaan unit, kalkulator harga otomatis, Pemesanan, dan kirim bukti DP. Selesai urusan 'masih ready kak?'.">
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-        <!-- Fonts -->
+        <!-- Font -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
+        <!-- Script -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-rentra-bg text-rentra-ink">
@@ -34,8 +34,8 @@
             <!-- Hero -->
             <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 sm:pt-16 sm:pb-24 text-center">
                 <span class="inline-flex items-center gap-2 rounded-full bg-teal-50 text-rentra text-xs font-semibold px-3 py-1">Untuk rental kamera, lensa, dan lainnya</span>
-                <h1 class="mt-6 text-3xl sm:text-5xl font-bold tracking-tight text-rentra-ink leading-tight">Satu link, urus<br class="hidden sm:block"> semua booking rental.</h1>
-                <p class="mt-5 max-w-xl mx-auto text-base sm:text-lg text-gray-600">Tunjukkan ketersediaan unit, hitung harga otomatis, terima booking dan bukti DP, semua dari satu halaman publik. Tanpa balas chat satu per satu.</p>
+                <h1 class="mt-6 text-3xl sm:text-5xl font-bold tracking-tight text-rentra-ink leading-tight">Satu link, urus<br class="hidden sm:block"> semua Pemesanan rental.</h1>
+                <p class="mt-5 max-w-xl mx-auto text-base sm:text-lg text-gray-600">Tunjukkan ketersediaan unit, hitung harga otomatis, terima Pemesanan dan bukti DP, semua dari satu halaman publik. Tanpa balas chat satu per satu.</p>
                 <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                     @auth
                         <a href="{{ route('dashboard') }}" class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-rentra-accent px-6 py-3 text-base font-semibold text-rentra-ink hover:bg-amber-400 transition">Buka dashboard</a>
@@ -46,7 +46,7 @@
                 </div>
             </section>
 
-            <!-- Features -->
+            <!-- Fitur -->
             <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
                 <div class="grid gap-4 sm:grid-cols-3">
                     <div class="rounded-xl bg-white border border-teal-50 shadow-sm p-6">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="rounded-xl bg-white border border-teal-50 shadow-sm p-6">
                         <div class="text-rentra font-bold text-lg">Anti bentrok</div>
-                        <p class="mt-2 text-sm text-gray-600">Dua pelanggan tidak bisa booking unit dan jam yang sama. Sistem mengunci slot secara berurutan.</p>
+                        <p class="mt-2 text-sm text-gray-600">Dua pelanggan tidak bisa Pemesanan unit dan jam yang sama. Sistem mengunci slot secara berurutan.</p>
                     </div>
                 </div>
             </section>
@@ -73,4 +73,9 @@
         </footer>
     </body>
 </html>
+
+
+
+
+
 

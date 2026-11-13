@@ -13,20 +13,22 @@ class Rental extends Model
     /** @use HasFactory<RentalFactory> */
     use HasFactory;
 
+    protected $table = 'rental';
+
     protected $fillable = [
         'user_id',
         'nama',
         'slug',
         'no_wa',
         'info_rekening',
-        'durasi_hold_menit',
+        'durasi_tahan_menit',
         'persen_dp',
     ];
 
     protected function casts(): array
     {
         return [
-            'durasi_hold_menit' => 'integer',
+            'durasi_tahan_menit' => 'integer',
             'persen_dp' => 'integer',
         ];
     }
@@ -36,13 +38,13 @@ class Rental extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function units(): HasMany
+    public function unit(): HasMany
     {
         return $this->hasMany(Unit::class);
     }
 
-    public function bookings(): HasMany
+    public function pemesanan(): HasMany
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Pemesanan::class);
     }
 }

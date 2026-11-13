@@ -28,7 +28,7 @@ class UnitFactory extends Factory
             'rental_id' => Rental::factory(),
             'nama' => $nama,
             'kategori' => fake('id_ID')->randomElement(['Kamera', 'Lensa', 'Drone', 'Aksesoris']),
-            'foto_path' => null,
+            'jalur_foto' => null,
             'aktif' => true,
         ];
     }

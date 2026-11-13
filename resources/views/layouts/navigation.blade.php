@@ -1,5 +1,5 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-teal-50">
-    <!-- Primary Navigation Menu -->
+    <!-- Menu navigasi utama -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -11,19 +11,19 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Tautan navigasi -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ 'Dashboard' }}
                     </x-nav-link>
-                    <x-nav-link :href="route('units.index')" :active="request()->routeIs('units.*')">
+                    <x-nav-link :href="route('unit.index')" :active="request()->routeIs('unit.*')">
                         {{ __('Unit') }}
                     </x-nav-link>
                     <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
                         {{ __('Verifikasi') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
-                        {{ __('Booking') }}
+                    <x-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">
+                        {{ __('Pemesanan') }}
                     </x-nav-link>
                     <x-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
                         {{ __('Blok') }}
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
+            <!-- Dropdown pengaturan -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -51,12 +51,15 @@
                             {{ __('Profil') }}
                         </x-dropdown-link>
                         @if (auth()->user()->rental)
+                            <x-dropdown-link :href="route('pengaturan.edit')">
+                                {{ __('Pengaturan rental') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="url('/' . auth()->user()->rental->slug)" target="_blank">
                                 {{ __('Lihat halaman publik') }}
                             </x-dropdown-link>
                         @endif
 
-                        <!-- Authentication -->
+                        <!-- Autentikasi -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
@@ -70,7 +73,7 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger -->
+            <!-- Tombol menu -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" aria-label="Buka menu">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -82,27 +85,27 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+    <!-- Menu navigasi responsif -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ 'Dashboard' }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('units.index')" :active="request()->routeIs('units.*')">
+            <x-responsive-nav-link :href="route('unit.index')" :active="request()->routeIs('unit.*')">
                 {{ __('Unit') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
                 {{ __('Verifikasi') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
-                {{ __('Booking') }}
+            <x-responsive-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">
+                {{ __('Pemesanan') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
                 {{ __('Blok') }}
             </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
+        <!-- Opsi pengaturan responsif -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -113,8 +116,13 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profil') }}
                 </x-responsive-nav-link>
+                @if (auth()->user()->rental)
+                    <x-responsive-nav-link :href="route('pengaturan.edit')">
+                        {{ __('Pengaturan rental') }}
+                    </x-responsive-nav-link>
+                @endif
 
-                <!-- Authentication -->
+                <!-- Autentikasi -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
@@ -128,3 +136,14 @@
         </div>
     </div>
 </nav>
+
+
+
+
+
+
+
+
+
+
+

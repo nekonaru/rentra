@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="assets/rentra-mark.png" alt="Rentra logo" width="120" />
-  <h1>Rentra: Online Booking for Small Rentals</h1>
-  <p><b>Turn "Is it still available?" into one public link with live availability,<br/>
-  automatic pricing, and down payment proof verification.</b></p>
+  <img src="assets/rentra-mark.png" alt="Logo Rentra" width="120" />
+  <h1>Rentra: Booking Online untuk Rental Kecil</h1>
+  <p><b>Ubah "kak, masih ready?" menjadi satu link publik dengan ketersediaan langsung,<br/>
+  kalkulasi harga otomatis, dan verifikasi bukti DP.</b></p>
 
   <a href="https://github.com/nekonaru/rentra/actions/workflows/ci.yml"><img src="https://github.com/nekonaru/rentra/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP" />
@@ -13,107 +13,108 @@
 
 <br />
 
-**English** | [Bahasa Indonesia](README.id.md)
+**Bahasa Indonesia**
 
 > [!NOTE]
-> Rentra ships its UI in Bahasa Indonesia. The codebase, README, and commits are in English.
+> Seluruh kode, dokumen, dan antarmuka Rentra memakai Bahasa Indonesia.
 
 ---
 
-## Table of Contents
+## Daftar Isi
 
-- [About](#about)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Project Structure](#project-structure)
-- [Development](#development)
-- [Testing](#testing)
-- [Security](#security)
-- [Continuous Integration](#continuous-integration)
+- [Tentang](#tentang)
+- [Fitur](#fitur)
+- [Kebutuhan](#kebutuhan)
+- [Instalasi](#instalasi)
+- [Penggunaan](#penggunaan)
+- [Konfigurasi](#konfigurasi)
+- [Struktur Proyek](#struktur-proyek)
+- [Pengembangan](#pengembangan)
+- [Pengujian](#pengujian)
+- [Keamanan](#keamanan)
+- [Integrasi Berkelanjutan](#integrasi-berkelanjutan)
 - [FAQ](#faq)
-- [Author](#author)
+- [Penulis](#penulis)
 - [Disclaimer](#disclaimer)
-- [License](#license)
+- [Lisensi](#lisensi)
 
 ---
 
-## About
+## Tentang
 
-**Rentra** gives small and medium rental businesses (cameras, lenses, and other gear) a single public link with unit availability, a live price calculator, and a booking flow with down payment proof upload. The owner gets a dashboard to handle units, bookings, and payment verification, replacing the daily "kak, masih ready?" chat.
+**Rentra** memberi usaha rental kecil dan menengah (kamera, lensa, dan peralatan lain) satu link publik berisi ketersediaan unit, kalkulator harga langsung, dan alur pemesanan dengan upload bukti DP. Pemilik punya dashboard untuk mengelola unit, pemesanan, dan verifikasi pembayaran, menggantikan chat "masih ready?" setiap hari.
 
-> _"One link, no more 'is it available?' messages."_
+> _"Satu link, tidak ada lagi chat 'masih ready?'."_
 
 ---
 
-## Features
+## Fitur
 
-### Public link and booking
+### Link publik dan pemesanan
 
-| Feature | Description |
+| Fitur | Deskripsi |
 |---------|-------------|
-| **Public unit pages** | One link per rental showing active units, photos, and rates |
-| **Availability calendar** | Monthly calendar per unit: available, partially booked, fully booked |
-| **Live price calculator** | Price breakdown with full days, remaining hours capped at the day rate, tolerated minutes, and minimal rent |
-| **Hold with countdown** | Units are held for a configurable time (default 60 minutes) after booking |
-| **DP proof upload** | Renters upload JPG, PNG, or PDF proof (max 5 MB), stored privately |
+| **Halaman unit publik** | Satu link per rental berisi unit aktif, foto, dan tarif |
+| **Kalender ketersediaan** | Kalender bulanan per unit: tersedia, sebagian terisi, penuh |
+| **Kalkulator harga langsung** | Rincian harga dengan hari penuh, sisa jam mentok di tarif harian, toleransi menit, dan minimal sewa |
+| **Tahan dengan hitung mundur** | Unit ditahan selama durasi yang bisa diatur (default 60 menit) setelah pemesanan |
+| **Upload bukti DP** | Penyewa upload bukti JPG, PNG, atau PDF (maks 5 MB), disimpan secara privat |
 
-### Owner dashboard
+### Dashboard pemilik
 
-| Feature | Description |
+| Fitur | Deskripsi |
 |---------|-------------|
-| **Onboarding in minutes** | Guided wizard: rental profile, then unit and rate in one flow |
-| **Unit and rate CRUD** | Name, category, photo, active/inactive toggle, daily and hourly rates |
-| **DP verification queue** | Accept or reject proofs with a reason; rejected bookings get a fresh hold |
-| **Unit blocks** | Block date ranges with a reason; clashes with active bookings require confirmation |
-| **Booking lifecycle** | Hand over, mark returned, or cancel; late rentals are flagged automatically after the due time |
-| **Late reminders** | One tap opens WhatsApp with a prefilled reminder message |
-| **Anti-clash guarantee** | Bookings run in a transaction with a row lock, so two renters can never take the same slot |
+| **Onboarding dalam hitungan menit** | Wizard terpandu: profil rental, lalu unit dan tarif dalam satu alur |
+| **CRUD unit dan tarif** | Nama, kategori, foto, aktif/nonaktif, tarif per hari dan per jam |
+| **Antrean verifikasi DP** | Terima atau tolak bukti dengan alasan; pemesanan yang ditolak dapat hold baru |
+| **Blok unit** | Blokir rentang tanggal dengan alasan; bentrok dengan pemesanan aktif minta konfirmasi |
+| **Siklus pemesanan** | Serah terima, tandai kembali, atau batalkan; pemesanan terlambat otomatis ditandai setelah lewat jam selesai |
+| **Pengingat terlambat** | Satu tap membuka WhatsApp dengan template pesan terisi |
+| **Ekspor CSV** | Unduh seluruh pemesanan ke CSV (UTF-8, pemisah titik koma) untuk rekap |
+| **Anti bentrok** | Pemesanan berjalan dalam transaksi dengan row lock, dua penyewa tidak bisa mengambil slot yang sama |
 
 ### Platform
 
-| Feature | Description |
+| Fitur | Deskripsi |
 |---------|-------------|
-| **Multi-tenant** | One database; every owner sees only their own data, enforced by policies and tests |
-| **Indonesian UI** | Built for Indonesian small businesses, mobile first, works on 360px wide screens |
-| **Offline-friendly setup** | No external services: runs on XAMPP (Apache, MySQL/MariaDB) |
+| **Multi-tenant** | Satu database; setiap pemilik hanya melihat datanya sendiri, dijaga policy dan test |
+| **UI Bahasa Indonesia** | Dibangun untuk usaha kecil Indonesia, mobile first, nyaman di layar 360px |
+| **Setup ramah offline** | Tanpa layanan eksternal; jalan di XAMPP (Apache, MySQL/MariaDB) |
 
 ---
 
-## Requirements
+## Kebutuhan
 
-| Dependency | Minimum Version | Notes |
-|------------|-----------------|-------|
-| **PHP** | 8.2 | With `pdo_mysql`, `pdo_sqlite`, `gd`, `zip`, `mbstring`, `curl`, `fileinfo`, `openssl` |
-| **Composer** | 2.x | Dependency manager for PHP |
-| **Node.js** | 20.19 | For Vite and Tailwind builds |
-| **MySQL or MariaDB** | 10.4 / 8.0 | As bundled with XAMPP; utf8mb4 |
-| **Git** | any recent | To clone the repository |
+| Dependensi | Versi Minimum | Catatan |
+|------------|---------------|--------|
+| **PHP** | 8.2 | Dengan `pdo_mysql`, `pdo_sqlite`, `gd`, `zip`, `mbstring`, `curl`, `fileinfo`, `openssl` |
+| **Composer** | 2.x | Manajer dependensi PHP |
+| **Node.js** | 20.19 | Untuk build Vite dan Tailwind |
+| **MySQL atau MariaDB** | 10.4 / 8.0 | Seperti bawaan XAMPP; utf8mb4 |
+| **Git** | terbaru | Untuk clone repository |
 
 > [!TIP]
-> Running XAMPP? PHP and MySQL/MariaDB are already included. You only need Composer and Node.js.
+> Pakai XAMPP? PHP dan MySQL/MariaDB sudah termasuk. Kamu hanya butuh Composer dan Node.js.
 
-### Never used a terminal? Start here
+### Belum pernah pakai terminal? Mulai di sini
 
 <details>
-<summary><b>How to open a terminal</b></summary>
+<summary><b>Cara membuka terminal</b></summary>
 
-On Windows, press `Win + R`, type `cmd`, and press Enter. Or open the Start menu, type `PowerShell`, and press Enter. Then run every command below in that window, from the folder where you put the project.
+Di Windows, tekan `Win + R`, ketik `cmd`, lalu tekan Enter. Atau buka Start menu, ketik `PowerShell`, lalu tekan Enter. Jalankan semua perintah di bawah di jendela itu, dari folder tempat kamu menaruh proyek.
 
 </details>
 
 ---
 
-## Installation
+## Instalasi
 
-Rentra is a web app. There is no installer; you run it locally or on your own server.
+Rentra adalah web app. Tidak ada installer; kamu menjalankannya secara lokal atau di server sendiri.
 
-### 1. Get the code
+### 1. Ambil kode
 
 <details>
-<summary><b>I have Git installed</b></summary>
+<summary><b>Saya sudah punya Git</b></summary>
 
 ```bash
 git clone https://github.com/nekonaru/rentra.git
@@ -123,30 +124,30 @@ cd rentra
 </details>
 
 <details>
-<summary><b>I don't have Git</b></summary>
+<summary><b>Saya belum punya Git</b></summary>
 
-Download the ZIP from https://github.com/nekonaru/rentra/archive/refs/heads/main.zip, extract it, then open a terminal inside the extracted folder (not the parent folder).
+Download ZIP dari https://github.com/nekonaru/rentra/archive/refs/heads/main.zip, ekstrak, lalu buka terminal di dalam folder hasil ekstrak (bukan folder induknya).
 
 </details>
 
-### 2. Start Apache and MySQL in XAMPP
+### 2. Jalankan Apache dan MySQL di XAMPP
 
-Open the XAMPP Control Panel and click **Start** next to **Apache** and **MySQL**.
+Buka XAMPP Control Panel, klik **Start** di sebelah **Apache** dan **MySQL**.
 
-### 3. Create the database
+### 3. Buat database
 
-Open http://localhost/phpmyadmin, click **New**, name it `rentra`, pick `utf8mb4_unicode_ci`, and click **Create**. Or run this in the MySQL console:
+Buka http://localhost/phpmyadmin, klik **New**, beri nama `rentra`, pilih `utf8mb4_unicode_ci`, lalu klik **Create**. Atau jalankan perintah ini di konsol MySQL:
 
 ```sql
 CREATE DATABASE rentra CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-### 4. Install dependencies and prepare the app
+### 4. Install dependensi dan siapkan aplikasi
 
 ```bash
 composer install
 npm install
-cp .env.example .env   # on Windows: copy .env.example .env
+cp .env.example .env   # di Windows: copy .env.example .env
 php artisan key:generate
 php artisan migrate --seed
 php artisan storage:link
@@ -154,204 +155,205 @@ npm run build
 ```
 
 > [!IMPORTANT]
-> `php artisan migrate --seed` must finish without errors. It creates the demo account `demo@rentra.id` with password `password` and a demo rental at `http://localhost:8000/demo-kamera`.
+> `php artisan migrate --seed` harus selesai tanpa error. Perintah ini membuat akun demo `demo@rentra.id` dengan password `password` dan rental demo di `http://localhost:8000/demo-kamera`.
 
-### 5. Run the app
+### 5. Jalankan aplikasi
 
 ```bash
 php artisan serve
 ```
 
-Then open http://localhost:8000. Log in with `demo@rentra.id` / `password`, or register a fresh account.
+Lalu buka http://localhost:8000. Login dengan `demo@rentra.id` / `password`, atau daftar akun baru.
 
-### 6. Keep holds and late statuses fresh
+### 6. Jaga hold dan status terlambat tetap akurat
 
-The app needs a scheduler run every minute to expire held bookings and flag late returns. In development:
+Aplikasi butuh scheduler tiap menit untuk mengkedaluwarsakan pemesanan yang hold-nya habis dan menandai pengembalian terlambat. Untuk pengembangan:
 
 ```bash
 php artisan schedule:work
 ```
 
-For a local demo or a production-like setup on Windows, use Task Scheduler:
+Untuk demo lokal atau setup mirip produksi di Windows, pakai Task Scheduler:
 
-1. Open **Task Scheduler** and create a task that runs every 1 minute.
-2. Set the action to `C:\xampp\php\php.exe` with arguments `C:\path\to\rentra\artisan schedule:run`.
+1. Buka **Task Scheduler** dan buat task yang berjalan tiap 1 menit.
+2. Isi action dengan `C:\xampp\php\php.exe` dan argument `C:\path\to\rentra\artisan schedule:run`.
 
-Without the scheduler the app still works: availability checks also ignore holds whose timer has expired.
+Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan hold yang waktunya sudah habis.
 
 ---
 
-## Usage
+## Penggunaan
 
-### First launch
+### Peluncuran pertama
 
-1. Run `php artisan migrate --seed` (see Installation).
-2. Open http://localhost:8000 and register, or log in with `demo@rentra.id` / `password`.
-3. Complete the onboarding wizard (rental name, public link slug, WhatsApp number).
-4. Add your first unit with its rates.
-5. Share `http://localhost:8000/{your-slug}` with your customers.
+1. Jalankan `php artisan migrate --seed` (lihat Instalasi).
+2. Buka http://localhost:8000 dan daftar, atau login dengan `demo@rentra.id` / `password`.
+3. Selesaikan wizard onboarding (nama rental, slug link publik, nomor WhatsApp).
+4. Tambahkan unit pertama beserta tarifnya.
+5. Bagikan `http://localhost:8000/{slug-kamu}` ke pelanggan.
 
 > [!NOTE]
-> The public page only shows slot status, never renter names or contact details.
+> Halaman publik hanya menampilkan status slot, tidak pernah menampilkan nama atau kontak penyewa lain.
 
-### Everyday use
+### Pemakaian harian
 
-- **Share the link.** Customers pick a unit, see the calendar, calculate the price, and book.
-- **Verify proofs.** Open **Verifikasi**, review the DP proof, then **Terima** or **Tolak** with a reason.
-- **Hand over.** On the **Booking** page, mark **Serah terima** when the unit goes out and **Unit kembali** when it returns.
-- **Block dates.** Use **Blok** for maintenance or personal use; overlapping bookings ask for confirmation.
-- **Chase late returns.** Late rentals are flagged automatically; **Kirim pengingat WA** opens WhatsApp with the message prefilled.
-
----
-
-## Configuration
-
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `APP_TIMEZONE` | `Asia/Jakarta` | All datetimes are stored and shown in WIB |
-| `APP_LOCALE` | `id` | UI language (Bahasa Indonesia) |
-| `DB_DATABASE` | `rentra` | MySQL database name |
-| `QUEUE_CONNECTION` | `database` | Database queue, no Redis required |
-| `FILESYSTEM_DISK` | `local` | Private disk for DP proofs |
-
-Optional but supported: `MAIL_MAILER=log` in `.env` captures mail locally in `storage/logs`.
+- **Bagikan link.** Pelanggan pilih unit, lihat kalender, hitung harga, dan pesan.
+- **Verifikasi bukti.** Buka **Verifikasi**, periksa bukti DP, lalu **Terima** atau **Tolak** dengan alasan.
+- **Serah terima.** Di halaman **Pemesanan**, tandai **Serah terima** saat unit keluar dan **Unit kembali** saat unit masuk.
+- **Ekspor rekap.** Di halaman **Pemesanan**, klik **Ekspor CSV** untuk mengunduh seluruh pemesanan.
+- **Blokir tanggal.** Pakai **Blok** untuk servis atau pemakaian pribadi; pemesanan yang bentrok minta konfirmasi.
+- **Ubah pengaturan.** Buka **Pengaturan rental** di menu profil untuk mengubah nama, nomor WA, rekening, durasi tahan, dan persen DP.
+- **Ingatkan keterlambatan.** Pemesanan terlambat ditandai otomatis; **Kirim pengingat WA** membuka WhatsApp dengan pesan terisi.
 
 ---
 
-## Project Structure
+## Konfigurasi
+
+| Variabel | Default | Fungsi |
+|----------|---------|--------|
+| `APP_TIMEZONE` | `Asia/Jakarta` | Semua tanggal disimpan dan ditampilkan WIB |
+| `APP_LOCALE` | `id` | Bahasa UI (Bahasa Indonesia) |
+| `DB_DATABASE` | `rentra` | Nama database MySQL |
+| `QUEUE_CONNECTION` | `database` | Queue database, tanpa Redis |
+| `FILESYSTEM_DISK` | `local` | Disk privat untuk bukti DP |
+
+Opsional tapi didukung: `MAIL_MAILER=log` di `.env` mencatat mail secara lokal di `storage/logs`.
+
+---
+
+## Struktur Proyek
 
 ```
 rentra/
 ├── app/
-│   ├── Console/Commands/    # bookings:sweep (scheduler entry point)
-│   ├── Enums/               # BookingStatus enum with labels and colors
-│   ├── Http/Controllers/    # Web, public, and dashboard controllers
-│   ├── Http/Middleware/     # EnsureRentalExists (onboarding guard)
-│   ├── Http/Requests/       # Form Request validation
-│   ├── Models/              # Rental, Unit, PriceRule, Booking, UnitBlock
-│   ├── Policies/            # UnitPolicy, BookingPolicy (tenant isolation)
-│   └── Services/            # PriceCalculator, AvailabilityService, BookingService, UnitManager
-├── assets/                  # Logo masters and README images
-├── public/                  # favicon.svg, apple-touch-icon.png, storage symlink
-├── resources/views/         # Blade views (public, dashboard, auth)
-├── routes/                  # web.php, auth.php, console.php (schedule: every minute)
-├── storage/app/private/     # DP proofs (never public)
-├── tests/                   # PHPUnit/Pest feature and unit tests
-├── .env.example             # Sample environment file
-├── AGENTS.md                # Project variables and contributor notes
-├── README.md                # English readme (source of truth)
-└── README.id.md             # Bahasa Indonesia readme
+│   ├── Console/Commands/    # SapuPemesanan: perintah pemesanan:sapu (entry point scheduler)
+│   ├── Enums/               # Enum StatusPemesanan dengan label dan warna
+│   ├── Http/Controllers/    # Controller web, publik, dan dashboard
+│   ├── Http/Middleware/     # PastikanRental (penjaga onboarding)
+│   ├── Http/Requests/       # Validasi Form Request
+│   ├── Models/              # Rental, Unit, AturanTarif, Pemesanan, BlokUnit
+│   ├── Policies/            # UnitPolicy, PemesananPolicy (isolasi tenant)
+│   └── Services/            # KalkulatorHarga, LayananKetersediaan, LayananPemesanan, PengelolaUnit
+├── assets/                  # Master logo dan gambar README
+├── public/                  # favicon.svg, apple-touch-icon.png, symlink storage
+├── resources/views/         # View Blade (publik, dashboard, auth)
+├── routes/                  # web.php, auth.php, console.php (jadwal: tiap menit)
+├── storage/app/private/     # Bukti DP (tidak pernah publik)
+├── tests/                   # Test feature dan unit PHPUnit
+├── .env.example             # Contoh file environment
+├── AGENTS.md                # Variabel proyek dan catatan kontributor
+└── README.md                # Readme Bahasa Indonesia
 ```
 
 ---
 
-## Development
+## Pengembangan
 
-### Making changes
+### Melakukan perubahan
 
-1. Create a branch and edit the code.
-2. Keep business logic in `app/Services`, not controllers or Blade.
-3. Run `vendor/bin/pint` to format, then `php artisan test` and make sure everything passes.
-4. Commit with `type: short description` (`feat:`, `fix:`, `docs:`, `chore:`, ...).
+1. Buat branch dan edit kode.
+2. Simpan logika bisnis di `app/Services`, bukan di controller atau Blade.
+3. Jalankan `vendor/bin/pint` untuk format, lalu `php artisan test` dan pastikan semua test lulus.
+4. Commit dengan format `type: short description` (`feat:`, `fix:`, `docs:`, `chore:`, ...).
 
 > [!WARNING]
-> Do not edit `public/build` by hand. It is generated by `npm run build` and ignored by git.
+> Jangan mengedit `public/build` manual. Folder itu dihasilkan `npm run build` dan diabaikan git.
 
-### Adding a booking status
+### Menambah status pemesanan
 
-1. Add the case to `app/Enums/BookingStatus.php` with its label and color.
-2. Update `slotReserve()` if the status holds a slot.
-3. Update `bookings:sweep` in `app/Console/Commands/BookingsSweep.php` if it can transition automatically.
+1. Tambahkan case ke `app/Enums/StatusPemesanan.php` beserta label dan warnanya.
+2. Update `menahanSlot()` kalau status itu menahan slot.
+3. Update `pemesanan:sapu` di `app/Console/Commands/SapuPemesanan.php` kalau status bisa berubah otomatis.
 
 ---
 
-## Testing
+## Pengujian
 
 ```bash
-php artisan test        # feature and unit tests (SQLite in-memory)
-vendor/bin/pint --test  # code style check
-npm run build           # frontend builds without errors
+php artisan test        # test feature dan unit (SQLite in-memory)
+vendor/bin/pint --test  # cek gaya kode
+npm run build           # build frontend tanpa error
 ```
 
-| Check | Requirement |
+| Cek | Requirement |
 |-------|-------------|
-| Test suite | All tests pass (currently 61 tests) |
-| Pint | Zero style issues |
-| Frontend build | `npm run build` completes without errors |
-| Security | `composer audit` reports no known advisories |
+| Test suite | Semua test lulus (saat ini 61 test) |
+| Pint | Nol masalah gaya |
+| Build frontend | `npm run build` selesai tanpa error |
+| Keamanan | `composer audit` tidak melaporkan advisory |
 
 ---
 
-## Security
+## Keamanan
 
-- Authentication is session based (Laravel Breeze) and all state changes use CSRF tokens.
-- DP proofs are validated by MIME and size, stored on a private disk, and served only through an authorized route.
-- Public booking and upload endpoints are rate limited.
-- Every dashboard query is scoped to the owner's rental; cross-tenant access is covered by tests.
-- Dependencies are audited with `composer audit`.
+- Autentikasi berbasis sesi (Laravel Breeze) dan semua perubahan status memakai CSRF token.
+- Bukti DP divalidasi tipe MIME dan ukurannya, disimpan di disk privat, dan diakses hanya lewat route berotorisasi.
+- Endpoint pemesanan dan upload publik dibatasi rate limit.
+- Semua query dashboard dibatasi ke rental milik pemilik; akses lintas tenant tercakup test.
+- Dependensi diaudit dengan `composer audit`.
 
 > [!NOTE]
-> Report vulnerabilities privately via the process described in [`SECURITY.md`](SECURITY.md). Do not open public issues for security reports.
+> Laporkan kerentanan secara privat lewat proses yang dijelaskan di [`SECURITY.md`](SECURITY.md). Jangan buka issue publik untuk laporan keamanan.
 
 ---
 
-## Continuous Integration
+## Integrasi Berkelanjutan
 
-| Workflow | Purpose |
-|----------|---------|
-| `.github/workflows/ci.yml` | Install dependencies, build assets, run the full test suite on every push and PR to `main` |
+| Workflow | Fungsi |
+|----------|--------|
+| `.github/workflows/ci.yml` | Install dependensi, build aset, jalankan seluruh test suite pada setiap push dan PR ke `main` |
 
-The CI runs on `main` and `v*` tags. Tests use the same SQLite in-memory setup as local runs, so CI is the source of truth when local tooling is unavailable.
+CI berjalan di `main` dan tag `v*`. Test memakai setup SQLite in-memory yang sama dengan lokal, jadi CI jadi sumber kebenaran kalau tooling lokal tidak tersedia.
 
 ---
 
 ## FAQ
 
 <details>
-<summary><b>Do I need a server and a database?</b></summary>
+<summary><b>Apakah saya butuh server dan database?</b></summary>
 
-No paid services. XAMPP gives you Apache and MySQL/MariaDB locally. For anything small, a cheap VPS or shared hosting with PHP 8.2 is enough.
-
-</details>
-
-<details>
-<summary><b>How do I extend the hold time?</b></summary>
-
-The hold duration is set once during onboarding. To change it later, update the `durasi_hold_menit` column on the `rentals` table, or adjust it in the seeder before your next `migrate:fresh`. Default is 60 minutes.
+Tidak ada layanan berbayar. XAMPP memberi Apache dan MySQL/MariaDB secara lokal. Untuk kebutuhan kecil, VPS murah atau shared hosting dengan PHP 8.2 sudah cukup.
 
 </details>
 
 <details>
-<summary><b>Does Rentra send WhatsApp messages for me?</b></summary>
+<summary><b>Bagaimana cara mengubah durasi tahan pemesanan?</b></summary>
 
-No. It opens `wa.me` links with the message prefilled, so you review and press send yourself. No WhatsApp API keys are needed.
-
-</details>
-
-<details>
-<summary><b>Where do DP proofs go?</b></summary>
-
-They are stored in `storage/app/private/bukti` and are only reachable through an authenticated, authorized route. They are never in the public web root.
+Buka menu profil, klik **Pengaturan rental**, ubah **Durasi tahan (menit)**, lalu simpan. Perubahan berlaku untuk pemesanan berikutnya.
 
 </details>
 
 <details>
-<summary><b>Does the demo account really work?</b></summary>
+<summary><b>Apakah Rentra mengirim pesan WhatsApp otomatis?</b></summary>
 
-Yes. `php artisan migrate --seed` creates `demo@rentra.id` with password `password` and a demo rental at `/demo-kamera` with three units.
+Tidak. Rentra membuka link `wa.me` dengan pesan terisi, kamu yang menekan kirim. Tidak ada API key WhatsApp yang dibutuhkan.
 
 </details>
 
 <details>
-<summary><b>Can I build this into mobile apps?</b></summary>
+<summary><b>Kemana bukti DP disimpan?</b></summary>
 
-No. Rentra is a mobile-first web app; keep it a website or wrap it in a webview yourself if you need one.
+Disimpan di `storage/app/private/bukti` dan hanya bisa diakses lewat route terotorisasi dan terautentikasi. Tidak pernah ada di web root publik.
+
+</details>
+
+<details>
+<summary><b>Apakah akun demo benar-benar jalan?</b></summary>
+
+Ya. `php artisan migrate --seed` membuat `demo@rentra.id` dengan password `password` dan rental demo di `/demo-kamera` dengan tiga unit.
+
+</details>
+
+<details>
+<summary><b>Bisakah Rentra dijadikan aplikasi mobile?</b></summary>
+
+Tidak. Rentra adalah web app mobile first; tetap web, atau bungkus sendiri dengan webview kalau butuh.
 
 </details>
 
 ---
 
-## Author
+## Penulis
 
 <div align="center">
 
@@ -366,10 +368,10 @@ No. Rentra is a mobile-first web app; keep it a website or wrap it in a webview 
 
 ## Disclaimer
 
-Rentra is a tool for managing bookings. Rental agreements, identity checks, and payment disputes stay between the owner and the renter. WhatsApp messages open in your own account; no message is sent without you pressing send.
+Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, dan sengketa pembayaran tetap menjadi urusan pemilik dan penyewa. Pesan WhatsApp terbuka di akun kamu sendiri; tidak ada pesan yang terkirim tanpa kamu tekan kirim.
 
 ---
 
-## License
+## Lisensi
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.

@@ -16,3 +16,5 @@
         <span class="text-xl font-bold leading-none tracking-tight">rentra</span>
     </span>
 @endif
+
+

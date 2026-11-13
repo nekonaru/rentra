@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\BookingStatus;
-use App\Models\Booking;
-use App\Models\PriceRule;
+use App\Enums\StatusPemesanan;
+use App\Models\AturanTarif;
+use App\Models\Pemesanan;
 use App\Models\Rental;
 use App\Models\Unit;
 use App\Models\User;
@@ -27,25 +27,25 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Demo Kamera Rental',
                 'no_wa' => '6281234567890',
                 'info_rekening' => 'BCA 1234567890 a.n. Demo Rentra',
-                'durasi_hold_menit' => 60,
+                'durasi_tahan_menit' => 60,
                 'persen_dp' => 50,
             ],
         );
 
-        $units = [
+        $unit = [
             ['nama' => 'Sony A7 III Kit 28-70mm', 'kategori' => 'Kamera', 'tarif_per_hari' => 350000, 'tarif_per_jam' => 50000],
             ['nama' => 'Lensa Sony 35mm f/1.8', 'kategori' => 'Lensa', 'tarif_per_hari' => 100000, 'tarif_per_jam' => 20000],
             ['nama' => 'DJI Mini 4 Pro', 'kategori' => 'Drone', 'tarif_per_hari' => 400000, 'tarif_per_jam' => 75000],
         ];
 
-        foreach ($units as $data) {
-            $unit = Unit::updateOrCreate(
+        foreach ($unit as $data) {
+            $model = Unit::updateOrCreate(
                 ['rental_id' => $rental->id, 'nama' => $data['nama']],
                 ['kategori' => $data['kategori'], 'aktif' => true],
             );
 
-            PriceRule::updateOrCreate(
-                ['unit_id' => $unit->id],
+            AturanTarif::updateOrCreate(
+                ['unit_id' => $model->id],
                 [
                     'tarif_per_hari' => $data['tarif_per_hari'],
                     'tarif_per_jam' => $data['tarif_per_jam'],
@@ -55,9 +55,9 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        $kamera = $rental->units()->where('nama', 'Sony A7 III Kit 28-70mm')->firstOrFail();
+        $kamera = $rental->unit()->where('nama', 'Sony A7 III Kit 28-70mm')->firstOrFail();
 
-        Booking::updateOrCreate(
+        Pemesanan::updateOrCreate(
             ['kode' => 'DEMO000001'],
             [
                 'unit_id' => $kamera->id,
@@ -68,14 +68,14 @@ class DatabaseSeeder extends Seeder
                 'selesai' => now()->addDays(4)->setTime(9, 0),
                 'total' => 700000,
                 'dp_nominal' => 350000,
-                'status' => BookingStatus::Terkonfirmasi,
-                'hold_expires_at' => null,
+                'status' => StatusPemesanan::Terkonfirmasi,
+                'tahan_sampai' => null,
             ],
         );
 
-        $lensa = $rental->units()->where('nama', 'Lensa Sony 35mm f/1.8')->firstOrFail();
+        $lensa = $rental->unit()->where('nama', 'Lensa Sony 35mm f/1.8')->firstOrFail();
 
-        Booking::updateOrCreate(
+        Pemesanan::updateOrCreate(
             ['kode' => 'DEMO000002'],
             [
                 'unit_id' => $lensa->id,
@@ -86,8 +86,8 @@ class DatabaseSeeder extends Seeder
                 'selesai' => now()->subDay()->setTime(9, 0),
                 'total' => 100000,
                 'dp_nominal' => 50000,
-                'status' => BookingStatus::Terlambat,
-                'hold_expires_at' => null,
+                'status' => StatusPemesanan::Terlambat,
+                'tahan_sampai' => null,
             ],
         );
     }

@@ -11,23 +11,23 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <!-- Stats -->
+            <!-- Statistik -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
                     <div class="text-xs text-gray-500">Unit aktif</div>
-                    <div class="mt-1 text-2xl font-bold text-rentra-ink">{{ $stats['unitAktif'] }}<span class="text-sm font-medium text-gray-400">/{{ $stats['unitTotal'] }}</span></div>
+                    <div class="mt-1 text-2xl font-bold text-rentra-ink">{{ $statistik['unitAktif'] }}<span class="text-sm font-medium text-gray-400">/{{ $statistik['unitTotal'] }}</span></div>
                 </div>
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
                     <div class="text-xs text-gray-500">Ditahan</div>
-                    <div class="mt-1 text-2xl font-bold text-status-ditahan">{{ $stats['ditahan'] }}</div>
+                    <div class="mt-1 text-2xl font-bold text-status-ditahan">{{ $statistik['ditahan'] }}</div>
                 </div>
                 <a href="{{ route('verifikasi.index') }}" class="bg-white rounded-xl border border-teal-50 shadow-sm p-4 hover:shadow-md transition">
                     <div class="text-xs text-gray-500">Menunggu verifikasi</div>
-                    <div class="mt-1 text-2xl font-bold text-status-verifikasi">{{ $stats['menungguVerifikasi'] }}</div>
+                    <div class="mt-1 text-2xl font-bold text-status-verifikasi">{{ $statistik['menungguVerifikasi'] }}</div>
                 </a>
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
                     <div class="text-xs text-gray-500">Terlambat</div>
-                    <div class="mt-1 text-2xl font-bold text-status-terlambat">{{ $stats['terlambat'] }}</div>
+                    <div class="mt-1 text-2xl font-bold text-status-terlambat">{{ $statistik['terlambat'] }}</div>
                 </div>
             </div>
 
@@ -36,14 +36,14 @@
                 <div class="bg-white rounded-xl border border-red-100 shadow-sm p-6">
                     <h3 class="font-semibold text-status-terlambat">Terlambat dikembalikan ({{ $terlambat->count() }})</h3>
                     <ul class="mt-3 divide-y divide-gray-100">
-                        @foreach ($terlambat as $booking)
+                        @foreach ($terlambat as $pemesanan)
                             <li class="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                                 <div class="text-sm">
-                                    <span class="font-semibold text-rentra-ink">{{ $booking->unit->nama }}</span>
-                                    <span class="text-gray-500"> - {{ $booking->nama_penyewa }}</span>
-                                    <span class="block text-xs text-status-terlambat">Seharusnya kembali {{ $booking->selesai->translatedFormat('d M Y H:i') }} WIB</span>
+                                    <span class="font-semibold text-rentra-ink">{{ $pemesanan->unit->nama }}</span>
+                                    <span class="text-gray-500"> - {{ $pemesanan->nama_penyewa }}</span>
+                                    <span class="block text-xs text-status-terlambat">Seharusnya kembali {{ $pemesanan->selesai->translatedFormat('d M Y H:i') }} WIB</span>
                                 </div>
-                                <a target="_blank" rel="noopener" href="https://wa.me/{{ $booking->wa }}?text={{ rawurlencode("Halo {$booking->nama_penyewa}, unit {$booking->unit->nama} seharusnya sudah dikembalikan pada {$booking->selesai->translatedFormat('d M Y H:i')} WIB. Mohon segera dikembalikan ya. Terima kasih.") }}" class="inline-flex items-center gap-2 rounded-xl bg-status-tersedia text-white px-4 py-2 text-xs font-semibold hover:bg-green-700 transition">
+                                <a target="_blank" rel="noopener" href="https://wa.me/{{ $pemesanan->wa }}?text={{ rawurlencode("Halo {$pemesanan->nama_penyewa}, unit {$pemesanan->unit->nama} seharusnya sudah dikembalikan pada {$pemesanan->selesai->translatedFormat('d M Y H:i')} WIB. Mohon segera dikembalikan ya. Terima kasih.") }}" class="inline-flex items-center gap-2 rounded-xl bg-status-tersedia text-white px-4 py-2 text-xs font-semibold hover:bg-green-700 transition">
                                     Kirim pengingat WA
                                 </a>
                             </li>
@@ -52,14 +52,18 @@
                 </div>
             @endif
 
-            <!-- Quick start if nothing yet -->
-            @if ($stats['unitTotal'] === 0)
+            <!-- Mulai cepat kalau belum ada apa-apa -->
+            @if ($statistik['unitTotal'] === 0)
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-6">
                     <h3 class="font-semibold text-rentra-ink">Mulai di sini</h3>
                     <p class="mt-1 text-sm text-gray-600">Tambahkan unit pertama kamu, lalu bagikan link publik ke pelanggan.</p>
-                    <a href="{{ route('units.create') }}" class="mt-3 inline-flex items-center rounded-xl bg-rentra-accent px-5 py-2 text-sm font-semibold text-rentra-ink hover:bg-amber-400 transition">Tambah unit</a>
+                    <a href="{{ route('unit.create') }}" class="mt-3 inline-flex items-center rounded-xl bg-rentra-accent px-5 py-2 text-sm font-semibold text-rentra-ink hover:bg-amber-400 transition">Tambah unit</a>
                 </div>
             @endif
         </div>
     </div>
 </x-app-layout>
+
+
+
+

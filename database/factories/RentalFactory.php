@@ -27,7 +27,7 @@ class RentalFactory extends Factory
             'slug' => Str::slug($nama.'-'.fake()->unique()->numberBetween(1, 999999)),
             'no_wa' => '628'.fake()->numerify('##########'),
             'info_rekening' => 'BCA 1234567890 a.n. '.fake('id_ID')->name(),
-            'durasi_hold_menit' => 60,
+            'durasi_tahan_menit' => 60,
             'persen_dp' => 50,
         ];
     }

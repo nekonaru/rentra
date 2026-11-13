@@ -6,22 +6,22 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ isset($title) ? $title . ' - ' : '' }}{{ config('app.name', 'Rentra') }}</title>
-        <meta name="description" content="Rentra: link publik untuk rental kamu. Cek ketersediaan, kalkulator harga, dan booking online.">
+        <meta name="description" content="Rentra: link publik untuk rental kamu. Cek ketersediaan, kalkulator harga, dan Pemesanan online.">
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-        <!-- Fonts -->
+        <!-- Font -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
+        <!-- Script -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-rentra-bg text-rentra-ink">
         <div class="min-h-screen flex flex-col">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
+            <!-- Judul halaman -->
             @isset($header)
                 <header class="bg-white border-b border-teal-50">
                     <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
@@ -30,7 +30,7 @@
                 </header>
             @endisset
 
-            <!-- Page Content -->
+            <!-- Konten halaman -->
             <main class="flex-1">
                 {{ $slot }}
             </main>
@@ -44,4 +44,10 @@
         </div>
     </body>
 </html>
+
+
+
+
+
+
 

@@ -14,11 +14,13 @@ class Unit extends Model
     /** @use HasFactory<UnitFactory> */
     use HasFactory;
 
+    protected $table = 'unit';
+
     protected $fillable = [
         'rental_id',
         'nama',
         'kategori',
-        'foto_path',
+        'jalur_foto',
         'aktif',
     ];
 
@@ -34,18 +36,18 @@ class Unit extends Model
         return $this->belongsTo(Rental::class);
     }
 
-    public function priceRule(): HasOne
+    public function aturanTarif(): HasOne
     {
-        return $this->hasOne(PriceRule::class);
+        return $this->hasOne(AturanTarif::class);
     }
 
-    public function bookings(): HasMany
+    public function pemesanan(): HasMany
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Pemesanan::class);
     }
 
-    public function blocks(): HasMany
+    public function blok(): HasMany
     {
-        return $this->hasMany(UnitBlock::class);
+        return $this->hasMany(BlokUnit::class);
     }
 }

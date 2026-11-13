@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\BookingStatus;
+use App\Enums\StatusPemesanan;
 use App\Http\Requests\TolakBuktiRequest;
-use App\Models\Booking;
+use App\Models\Pemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,17 +15,17 @@ class VerifikasiController extends Controller
     {
         $rental = $request->user()->rental()->firstOrFail();
 
-        $menunggu = $rental->bookings()
+        $menunggu = $rental->pemesanan()
             ->with('unit')
-            ->where('status', BookingStatus::MenungguVerifikasi)
+            ->where('status', StatusPemesanan::MenungguVerifikasi)
             ->orderBy('created_at')
             ->get();
 
-        $ditahan = $rental->bookings()
+        $ditahan = $rental->pemesanan()
             ->with('unit')
-            ->where('status', BookingStatus::Ditahan)
-            ->where('hold_expires_at', '>', now())
-            ->orderBy('hold_expires_at')
+            ->where('status', StatusPemesanan::Ditahan)
+            ->where('tahan_sampai', '>', now())
+            ->orderBy('tahan_sampai')
             ->get();
 
         return view('dashboard.verifikasi', [
@@ -34,31 +34,31 @@ class VerifikasiController extends Controller
         ]);
     }
 
-    public function terima(Request $request, Booking $booking): RedirectResponse
+    public function terima(Request $request, Pemesanan $pemesanan): RedirectResponse
     {
-        $this->authorize('terima', $booking);
+        $this->authorize('terima', $pemesanan);
 
-        $booking->update([
-            'status' => BookingStatus::Terkonfirmasi,
-            'hold_expires_at' => null,
+        $pemesanan->update([
+            'status' => StatusPemesanan::Terkonfirmasi,
+            'tahan_sampai' => null,
             'catatan_tolak' => null,
         ]);
 
-        return back()->with('status', 'Booking '.$booking->kode.' dikonfirmasi.');
+        return back()->with('status', 'Pemesanan '.$pemesanan->kode.' dikonfirmasi.');
     }
 
-    public function tolak(TolakBuktiRequest $request, Booking $booking): RedirectResponse
+    public function tolak(TolakBuktiRequest $request, Pemesanan $pemesanan): RedirectResponse
     {
-        $this->authorize('tolak', $booking);
+        $this->authorize('tolak', $pemesanan);
 
         $rental = $request->user()->rental;
 
-        $booking->update([
-            'status' => BookingStatus::Ditahan,
-            'hold_expires_at' => now()->addMinutes($rental->durasi_hold_menit),
+        $pemesanan->update([
+            'status' => StatusPemesanan::Ditahan,
+            'tahan_sampai' => now()->addMinutes($rental->durasi_tahan_menit),
             'catatan_tolak' => $request->validated('catatan_tolak'),
         ]);
 
-        return back()->with('status', 'Bukti ditolak. Penyewa bisa upload ulang dalam '.$rental->durasi_hold_menit.' menit.');
+        return back()->with('status', 'Bukti ditolak. Penyewa bisa upload ulang dalam '.$rental->durasi_tahan_menit.' menit.');
     }
 }

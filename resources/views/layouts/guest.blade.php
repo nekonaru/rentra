@@ -9,11 +9,11 @@
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-        <!-- Fonts -->
+        <!-- Font -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
+        <!-- Script -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
@@ -30,3 +30,7 @@
         </div>
     </body>
 </html>
+
+
+
+

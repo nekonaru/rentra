@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRentalRequest;
+use App\Http\Requests\SimpanRentalRequest;
 use App\Http\Requests\UnitRequest;
-use App\Services\UnitManager;
+use App\Services\PengelolaUnit;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class OnboardingController extends Controller
 {
-    public function __construct(private readonly UnitManager $unitManager) {}
+    public function __construct(private readonly PengelolaUnit $pengelolaUnit) {}
 
     public function create(Request $request): View|RedirectResponse
     {
@@ -19,17 +19,17 @@ class OnboardingController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('onboarding.create');
+        return view('onboarding.buat');
     }
 
-    public function store(StoreRentalRequest $request): RedirectResponse
+    public function simpan(SimpanRentalRequest $request): RedirectResponse
     {
         $rental = $request->user()->rental()->create([
             'nama' => $request->validated('nama'),
             'slug' => $request->validated('slug'),
             'no_wa' => $request->validated('no_wa'),
             'info_rekening' => $request->validated('info_rekening'),
-            'durasi_hold_menit' => $request->validated('durasi_hold_menit'),
+            'durasi_tahan_menit' => $request->validated('durasi_tahan_menit'),
             'persen_dp' => $request->validated('persen_dp'),
         ]);
 
@@ -40,18 +40,18 @@ class OnboardingController extends Controller
     public function unit(Request $request): View
     {
         return view('onboarding.unit', [
-            'rental' => $request->user()->rental()->with(['units.priceRule'])->firstOrFail(),
+            'rental' => $request->user()->rental()->with(['unit.aturanTarif'])->firstOrFail(),
         ]);
     }
 
-    public function storeUnit(UnitRequest $request): RedirectResponse
+    public function simpanUnit(UnitRequest $request): RedirectResponse
     {
         $rental = $request->user()->rental;
 
         $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
-        $unit = $this->unitManager->create($rental->id, $data, $request->file('foto'));
+        $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'));
 
         return redirect()->route('onboarding.unit')
             ->with('status', 'Unit "'.$unit->nama.'" tersimpan. Tambah lagi atau lanjut ke dashboard.');

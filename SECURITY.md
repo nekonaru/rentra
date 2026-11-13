@@ -1,27 +1,27 @@
-# Security Policy
+# Kebijakan Keamanan
 
-## Reporting a Vulnerability
+## Melaporkan Kerentanan
 
-Rentra handles payment proofs and personal data (names and phone numbers of renters). If you find a security issue, do not open a public issue.
+Rentra menangani bukti pembayaran dan data pribadi (nama dan nomor ponsel penyewa). Kalau kamu menemukan masalah keamanan, jangan buka issue publik.
 
-Report privately by email to nicolasdwidharma@gmail.com with the subject `[RENTA SECURITY]`. Include:
+Laporkan secara privat ke nicolasdwidharma@gmail.com dengan subjek `[RENTA SECURITY]`. Sertakan:
 
-- A description of the issue and its impact
-- Steps to reproduce, or a proof of concept
-- The affected version or commit, if known
+- Deskripsi masalah dan dampaknya
+- Langkah reproduksi, atau proof of concept
+- Versi atau commit yang terdampak, kalau diketahui
 
-You will get an acknowledgement within 7 days. We ask that you give us time to fix the issue before public disclosure.
+Kamu akan menerima jawaban dalam 7 hari. Kami minta kamu menunggu perbaikan sebelum pengungkapan publik.
 
-## Scope
+## Cakupan
 
-- Authentication and session handling
-- Tenant isolation between rental accounts
-- File upload validation and storage of payment proofs
-- Authorization on owner-only routes (dashboard, DP verification, proof download)
-- Rate limiting on public booking and upload endpoints
+- Autentikasi dan manajemen sesi
+- Isolasi tenant antar akun rental
+- Validasi upload file dan penyimpanan bukti DP
+- Otorisasi pada route pemilik (dashboard, verifikasi DP, unduh bukti)
+- Pembatasan rate pada endpoint publik pemesanan dan upload
 
-## Out of Scope
+## Di Luar Cakupan
 
-- Social engineering of the owner or renters
-- Denial of service against a self-hosted instance
-- Issues in third-party services (XAMPP, WhatsApp)
+- Social engineering terhadap pemilik atau penyewa
+- Denial of service terhadap instance yang di-host sendiri
+- Masalah pada layanan pihak ketiga (XAMPP, WhatsApp)

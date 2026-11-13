@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\BookingStatus;
+use App\Enums\StatusPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -10,25 +10,25 @@ class DashboardController extends Controller
 {
     public function index(Request $request): View
     {
-        $rental = $request->user()->rental()->with(['units.priceRule'])->firstOrFail();
+        $rental = $request->user()->rental()->with(['unit.aturanTarif'])->firstOrFail();
 
-        $stats = [
-            'unitAktif' => $rental->units->where('aktif', true)->count(),
-            'unitTotal' => $rental->units->count(),
-            'menungguVerifikasi' => $rental->bookings()->where('status', BookingStatus::MenungguVerifikasi)->count(),
-            'ditahan' => $rental->bookings()->reserving()->where('status', BookingStatus::Ditahan)->count(),
-            'terlambat' => $rental->bookings()->where('status', BookingStatus::Terlambat)->count(),
+        $statistik = [
+            'unitAktif' => $rental->unit->where('aktif', true)->count(),
+            'unitTotal' => $rental->unit->count(),
+            'menungguVerifikasi' => $rental->pemesanan()->where('status', StatusPemesanan::MenungguVerifikasi)->count(),
+            'ditahan' => $rental->pemesanan()->menahanSlot()->where('status', StatusPemesanan::Ditahan)->count(),
+            'terlambat' => $rental->pemesanan()->where('status', StatusPemesanan::Terlambat)->count(),
         ];
 
-        $terlambat = $rental->bookings()
+        $terlambat = $rental->pemesanan()
             ->with('unit')
-            ->where('status', BookingStatus::Terlambat)
+            ->where('status', StatusPemesanan::Terlambat)
             ->orderBy('selesai')
             ->get();
 
         return view('dashboard', [
             'rental' => $rental,
-            'stats' => $stats,
+            'statistik' => $statistik,
             'terlambat' => $terlambat,
         ]);
     }

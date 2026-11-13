@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('bookings:sweep')->everyMinute()->withoutOverlapping();
+Schedule::command('pemesanan:sapu')->everyMinute()->withoutOverlapping();

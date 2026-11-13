@@ -6,10 +6,10 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-6 lg:grid-cols-3">
             <div class="lg:col-span-1">
-                <form method="POST" action="{{ route('blok.store') }}" class="bg-white rounded-xl border border-teal-50 shadow-sm p-6 space-y-4">
+                <form method="POST" action="{{ route('blok.simpan') }}" class="bg-white rounded-xl border border-teal-50 shadow-sm p-6 space-y-4">
                     @csrf
                     <h3 class="font-semibold text-rentra-ink">Tambah blok</h3>
-                    <p class="text-xs text-gray-500">Unit tidak bisa dibooking selama rentang ini (mis. servis, dipakai pribadi).</p>
+                    <p class="text-xs text-gray-500">Unit tidak bisa dipesan selama rentang ini (mis. servis, dipakai pribadi).</p>
 
                     @if (session('konflik'))
                         <div class="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-xs font-medium text-status-terlambat">{{ session('konflik') }}</div>
@@ -28,7 +28,7 @@
                     <div>
                         <x-input-label for="unit_id" value="Unit" />
                         <select id="unit_id" name="unit_id" required class="mt-1 block w-full rounded-xl border-gray-200 focus:border-rentra focus:ring-rentra text-sm">
-                            @foreach ($units as $unit)
+                            @foreach ($unit as $unit)
                                 <option value="{{ $unit->id }}" @selected(old('unit_id') == $unit->id)>{{ $unit->nama }}</option>
                             @endforeach
                         </select>
@@ -47,7 +47,7 @@
                     </div>
                     <label class="flex items-center gap-2 text-xs text-gray-600">
                         <input type="checkbox" name="paksa" value="1" class="rounded border-gray-300 text-status-terlambat focus:ring-status-terlambat">
-                        Tetap blokir walaupun bentrok dengan booking aktif
+                        Tetap blokir walaupun bentrok dengan pemesanan aktif
                     </label>
 
                     <x-primary-button class="w-full justify-center">Simpan blok</x-primary-button>
@@ -56,21 +56,21 @@
 
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-6">
-                    <h3 class="font-semibold text-rentra-ink">Blok aktif ({{ $blocks->count() }})</h3>
-                    @if ($blocks->isEmpty())
+                    <h3 class="font-semibold text-rentra-ink">Blok aktif ({{ $blok->count() }})</h3>
+                    @if ($blok->isEmpty())
                         <p class="mt-2 text-sm text-gray-500">Belum ada blok jadwal.</p>
                     @else
                         <ul class="mt-4 divide-y divide-gray-100">
-                            @foreach ($blocks as [$unit, $block])
+                            @foreach ($blok as [$unit, $blok])
                                 <li class="py-3 flex items-center justify-between gap-3">
                                     <div class="text-sm">
                                         <p class="font-semibold text-rentra-ink">{{ $unit->nama }}</p>
-                                        <p class="text-gray-500">{{ $block->mulai->translatedFormat('d M Y H:i') }} - {{ $block->selesai->translatedFormat('d M Y H:i') }} WIB</p>
-                                        @if ($block->alasan)
-                                            <p class="text-xs text-gray-400 mt-0.5">{{ $block->alasan }}</p>
+                                        <p class="text-gray-500">{{ $blok->mulai->translatedFormat('d M Y H:i') }} - {{ $blok->selesai->translatedFormat('d M Y H:i') }} WIB</p>
+                                        @if ($blok->alasan)
+                                            <p class="text-xs text-gray-400 mt-0.5">{{ $blok->alasan }}</p>
                                         @endif
                                     </div>
-                                    <form method="POST" action="{{ route('blok.destroy', $block) }}" onsubmit="return confirm('Hapus blok ini?')">
+                                    <form method="POST" action="{{ route('blok.hapus', $blok) }}" onsubmit="return confirm('Hapus blok ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="inline-flex items-center rounded-lg border border-red-200 text-status-terlambat px-3 py-1.5 text-xs font-semibold hover:bg-red-50">Hapus</button>
@@ -84,3 +84,7 @@
         </div>
     </div>
 </x-app-layout>
+
+
+
+

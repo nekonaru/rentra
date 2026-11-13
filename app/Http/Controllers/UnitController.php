@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UnitRequest;
 use App\Models\Unit;
-use App\Services\UnitManager;
+use App\Services\PengelolaUnit;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    public function __construct(private readonly UnitManager $unitManager) {}
+    public function __construct(private readonly PengelolaUnit $pengelolaUnit) {}
 
     public function index(Request $request): View
     {
-        $rental = $request->user()->rental()->with(['units.priceRule'])->firstOrFail();
+        $rental = $request->user()->rental()->firstOrFail();
 
-        return view('units.index', ['units' => $rental->units()->with('priceRule')->orderBy('nama')->get()]);
+        return view('unit.index', ['unit' => $rental->unit()->with('aturanTarif')->orderBy('nama')->get()]);
     }
 
     public function create(): View
     {
-        return view('units.form', ['unit' => null, 'priceRule' => null]);
+        return view('unit.form', ['unit' => null, 'aturanTarif' => null]);
     }
 
     public function store(UnitRequest $request): RedirectResponse
@@ -32,9 +32,9 @@ class UnitController extends Controller
         $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
-        $unit = $this->unitManager->create($rental->id, $data, $request->file('foto'));
+        $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'));
 
-        return redirect()->route('units.index')
+        return redirect()->route('unit.index')
             ->with('status', 'Unit "'.$unit->nama.'" berhasil ditambahkan.');
     }
 
@@ -42,9 +42,9 @@ class UnitController extends Controller
     {
         $this->authorize('update', $unit);
 
-        return view('units.form', [
-            'unit' => $unit->load('priceRule'),
-            'priceRule' => $unit->priceRule,
+        return view('unit.form', [
+            'unit' => $unit->load('aturanTarif'),
+            'aturanTarif' => $unit->aturanTarif,
         ]);
     }
 
@@ -55,9 +55,9 @@ class UnitController extends Controller
         $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', false);
 
-        $this->unitManager->update($unit, $data, $request->file('foto'));
+        $this->pengelolaUnit->perbarui($unit, $data, $request->file('foto'));
 
-        return redirect()->route('units.index')
+        return redirect()->route('unit.index')
             ->with('status', 'Unit "'.$unit->nama.'" berhasil diperbarui.');
     }
 
@@ -65,18 +65,18 @@ class UnitController extends Controller
     {
         $this->authorize('delete', $unit);
 
-        if ($unit->bookings()->exists()) {
-            return redirect()->route('units.index')
-                ->with('error', 'Unit ini punya riwayat booking. Nonaktifkan saja, jangan hapus.');
+        if ($unit->pemesanan()->exists()) {
+            return redirect()->route('unit.index')
+                ->with('error', 'Unit ini punya riwayat pemesanan. Nonaktifkan saja, jangan hapus.');
         }
 
         $unit->delete();
 
-        return redirect()->route('units.index')
+        return redirect()->route('unit.index')
             ->with('status', 'Unit berhasil dihapus.');
     }
 
-    public function toggleAktif(Request $request, Unit $unit): RedirectResponse
+    public function gantiAktif(Request $request, Unit $unit): RedirectResponse
     {
         $this->authorize('update', $unit);
 
