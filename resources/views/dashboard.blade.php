@@ -21,10 +21,10 @@
                     <div class="text-xs text-gray-500">Ditahan</div>
                     <div class="mt-1 text-2xl font-bold text-status-ditahan">{{ $stats['ditahan'] }}</div>
                 </div>
-                <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
+                <a href="{{ route('verifikasi.index') }}" class="bg-white rounded-xl border border-teal-50 shadow-sm p-4 hover:shadow-md transition">
                     <div class="text-xs text-gray-500">Menunggu verifikasi</div>
                     <div class="mt-1 text-2xl font-bold text-status-verifikasi">{{ $stats['menungguVerifikasi'] }}</div>
-                </div>
+                </a>
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
                     <div class="text-xs text-gray-500">Terlambat</div>
                     <div class="mt-1 text-2xl font-bold text-status-terlambat">{{ $stats['terlambat'] }}</div>

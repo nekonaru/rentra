@@ -19,6 +19,9 @@
                     <x-nav-link :href="route('units.index')" :active="request()->routeIs('units.*')">
                         {{ __('Unit') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
+                        {{ __('Verifikasi') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('units.index')" :active="request()->routeIs('units.*')">
                 {{ __('Unit') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">
+                {{ __('Verifikasi') }}
             </x-responsive-nav-link>
         </div>
 

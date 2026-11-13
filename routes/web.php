@@ -3,8 +3,10 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicBookingController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +24,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
         Route::resource('units', UnitController::class)->except(['show']);
         Route::patch('/units/{unit}/toggle-aktif', [UnitController::class, 'toggleAktif'])->name('units.toggle-aktif');
+
+        Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+        Route::post('/verifikasi/{booking}/terima', [VerifikasiController::class, 'terima'])->name('verifikasi.terima');
+        Route::post('/verifikasi/{booking}/tolak', [VerifikasiController::class, 'tolak'])->name('verifikasi.tolak');
+        Route::get('/booking/{booking}/bukti', [PublicBookingController::class, 'bukti'])->name('bookings.bukti');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,3 +51,15 @@ Route::post('/{slug}/{unit}/harga-preview', [PublicController::class, 'preview']
     ->whereNumber('unit')
     ->middleware('throttle:60,1')
     ->name('public.preview');
+Route::post('/{slug}/{unit}/booking', [PublicBookingController::class, 'store'])
+    ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
+    ->whereNumber('unit')
+    ->middleware('throttle:10,1')
+    ->name('public.booking.store');
+Route::get('/booking/{kode}', [PublicBookingController::class, 'show'])
+    ->where('kode', '[A-Za-z0-9]+')
+    ->name('public.booking');
+Route::post('/booking/{kode}/bukti', [PublicBookingController::class, 'uploadBukti'])
+    ->where('kode', '[A-Za-z0-9]+')
+    ->middleware('throttle:10,1')
+    ->name('public.booking.bukti');
