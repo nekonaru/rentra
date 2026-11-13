@@ -26,9 +26,38 @@
                     <div class="mt-1 text-2xl font-bold text-status-verifikasi">{{ $statistik['menungguVerifikasi'] }}</div>
                 </a>
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
+                    <div class="text-xs text-gray-500">Omzet bulan ini</div>
+                    <div class="mt-1 text-xl font-bold text-rentra-ink">Rp {{ number_format($statistik['omzetBulanIni'], 0, ',', '.') }}</div>
+                </div>
+                <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
+                    <div class="text-xs text-gray-500">Pemesanan bulan ini</div>
+                    <div class="mt-1 text-2xl font-bold text-rentra-ink">{{ $statistik['jumlahBulanIni'] }}</div>
+                </div>
+                <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
                     <div class="text-xs text-gray-500">Terlambat</div>
                     <div class="mt-1 text-2xl font-bold text-status-terlambat">{{ $statistik['terlambat'] }}</div>
                 </div>
+            </div>
+
+            <!-- Agenda hari ini -->
+            <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-6">
+                <h3 class="font-semibold text-rentra-ink">Agenda hari ini ({{ $agenda->count() }})</h3>
+                @if ($agenda->isEmpty())
+                    <p class="mt-2 text-sm text-gray-500">Tidak ada unit keluar atau kembali hari ini.</p>
+                @else
+                    <ul class="mt-3 divide-y divide-gray-100">
+                        @foreach ($agenda as $item)
+                            <li class="py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-sm">
+                                <div>
+                                    <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-white" style="background-color: {{ $item->status->warna() }}">{{ $item->status->label() }}</span>
+                                    <span class="ms-2 font-semibold text-rentra-ink">{{ $item->unit->nama }}</span>
+                                    <span class="block sm:inline text-gray-500 sm:ms-2">{{ $item->nama_penyewa }}</span>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ $item->mulai->translatedFormat('d M H:i') }} - {{ $item->selesai->translatedFormat('d M H:i') }} WIB</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
 
             @if ($terlambat->isNotEmpty())

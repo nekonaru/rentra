@@ -65,7 +65,10 @@
                                     <span class="text-gray-500"> &middot; {{ $pemesanan->nama_penyewa }} &middot; {{ $pemesanan->wa }}</span>
                                     <span class="block text-xs text-gray-500">{{ $pemesanan->mulai->translatedFormat('d M Y H:i') }} - {{ $pemesanan->selesai->translatedFormat('d M Y H:i') }} WIB</span>
                                 </div>
-                                <span class="text-xs font-semibold text-status-ditahan">Tahan habis {{ $pemesanan->tahan_sampai->diffForHumans() }}</span>
+                                <div class="flex items-center gap-3">
+                                    <a target="_blank" rel="noopener" href="https://wa.me/{{ $pemesanan->wa }}?text={{ rawurlencode("Halo {$pemesanan->nama_penyewa}, ini link untuk upload bukti DP pemesanan {$pemesanan->kode}: " . route('publik.pemesanan', $pemesanan->kode)) }}" class="inline-flex items-center rounded-xl bg-status-tersedia text-white px-3 py-1.5 text-xs font-semibold hover:bg-green-700 transition">Kirim link DP</a>
+                                    <span class="text-xs font-semibold text-status-ditahan">Tahan habis {{ $pemesanan->tahan_sampai->diffForHumans() }}</span>
+                                </div>
                             </li>
                         @endforeach
                     </ul>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusPemesanan;
+use App\Exceptions\SlotTumpangTindihException;
 use App\Models\Pemesanan;
+use App\Services\LayananPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +13,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PemesananController extends Controller
 {
+    public function __construct(private readonly LayananPemesanan $layananPemesanan) {}
+
     public function index(Request $request): View
     {
         $rental = $request->user()->rental()->firstOrFail();
@@ -39,6 +43,50 @@ class PemesananController extends Controller
         return view('dashboard.pemesanan', [
             'berjalan' => $berjalan,
             'riwayat' => $riwayat,
+        ]);
+    }
+
+    public function tampilTambah(Request $request): View
+    {
+        $rental = $request->user()->rental()->firstOrFail();
+
+        return view('dashboard.pemesanan-tambah', [
+            'unit' => $rental->unit()->where('aktif', true)->with('aturanTarif')->orderBy('nama')->get(),
+        ]);
+    }
+
+    public function tambah(Request $request): RedirectResponse
+    {
+        $rental = $request->user()->rental()->firstOrFail();
+
+        $tervalidasi = $request->validate([
+            'unit_id' => ['required', 'integer'],
+            'nama_penyewa' => ['required', 'string', 'max:120'],
+            'wa' => ['required', 'regex:/^62[0-9]{8,14}$/'],
+            'mulai' => ['required', 'date'],
+            'selesai' => ['required', 'date', 'after:mulai'],
+        ], [
+            'wa.regex' => 'Nomor WA harus format 62 diikuti angka, tanpa spasi atau tanda +.',
+        ]);
+
+        $unit = $rental->unit()->where('aktif', true)->findOrFail($tervalidasi['unit_id']);
+
+        try {
+            $pemesanan = $this->layananPemesanan->buat($rental, $unit, $tervalidasi, StatusPemesanan::Terkonfirmasi);
+        } catch (SlotTumpangTindihException $e) {
+            return back()->withInput()->withErrors(['mulai' => $e->getMessage()]);
+        }
+
+        return redirect()->route('pemesanan.index')
+            ->with('status', 'Pemesanan '.$pemesanan->kode.' dibuat dan langsung dikonfirmasi.');
+    }
+
+    public function cetak(Request $request, Pemesanan $pemesanan): View
+    {
+        $this->authorize('kelola', $pemesanan);
+
+        return view('dashboard.cetak', [
+            'pemesanan' => $pemesanan->load(['unit', 'rental']),
         ]);
     }
 

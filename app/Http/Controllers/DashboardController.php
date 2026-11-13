@@ -18,7 +18,24 @@ class DashboardController extends Controller
             'menungguVerifikasi' => $rental->pemesanan()->where('status', StatusPemesanan::MenungguVerifikasi)->count(),
             'ditahan' => $rental->pemesanan()->menahanSlot()->where('status', StatusPemesanan::Ditahan)->count(),
             'terlambat' => $rental->pemesanan()->where('status', StatusPemesanan::Terlambat)->count(),
+            'omzetBulanIni' => (float) $rental->pemesanan()
+                ->whereIn('status', [StatusPemesanan::Selesai->value, StatusPemesanan::SedangDisewa->value, StatusPemesanan::Terlambat->value])
+                ->whereMonth('selesai', now()->month)
+                ->whereYear('selesai', now()->year)
+                ->sum('total'),
+            'jumlahBulanIni' => $rental->pemesanan()
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count(),
         ];
+
+        $agenda = $rental->pemesanan()
+            ->with('unit')
+            ->whereIn('status', [StatusPemesanan::Terkonfirmasi->value, StatusPemesanan::SedangDisewa->value, StatusPemesanan::Terlambat->value])
+            ->where('mulai', '<=', now()->endOfDay())
+            ->where('selesai', '>=', now()->startOfDay())
+            ->orderBy('mulai')
+            ->get();
 
         $terlambat = $rental->pemesanan()
             ->with('unit')
@@ -30,6 +47,7 @@ class DashboardController extends Controller
             'rental' => $rental,
             'statistik' => $statistik,
             'terlambat' => $terlambat,
+            'agenda' => $agenda,
         ]);
     }
 }

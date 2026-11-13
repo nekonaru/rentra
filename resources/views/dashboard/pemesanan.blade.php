@@ -1,11 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
             <h2 class="font-semibold text-xl text-rentra-ink leading-tight">Pemesanan</h2>
-            <a href="{{ route('pemesanan.ekspor') }}" class="inline-flex items-center gap-2 rounded-xl border border-rentra/30 text-rentra px-4 py-2 text-xs font-semibold hover:bg-teal-50 transition">
-                Ekspor CSV
-                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </a>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('pemesanan.tambah') }}" class="inline-flex items-center gap-2 rounded-xl bg-rentra-accent px-4 py-2 text-xs font-bold uppercase tracking-widest text-rentra-ink hover:bg-amber-400 transition">Tambah manual</a>
+                <a href="{{ route('pemesanan.ekspor') }}" class="inline-flex items-center gap-2 rounded-xl border border-rentra/30 text-rentra px-4 py-2 text-xs font-semibold hover:bg-teal-50 transition">
+                    Ekspor CSV
+                    <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                </a>
+            </div>
         </div>
     </x-slot>
 
@@ -30,6 +33,7 @@
                                     <p class="text-xs text-gray-500">{{ $pemesanan->mulai->translatedFormat('d M Y H:i') }} - {{ $pemesanan->selesai->translatedFormat('d M Y H:i') }} WIB</p>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
+                                    <a href="{{ route('pemesanan.cetak', $pemesanan) }}" target="_blank" class="inline-flex items-center rounded-xl border border-gray-200 text-gray-600 px-4 py-2 text-xs font-semibold hover:bg-gray-50 transition">Cetak</a>
                                     @if ($pemesanan->status === \App\Enums\StatusPemesanan::Terkonfirmasi)
                                         <form method="POST" action="{{ route('pemesanan.serah-terima', $pemesanan) }}">
                                             @csrf

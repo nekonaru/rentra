@@ -24,9 +24,9 @@ class LayananPemesanan
      *
      * @param  array{mulai: string, selesai: string, nama_penyewa: string, wa: string}  $data
      */
-    public function buat(Rental $rental, Unit $unit, array $data): Pemesanan
+    public function buat(Rental $rental, Unit $unit, array $data, StatusPemesanan $statusAwal = StatusPemesanan::Ditahan): Pemesanan
     {
-        return DB::transaction(function () use ($rental, $unit, $data) {
+        return DB::transaction(function () use ($rental, $unit, $data, $statusAwal) {
             // Kunci baris unit. Pemesanan lain untuk unit ini menunggu di sini.
             $terkunci = Unit::whereKey($unit->id)->lockForUpdate()->firstOrFail();
 
@@ -62,8 +62,10 @@ class LayananPemesanan
                 'selesai' => $selesai,
                 'total' => $rincian['total'],
                 'dp_nominal' => $rincian['dp_nominal'],
-                'status' => StatusPemesanan::Ditahan,
-                'tahan_sampai' => now()->addMinutes($rental->durasi_tahan_menit),
+                'status' => $statusAwal,
+                'tahan_sampai' => $statusAwal === StatusPemesanan::Ditahan
+                    ? now()->addMinutes($rental->durasi_tahan_menit)
+                    : null,
             ]);
         });
     }

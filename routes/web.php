@@ -44,7 +44,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/pemesanan/{pemesanan}/bukti', [PemesananPublikController::class, 'bukti'])->name('pemesanan.bukti');
 
         Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
+        Route::get('/pemesanan/tambah', [PemesananController::class, 'tampilTambah'])->name('pemesanan.tambah');
+        Route::post('/pemesanan/tambah', [PemesananController::class, 'tambah'])->name('pemesanan.simpan-tambah');
         Route::get('/pemesanan/ekspor', [PemesananController::class, 'ekspor'])->name('pemesanan.ekspor');
+        Route::get('/pemesanan/{pemesanan}/cetak', [PemesananController::class, 'cetak'])->name('pemesanan.cetak');
         Route::post('/pemesanan/{pemesanan}/serah-terima', [PemesananController::class, 'serahTerima'])->name('pemesanan.serah-terima');
         Route::post('/pemesanan/{pemesanan}/selesai', [PemesananController::class, 'selesai'])->name('pemesanan.selesai');
         Route::post('/pemesanan/{pemesanan}/batal', [PemesananController::class, 'batal'])->name('pemesanan.batal');
