@@ -72,6 +72,9 @@
 | **Siklus pemesanan** | Serah terima, tandai kembali, atau batalkan; pemesanan terlambat otomatis ditandai setelah lewat jam selesai |
 | **Pengingat terlambat** | Satu tap membuka WhatsApp dengan template pesan terisi |
 | **Ekspor CSV** | Unduh seluruh pemesanan ke CSV (UTF-8, pemisah titik koma) untuk rekap |
+| **Kalender lintas unit** | Satu kalender penuh untuk semua pemesanan, klik hari untuk detail |
+| **Laporan** | Omzet 6 bulan, unit terlaris, okupasi 30 hari, rata-rata nilai sewa, DP terkumpul |
+| **Email bukti DP** | Pemilik menerima email otomatis saat penyewa mengupload bukti (default tercatat di log dev) |
 | **Anti bentrok** | Pemesanan berjalan dalam transaksi dengan row lock, dua penyewa tidak bisa mengambil slot yang sama |
 
 ### Platform
@@ -200,6 +203,8 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 
 - **Bagikan link.** Pelanggan pilih unit, lihat kalender, hitung harga, dan pesan.
 - **Verifikasi bukti.** Buka **Verifikasi**, periksa bukti DP, lalu **Terima** atau **Tolak** dengan alasan.
+- **Cek kalender.** Buka **Kalender** untuk melihat semua pemesanan lintas unit dalam satu tampilan bulanan.
+- **Lihat performa.** Buka **Laporan** untuk omzet 6 bulan, unit terlaris, okupasi, dan DP terkumpul.
 - **Serah terima.** Di halaman **Pemesanan**, tandai **Serah terima** saat unit keluar dan **Unit kembali** saat unit masuk.
 - **Ekspor rekap.** Di halaman **Pemesanan**, klik **Ekspor CSV** untuk mengunduh seluruh pemesanan.
 - **Blokir tanggal.** Pakai **Blok** untuk servis atau pemakaian pribadi; pemesanan yang bentrok minta konfirmasi.
@@ -218,7 +223,7 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 | `QUEUE_CONNECTION` | `database` | Queue database, tanpa Redis |
 | `FILESYSTEM_DISK` | `local` | Disk privat untuk bukti DP |
 
-Opsional tapi didukung: `MAIL_MAILER=log` di `.env` mencatat mail secara lokal di `storage/logs`.
+Opsional: saat penyewa mengupload bukti DP, pemilik otomatis menerima email. Di mode default (`MAIL_MAILER=log`) isi email tercatat di `storage/logs`. Untuk produksi, isi `MAIL_MAILER=smtp` beserta `MAIL_HOST`, `MAIL_USERNAME`, dan `MAIL_PASSWORD` sesuai provider kamu.
 
 ---
 
@@ -271,7 +276,7 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test                  # seluruh 74 test (feature dan unit, SQLite in-memory)
+php artisan test                  # seluruh 78 test (feature dan unit, SQLite in-memory)
 php artisan test --filter=KeamananTest   # 9 test keamanan khusus
 vendor/bin/pint --test            # cek gaya kode
 npm run build                     # build frontend tanpa error
@@ -279,7 +284,7 @@ npm run build                     # build frontend tanpa error
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 74 test) |
+| Test suite | Semua test lulus (saat ini 78 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BlokUnitController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KalenderController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PemesananPublikController;
@@ -52,6 +54,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/pemesanan/{pemesanan}/selesai', [PemesananController::class, 'selesai'])->name('pemesanan.selesai');
         Route::post('/pemesanan/{pemesanan}/batal', [PemesananController::class, 'batal'])->name('pemesanan.batal');
 
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/kalender', [KalenderController::class, 'index'])->name('kalender.index');
         Route::get('/blok', [BlokUnitController::class, 'index'])->name('blok.index');
         Route::post('/blok', [BlokUnitController::class, 'simpan'])->name('blok.simpan');
         Route::delete('/blok/{blok}', [BlokUnitController::class, 'hapus'])->name('blok.hapus');

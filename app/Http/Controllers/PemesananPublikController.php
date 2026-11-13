@@ -6,12 +6,15 @@ use App\Enums\StatusPemesanan;
 use App\Exceptions\SlotTumpangTindihException;
 use App\Http\Requests\SimpanPemesananRequest;
 use App\Http\Requests\UnggahBuktiRequest;
+use App\Mail\BuktiMasuk;
 use App\Models\Pemesanan;
 use App\Models\Rental;
 use App\Services\LayananPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -87,6 +90,14 @@ class PemesananPublikController extends Controller
             'status' => StatusPemesanan::MenungguVerifikasi,
             'catatan_tolak' => null,
         ]);
+
+        // Pemberitahuan ke pemilik. Kegagalan mail tidak boleh menggagalkan upload bukti.
+        try {
+            $pemesanan->loadMissing(['unit.rental.user']);
+            Mail::to($pemesanan->rental->user->email)->send(new BuktiMasuk($pemesanan));
+        } catch (\Throwable $e) {
+            Log::warning('gagal kirim email bukti masuk', ['kode' => $pemesanan->kode, 'error' => $e->getMessage()]);
+        }
 
         return redirect()->route('publik.pemesanan', $kode)
             ->with('status', 'Bukti DP terkirim. Pemilik akan memverifikasi secepatnya.');

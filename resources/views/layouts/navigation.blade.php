@@ -25,6 +25,12 @@
                     <x-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">
                         {{ __('Pemesanan') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">
+                        {{ __('Kalender') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
+                        {{ __('Laporan') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
                         {{ __('Blok') }}
                     </x-nav-link>
@@ -95,6 +101,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">
                 {{ __('Pemesanan') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">
+                {{ __('Kalender') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
+                {{ __('Laporan') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">
                 {{ __('Blok') }}

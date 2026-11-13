@@ -1,5 +1,24 @@
 # Catatan Rilis
 
+## v1.1.0 - Kalender, laporan, dan notifikasi
+
+Menambah fitur bisnis untuk pemilik: kalender lintas unit, laporan performa, dan email otomatis saat bukti DP masuk.
+
+### Fitur baru
+
+- **Kalender lintas unit.** Satu kalender bulanan menampilkan semua pemesanan di semua unit dengan warna per status; klik hari untuk melihat detail.
+- **Laporan.** Omzet 6 bulan terakhir, unit terlaris, okupasi 30 hari, rata-rata nilai sewa, dan DP terkumpul.
+- **Email bukti DP.** Pemilik menerima email otomatis saat penyewa mengupload bukti (default tercatat di log di mode dev; isi SMTP untuk produksi).
+
+### Peningkatan
+
+- **Portabilitas driver database.** Laporan memakai agregasi di PHP, berjalan di MySQL maupun SQLite (test suite).
+- **Konten dan penghitung test.** 78 test lulus (9 test keamanan khusus).
+
+### Perbaikan bug
+
+- **Pesan error hilang.** Halaman laporan tidak lagi 500 di SQLite; dialog konflik kalender dimuat ulang dengan benar.
+
 ## v1.0.0 - Rilis awal
 
 Rentra adalah SaaS multi-tenant untuk pemilik rental kecil: satu link publik berisi ketersediaan unit, kalkulator harga otomatis, dan pemesanan dengan verifikasi bukti DP, dikendalikan dari dashboard pribadi.
