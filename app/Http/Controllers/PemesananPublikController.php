@@ -12,8 +12,8 @@ use App\Services\LayananPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PemesananPublikController extends Controller
 {
@@ -72,7 +72,14 @@ class PemesananPublikController extends Controller
             Storage::disk('local')->delete($pemesanan->jalur_bukti);
         }
 
-        $perpanjangan = $request->file('bukti')->getClientOriginalExtension();
+        // Ambil ekstensi dari tipe MIME sebenarnya, bukan dari nama file kiriman klien.
+        $mime = $request->file('bukti')->getMimeType();
+        $perpanjangan = match ($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'application/pdf' => 'pdf',
+            default => 'bin',
+        };
         $path = $request->file('bukti')->storeAs('bukti', $pemesanan->kode.'-'.now()->format('YmdHis').'.'.$perpanjangan, 'local');
 
         $pemesanan->update([
@@ -85,7 +92,7 @@ class PemesananPublikController extends Controller
             ->with('status', 'Bukti DP terkirim. Pemilik akan memverifikasi secepatnya.');
     }
 
-    public function bukti(Request $request, Pemesanan $pemesanan): Response|RedirectResponse
+    public function bukti(Request $request, Pemesanan $pemesanan): StreamedResponse|RedirectResponse
     {
         $this->authorize('lihatBukti', $pemesanan);
 

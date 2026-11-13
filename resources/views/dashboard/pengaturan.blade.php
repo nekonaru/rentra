@@ -5,7 +5,7 @@
 
     <div class="py-8">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-sm text-gray-600">Ubah data rental kamu. Link publik (<span class="font-semibold">rentra.id/{{ $rental->slug }}</span>) tidak bisa diubah supaya link yang sudah dibagikan tetap jalan.</p>
+            <p class="text-sm text-gray-600">Ubah data rental kamu. Link publik (<span class="font-semibold">{{ parse_url(config('app.url'), PHP_URL_HOST) }}/{{ $rental->slug }}</span>) tidak bisa diubah supaya link yang sudah dibagikan tetap jalan.</p>
 
             @if (session('status'))
                 <div class="mt-4 rounded-xl bg-teal-50 border border-teal-100 text-rentra text-sm font-medium px-4 py-3">{{ session('status') }}</div>
@@ -53,3 +53,5 @@
         </div>
     </div>
 </x-app-layout>
+
+

@@ -156,7 +156,7 @@ npm run build
 ```
 
 > [!IMPORTANT]
-> `php artisan migrate --seed` harus selesai tanpa error. Perintah ini membuat akun demo `demo@rentra.id` dengan password `password` dan rental demo di `http://localhost:8000/demo-kamera`.
+> `php artisan migrate --seed` harus selesai tanpa error. Perintah ini membuat akun demo `demo@rentra.test` dengan password `password` dan rental demo di `http://localhost:8000/demo-kamera`.
 
 ### 5. Jalankan aplikasi
 
@@ -164,7 +164,7 @@ npm run build
 php artisan serve
 ```
 
-Lalu buka http://localhost:8000. Login dengan `demo@rentra.id` / `password`, atau daftar akun baru.
+Lalu buka http://localhost:8000. Login dengan `demo@rentra.test` / `password`, atau daftar akun baru.
 
 ### 6. Jaga hold dan status terlambat tetap akurat
 
@@ -188,7 +188,7 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 ### Peluncuran pertama
 
 1. Jalankan `php artisan migrate --seed` (lihat Instalasi).
-2. Buka http://localhost:8000 dan daftar, atau login dengan `demo@rentra.id` / `password`.
+2. Buka http://localhost:8000 dan daftar, atau login dengan `demo@rentra.test` / `password`.
 3. Selesaikan wizard onboarding (nama rental, slug link publik, nomor WhatsApp).
 4. Tambahkan unit pertama beserta tarifnya.
 5. Bagikan `http://localhost:8000/{slug-kamu}` ke pelanggan.
@@ -342,7 +342,7 @@ Disimpan di `storage/app/private/bukti` dan hanya bisa diakses lewat route terot
 <details>
 <summary><b>Apakah akun demo benar-benar jalan?</b></summary>
 
-Ya. `php artisan migrate --seed` membuat `demo@rentra.id` dengan password `password` dan rental demo di `/demo-kamera` dengan tiga unit.
+Ya. `php artisan migrate --seed` membuat `demo@rentra.test` dengan password `password` dan rental demo di `/demo-kamera` dengan tiga unit.
 
 </details>
 
@@ -377,3 +377,4 @@ Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, da
 ## Lisensi
 
 Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.
+

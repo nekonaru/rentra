@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between gap-4">
             <h2 class="font-semibold text-xl text-rentra-ink leading-tight">Dashboard</h2>
             <a href="{{ url('/' . $rental->slug) }}" target="_blank" class="inline-flex items-center gap-2 rounded-xl border border-rentra/30 text-rentra px-4 py-2 text-xs font-semibold hover:bg-teal-50 transition">
-                rentra.id/{{ $rental->slug }}
+                {{ parse_url(config('app.url'), PHP_URL_HOST) }}/{{ $rental->slug }}
                 <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>
             </a>
         </div>
@@ -92,6 +92,8 @@
         </div>
     </div>
 </x-app-layout>
+
+
 
 
 

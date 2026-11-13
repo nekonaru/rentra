@@ -19,10 +19,10 @@
                 <div>
                     <x-input-label for="slug" value="Link publik" />
                     <div class="mt-1 flex rounded-md shadow-sm">
-                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">rentra.id/</span>
+                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">{{ parse_url(config('app.url'), PHP_URL_HOST) }}/</span>
                         <input id="slug" name="slug" type="text" value="{{ old('slug') }}" placeholder="kamera-kita" required pattern="[a-z0-9\-]+" class="block w-full rounded-none rounded-r-md border-gray-300 focus:border-rentra focus:ring-rentra text-sm" autocomplete="off">
                     </div>
-                    <p class="mt-1 text-xs text-gray-500">Huruf kecil, angka, dan tanda hubung. Contoh: rentra.id/kamera-kita</p>
+                    <p class="mt-1 text-xs text-gray-500">Huruf kecil, angka, dan tanda hubung. Contoh: {{ parse_url(config('app.url'), PHP_URL_HOST) }}/kamera-kita</p>
                     <x-input-error :messages="$errors->get('slug')" class="mt-2" />
                 </div>
 
@@ -60,6 +60,7 @@
         </div>
     </div>
 </x-app-layout>
+
 
 
 

@@ -83,9 +83,9 @@ Route::post('/{slug}/{unit}/pemesanan', [PemesananPublikController::class, 'simp
     ->middleware('throttle:10,1')
     ->name('publik.pemesanan.simpan');
 Route::get('/pemesanan/{kode}', [PemesananPublikController::class, 'tampil'])
-    ->where('kode', '[A-Za-z0-9]+')
+    ->where('kode', '[A-Z0-9]{10}')
     ->name('publik.pemesanan');
 Route::post('/pemesanan/{kode}/bukti', [PemesananPublikController::class, 'unggahBukti'])
-    ->where('kode', '[A-Za-z0-9]+')
+    ->where('kode', '[A-Z0-9]{10}')
     ->middleware('throttle:10,1')
     ->name('publik.pemesanan.bukti');

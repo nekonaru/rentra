@@ -81,7 +81,7 @@ class PublikController extends Controller
     {
         try {
             $parsed = $bulan !== null ? Carbon::createFromFormat('Y-m', $bulan) : Carbon::now();
-        } catch (\InvalidArgumentException) {
+        } catch (\Throwable) {
             $parsed = false;
         }
 
