@@ -17,8 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rental' => PastikanRental::class,
         ]);
-        // Banyak hosting di balik reverse proxy; percayakan header X-Forwarded-*.
-        $middleware->trustProxies(at: '*');
+        // Hanya proxy privat yang dipercaya; X-Forwarded-* dari klien asing diabaikan.
+        $middleware->trustProxies(at: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1']);
         $middleware->web(append: [
             HeaderKeamanan::class,
             PeriksaAsal::class,

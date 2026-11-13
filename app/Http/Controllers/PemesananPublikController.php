@@ -93,10 +93,13 @@ class PemesananPublikController extends Controller
             abort(404);
         }
 
-        $sebaris = $request->boolean('sebaris');
+        $mime = Storage::disk('local')->mimeType($pemesanan->jalur_bukti) ?: 'application/octet-stream';
+        // Pratinjau sebaris hanya untuk gambar; pdf/file lain selalu diunduh.
+        $sebaris = $request->boolean('sebaris') && str_starts_with($mime, 'image/');
 
         return Storage::disk('local')->response($pemesanan->jalur_bukti, $sebaris ? null : basename($pemesanan->jalur_bukti), [
-            'Content-Type' => Storage::disk('local')->mimeType($pemesanan->jalur_bukti) ?: 'application/octet-stream',
+            'Content-Type' => $mime,
+            'X-Content-Type-Options' => 'nosniff',
         ], $sebaris ? 'inline' : 'attachment');
     }
 }
