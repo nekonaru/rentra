@@ -15,6 +15,10 @@ class OnboardingController extends Controller
 
     public function create(Request $request): View|RedirectResponse
     {
+        if ($request->user()->isAdmin()) {
+            return redirect()->route('admin.index');
+        }
+
         if ($request->user()->rental()->exists()) {
             return redirect()->route('dashboard');
         }

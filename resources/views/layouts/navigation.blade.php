@@ -64,6 +64,11 @@
                                 {{ __('Lihat halaman publik') }}
                             </x-dropdown-link>
                         @endif
+                        @if (auth()->user()->isAdmin())
+                            <x-dropdown-link :href="route('admin.index')">
+                                {{ __('Panel admin') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Autentikasi -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -127,6 +132,11 @@
                 @if (auth()->user()->rental)
                     <x-responsive-nav-link :href="route('pengaturan.edit')">
                         {{ __('Pengaturan rental') }}
+                    </x-responsive-nav-link>
+                @endif
+                @if (auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.index')">
+                        {{ __('Panel admin') }}
                     </x-responsive-nav-link>
                 @endif
 

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -43,6 +44,11 @@ class User extends Authenticatable
     public function rental(): HasOne
     {
         return $this->hasOne(Rental::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 
     protected function casts(): array

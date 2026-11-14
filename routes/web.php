@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlokUnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalenderController;
@@ -64,6 +65,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Panel admin Rentra (operator platform). Semua route di belakang auth + admin.
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/tenant', [AdminController::class, 'tenant'])->name('admin.tenant.index');
+    Route::get('/admin/tenant/{rental}', [AdminController::class, 'tenantShow'])->name('admin.tenant.show');
+    Route::post('/admin/tenant/{rental}/tangguhkan', [AdminController::class, 'tangguhkan'])->name('admin.tenant.tangguhkan');
+    Route::post('/admin/tenant/{rental}/aktifkan', [AdminController::class, 'aktifkan'])->name('admin.tenant.aktifkan');
 });
 
 require __DIR__.'/auth.php';

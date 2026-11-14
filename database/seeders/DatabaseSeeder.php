@@ -15,9 +15,14 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::updateOrCreate(
+            ['email' => 'admin@rentra.test'],
+            ['name' => 'Admin Rentra', 'role' => 'admin', 'password' => Hash::make('password')],
+        );
+
         $user = User::updateOrCreate(
             ['email' => 'demo@rentra.test'],
-            ['name' => 'Demo Pemilik', 'password' => Hash::make('password')],
+            ['name' => 'Demo Pemilik', 'role' => 'pemilik', 'password' => Hash::make('password')],
         );
 
         $rental = Rental::updateOrCreate(

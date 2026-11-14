@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\RentalFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,7 @@ class Rental extends Model
         'info_rekening',
         'durasi_tahan_menit',
         'persen_dp',
+        'aktif',
     ];
 
     protected function casts(): array
@@ -30,7 +32,13 @@ class Rental extends Model
         return [
             'durasi_tahan_menit' => 'integer',
             'persen_dp' => 'integer',
+            'aktif' => 'boolean',
         ];
+    }
+
+    public function scopeAktif(Builder $query): Builder
+    {
+        return $query->where('aktif', true);
     }
 
     public function user(): BelongsTo

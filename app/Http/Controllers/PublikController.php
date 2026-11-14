@@ -20,7 +20,7 @@ class PublikController extends Controller
 
     public function tampil(string $slug): View
     {
-        $rental = Rental::where('slug', $slug)
+        $rental = Rental::aktif()->where('slug', $slug)
             ->with(['unit' => fn ($q) => $q->where('aktif', true)->with('aturanTarif')->orderBy('nama')])
             ->firstOrFail();
 
@@ -29,7 +29,7 @@ class PublikController extends Controller
 
     public function unit(Request $request, string $slug, int $unit): View
     {
-        $rental = Rental::where('slug', $slug)->firstOrFail();
+        $rental = Rental::aktif()->where('slug', $slug)->firstOrFail();
         $unitModel = $rental->unit()->where('aktif', true)->with('aturanTarif')->findOrFail($unit);
 
         $bulan = $this->uraiBulan($request->query('bulan'));
@@ -45,7 +45,7 @@ class PublikController extends Controller
 
     public function pratinjauHarga(Request $request, string $slug, int $unit): JsonResponse
     {
-        $rental = Rental::where('slug', $slug)->firstOrFail();
+        $rental = Rental::aktif()->where('slug', $slug)->firstOrFail();
         $unitModel = $rental->unit()->where('aktif', true)->with('aturanTarif')->findOrFail($unit);
 
         $tervalidasi = $request->validate([

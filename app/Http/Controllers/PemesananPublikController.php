@@ -24,7 +24,7 @@ class PemesananPublikController extends Controller
 
     public function simpan(SimpanPemesananRequest $request, string $slug, int $unit): RedirectResponse
     {
-        $rental = Rental::where('slug', $slug)->firstOrFail();
+        $rental = Rental::aktif()->where('slug', $slug)->firstOrFail();
         $unitModel = $rental->unit()->where('aktif', true)->findOrFail($unit);
 
         try {

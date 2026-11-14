@@ -17,6 +17,7 @@ class SlugTerlarang
             'profile', 'pemesanan', 'storage', 'build', 'api', 'password',
             'forgot-password', 'reset-password', 'verify-email', 'confirm-password',
             'pengaturan', 'verifikasi', 'up', 'sanctum', 'email', '_ignition',
+            'admin', 'laporan', 'kalender',
         ];
     }
 }

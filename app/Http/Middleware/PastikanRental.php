@@ -12,6 +12,11 @@ class PastikanRental
     {
         $user = $request->user();
 
+        if ($user !== null && $user->isAdmin()) {
+            // Admin tidak punya area pemilik; kirim ke panel admin.
+            return redirect()->route('admin.index');
+        }
+
         if ($user !== null && ! $user->rental()->exists()) {
             return redirect()->route('onboarding.buat');
         }

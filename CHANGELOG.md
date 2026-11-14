@@ -1,5 +1,21 @@
 # Catatan Rilis
 
+## v1.2.0 - Panel admin dan akses operator
+
+Menambahkan login admin untuk operator platform (bukan pemilik rental) dengan kontrol penuh akses di server.
+
+### Fitur baru
+
+- **Panel admin.** Operator memantau semua tenant: jumlah pemilik, rental aktif/ditangguhkan, unit, pemesanan (total dan hari ini), omzet total, antrean verifikasi, dan tenant terbaru.
+- **Tangguhkan / aktifkan tenant.** Admin bisa menangguhkan rental yang melanggar; halaman publiknya langsung 404 dan pemilik tetap bisa masuk dashboard.
+- **Login ter-scope role.** Akun pemilik ditolak di panel admin (403); admin dialihkan ke panel admin saat membuka area pemilik. Semua dilindungi middleware `hanya-admin`.
+- **Tenant view tanpa PII penyewa.** Admin hanya melihat jumlah dan statistik, tidak pernah nama, WA, atau bukti DP penyewa.
+
+### Peningkatan
+
+- **84 test lulus.** 78 test sebelumnya ditambah 6 test akses admin (buka panel, 403 untuk pemilik, redirect tamu, suspend/aktifkan, penyembunyian PII, isolasi dari area pemilik).
+- **Slug terlarang diperluas.** `admin`, `laporan`, `kalender` ditambahkan ke daftar slug yang tidak boleh dipakai.
+
 ## v1.1.0 - Kalender, laporan, dan notifikasi
 
 Menambah fitur bisnis untuk pemilik: kalender lintas unit, laporan performa, dan email otomatis saat bukti DP masuk.

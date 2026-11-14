@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\HanyaAdmin;
 use App\Http\Middleware\HeaderKeamanan;
 use App\Http\Middleware\PastikanRental;
 use App\Http\Middleware\PeriksaAsal;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'rental' => PastikanRental::class,
+            'admin' => HanyaAdmin::class,
         ]);
         // Hanya proxy privat yang dipercaya; X-Forwarded-* dari klien asing diabaikan.
         $middleware->trustProxies(at: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1']);
