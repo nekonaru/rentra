@@ -76,7 +76,7 @@
 | **Kalender lintas unit** | Satu kalender penuh untuk semua pemesanan, klik hari untuk detail |
 | **Laporan** | Omzet 6 bulan, unit terlaris, okupasi 30 hari, rata-rata nilai sewa, DP terkumpul |
 | **Email bukti DP** | Pemilik menerima email otomatis saat penyewa mengupload bukti (default tercatat di log dev) |
-| **Panel admin** | Operator platform mengelola tenant: lihat statistik, tangguhkan/aktifkan rental, tanpa data pribadi penyewa |
+| **Panel admin** | Operator platform mengelola tenant: lihat statistik, tangguhkan/aktifkan rental, buat tenant baru, tanpa data pribadi penyewa |
 | **Anti bentrok** | Pemesanan berjalan dalam transaksi dengan row lock, dua penyewa tidak bisa mengambil slot yang sama |
 
 ### Platform
@@ -208,7 +208,7 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 - **Verifikasi bukti.** Buka **Verifikasi**, periksa bukti DP, lalu **Terima** atau **Tolak** dengan alasan.
 - **Cek kalender.** Buka **Kalender** untuk melihat semua pemesanan lintas unit dalam satu tampilan bulanan.
 - **Lihat performa.** Buka **Laporan** untuk omzet 6 bulan, unit terlaris, okupasi, dan DP terkumpul.
-- **Kelola platform.** Di **Panel admin** (khusus operator Rentra), pantau semua tenant, tangguhkan rental yang melanggar, dan aktifkan kembali.
+- **Kelola platform.** Di **Panel admin** (khusus operator Rentra), pantau semua tenant, cari berdasarkan nama/slug/WA/email, buat tenant baru, tangguhkan rental yang melanggar, dan aktifkan kembali.
 - **Serah terima.** Di halaman **Pemesanan**, tandai **Serah terima** saat unit keluar dan **Unit kembali** saat unit masuk.
 - **Ekspor rekap.** Di halaman **Pemesanan**, klik **Ekspor CSV** untuk mengunduh seluruh pemesanan, atau **Ekspor ZIP** di antrean verifikasi untuk mengunduh semua bukti DP sekaligus.
 - **Blokir tanggal.** Pakai **Blok** untuk servis atau pemakaian pribadi; pemesanan yang bentrok minta konfirmasi.
@@ -280,7 +280,7 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test                  # seluruh 86 test (feature dan unit, SQLite in-memory)
+php artisan test                  # seluruh 91 test (feature dan unit, SQLite in-memory)
 php artisan test --filter=KeamananTest   # 9 test keamanan khusus
 vendor/bin/pint --test            # cek gaya kode
 npm run build                     # build frontend tanpa error
@@ -288,7 +288,7 @@ npm run build                     # build frontend tanpa error
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 86 test) |
+| Test suite | Semua test lulus (saat ini 91 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |
@@ -386,5 +386,6 @@ Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, da
 ## Lisensi
 
 Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.
+
 
 

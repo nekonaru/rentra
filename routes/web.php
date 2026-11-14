@@ -82,6 +82,8 @@ Route::middleware('auth')->group(function () {
 // Panel admin Rentra (operator platform). Semua route di belakang auth + admin.
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/tenant/buat', [AdminController::class, 'tenantCreate'])->name('admin.tenant.buat');
+    Route::post('/admin/tenant', [AdminController::class, 'tenantSimpan'])->name('admin.tenant.simpan');
     Route::get('/admin/tenant', [AdminController::class, 'tenant'])->name('admin.tenant.index');
     Route::get('/admin/tenant/{rental}', [AdminController::class, 'tenantShow'])->name('admin.tenant.show');
     Route::post('/admin/tenant/{rental}/tangguhkan', [AdminController::class, 'tangguhkan'])->name('admin.tenant.tangguhkan');

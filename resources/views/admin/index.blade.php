@@ -1,6 +1,11 @@
 <x-layouts.admin>
-    <h1 class="text-xl font-bold text-white">Dashboard Admin</h1>
-    <p class="mt-1 text-sm text-white/60">Ringkasan seluruh tenant Rentra.</p>
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+            <h1 class="text-xl font-bold text-white">Dashboard Admin</h1>
+            <p class="mt-1 text-sm text-white/60">Ringkasan seluruh tenant Rentra.</p>
+        </div>
+        <a href="{{ route('admin.tenant.buat') }}" class="inline-flex items-center gap-2 rounded-xl bg-teal-500 px-4 py-2 text-sm font-bold text-white hover:bg-teal-600 transition">+ Tambah tenant</a>
+    </div>
 
     <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
         @php

@@ -1,5 +1,21 @@
 # Catatan Rilis
 
+## v1.4.0 - Onboarding tenant oleh admin
+
+Operator Rentra membuat rental baru langsung dari panel admin, tanpa proses registrasi mandiri.
+
+### Fitur baru
+
+- **Tambah tenant dari panel admin.** Form dengan nama rental, slug (autofill dari nama), nomor WA, nama pemilik, dan email pemilik; password 18 karakter dibuat otomatis dan hanya ditampilkan sekali ke admin.
+- **Pencarian tenant.** Filter berdasarkan nama rental, slug, nomor WA, atau nama/email pemilik; paginasi tetap berfungsi saat mencari.
+- **Lookup cepat.** Admin bisa langsung ke tenant yang dicari dari mana pun.
+
+### Peningkatan
+
+- **Auto-suggest slug.** Saat mengetik nama rental, slug terisi otomatis (lowercase, dash, strip karakter non-alfanumerik).
+- **Audit log.** Pembuatan tenant dicatat di log keamanan dengan `admin_id`, slug, email pemilik, dan IP.
+- **91 test lulus.** 86 test sebelumnya ditambah 5 test onboarding tenant (pembuatan, validasi slug terlarang, izin akses, pencarian, paginasi).
+
 ## v1.3.0 - Privasi upload dan ekspor bukti
 
 Foto dan bukti kini di-re-encode saat upload, dan pemilik bisa mengunduh semua bukti DP sekaligus.
