@@ -13,11 +13,22 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VerifikasiController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Pintasan: dari beranda langsung ke halaman status pemesanan berdasarkan kode 10 karakter.
+Route::get('/cek-status', function (Request $request) {
+    $kode = strtoupper((string) $request->query('kode'));
+    if (preg_match('/^[A-Z0-9]{10}$/', $kode) !== 1) {
+        return redirect('/')->with('status', 'Kode pemesanan harus 10 karakter huruf besar/angka.');
+    }
+
+    return redirect()->route('publik.pemesanan', $kode);
+})->middleware('throttle:20,1');
 
 Route::middleware('auth')->group(function () {
     Route::get('/onboarding', [OnboardingController::class, 'create'])->name('onboarding.buat');
@@ -42,6 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/pengaturan', [PengaturanController::class, 'perbarui'])->name('pengaturan.perbarui');
 
         Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+        Route::get('/verifikasi/bukti/ekspor', [VerifikasiController::class, 'eksporBukti'])->name('verifikasi.bukti.ekspor');
         Route::post('/verifikasi/{pemesanan}/terima', [VerifikasiController::class, 'terima'])->name('verifikasi.terima');
         Route::post('/verifikasi/{pemesanan}/tolak', [VerifikasiController::class, 'tolak'])->name('verifikasi.tolak');
         Route::get('/pemesanan/{pemesanan}/bukti', [PemesananPublikController::class, 'bukti'])->name('pemesanan.bukti');

@@ -1,5 +1,25 @@
 # Catatan Rilis
 
+## v1.3.0 - Privasi upload dan ekspor bukti
+
+Foto dan bukti kini di-re-encode saat upload, dan pemilik bisa mengunduh semua bukti DP sekaligus.
+
+### Fitur baru
+
+- **Cek status dari beranda.** Tamu memasukkan kode pemesanan 10 karakter di homepage untuk langsung melihat status; tanpa login.
+- **Ekspor bukti ZIP.** Pemilik mengunduh semua bukti DP yang sudah terkumpul dari antrean verifikasi dalam satu file.
+
+### Peningkatan
+
+- **Foto bebas metadata.** Semua gambar (foto unit dan bukti DP) di-re-encode saat upload, menghilangkan EXIF (lokasi GPS) dan payload tersembunyi.
+- **Batas dimensi gambar.** Gambar lebih dari 4000x4000 piksel ditolak.
+- **Log keamanan admin.** Aksi tangguhkan/aktifkan tenant dicatat di log keamanan (`storage/logs/keamanan-*.log`).
+- **86 test lulus.**
+
+### Perbaikan bug
+
+- **Path bukti salah.** Upload bukti sekarang menyimpan `jalur_bukti` dengan prefiks `bukti/` yang benar, sesuai letak file di disk privat.
+
 ## v1.2.0 - Panel admin dan akses operator
 
 Menambahkan login admin untuk operator platform (bukan pemilik rental) dengan kontrol penuh akses di server.

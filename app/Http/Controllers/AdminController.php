@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -98,12 +99,26 @@ class AdminController extends Controller
     {
         $rental->update(['aktif' => false]);
 
+        Log::channel('keamanan')->warning('admin_menangguhkan_tenant', [
+            'admin_id' => $request->user()->id,
+            'rental_id' => $rental->id,
+            'slug' => $rental->slug,
+            'ip' => $request->ip(),
+        ]);
+
         return back()->with('status', 'Rental "'.$rental->nama.'" ditangguhkan. Halaman publiknya tidak tampil.');
     }
 
     public function aktifkan(Request $request, Rental $rental): RedirectResponse
     {
         $rental->update(['aktif' => true]);
+
+        Log::channel('keamanan')->info('admin_mengaktifkan_tenant', [
+            'admin_id' => $request->user()->id,
+            'rental_id' => $rental->id,
+            'slug' => $rental->slug,
+            'ip' => $request->ip(),
+        ]);
 
         return back()->with('status', 'Rental "'.$rental->nama.'" diaktifkan kembali.');
     }

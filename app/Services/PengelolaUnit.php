@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class PengelolaUnit
 {
+    public function __construct(private readonly PembersihGambar $pembersihGambar) {}
+
     /**
      * @param  array<string, mixed>  $data  Field unit yang sudah tervalidasi (nama, kategori, aktif) beserta kunci tarif_*.
      */
@@ -19,7 +21,7 @@ class PengelolaUnit
             'nama' => $data['nama'],
             'kategori' => $data['kategori'] ?? null,
             'aktif' => $data['aktif'] ?? true,
-            'jalur_foto' => $foto !== null ? $foto->store('unit', 'public') : null,
+            'jalur_foto' => $foto !== null ? $this->simpanFotoBersih($foto) : null,
         ]);
 
         $this->simpanAturanTarif($unit, $data);
@@ -41,7 +43,7 @@ class PengelolaUnit
             if ($unit->jalur_foto !== null) {
                 Storage::disk('public')->delete($unit->jalur_foto);
             }
-            $unit->jalur_foto = $foto->store('unit', 'public');
+            $unit->jalur_foto = $this->simpanFotoBersih($foto);
         }
 
         $unit->fill([
@@ -53,6 +55,30 @@ class PengelolaUnit
         $this->simpanAturanTarif($unit, $data);
 
         return $unit;
+    }
+
+    private function simpanFotoBersih(UploadedFile $foto): string
+    {
+        $mime = $foto->getMimeType();
+        if (in_array($mime, ['image/jpeg', 'image/png', 'image/webp'], true)) {
+            try {
+                $bersih = $this->pembersihGambar->bersihkan($foto->getRealPath(), $mime);
+            } catch (\InvalidArgumentException) {
+                return $foto->store('unit', 'public');
+            }
+
+            $ekstensi = match ($mime) {
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/webp' => 'webp',
+            };
+            $nama = 'unit/'.uniqid('', true).'.'.$ekstensi;
+            Storage::disk('public')->put($nama, $bersih);
+
+            return $nama;
+        }
+
+        return $foto->store('unit', 'public');
     }
 
     /**

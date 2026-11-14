@@ -63,6 +63,20 @@
                     </div>
                 </div>
             </section>
+            <!-- Cek status -->
+            <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
+                <div class="max-w-xl mx-auto rounded-xl bg-white border border-teal-50 shadow-sm p-6 sm:p-8 text-center">
+                    <h2 class="text-lg font-bold text-rentra-ink">Sudah pesan? Cek status di sini</h2>
+                    <p class="mt-1 text-sm text-gray-600">Masukkan kode pemesanan 10 karakter dari struk kamu.</p>
+                    <form method="GET" action="{{ url('/cek-status') }}" class="mt-4 flex flex-col sm:flex-row gap-2">
+                        <input type="text" name="kode" maxlength="10" pattern="[A-Z0-9a-z]{10}" value="{{ strtoupper((string) request()->query('kode')) }}" placeholder="Contoh: DEMO000001" required class="flex-1 rounded-xl border-gray-200 focus:border-rentra focus:ring-rentra text-sm uppercase tracking-widest" autocomplete="off" autocapitalize="characters">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-rentra px-5 py-3 text-sm font-semibold text-white hover:bg-teal-800 transition">Cek</button>
+                    </form>
+                    @if (session('status'))
+                        <p class="mt-3 text-xs font-medium text-status-terlambat">{{ session('status') }}</p>
+                    @endif
+                </div>
+            </section>
         </main>
 
         <footer class="bg-white border-t border-teal-50">

@@ -72,6 +72,7 @@
 | **Siklus pemesanan** | Serah terima, tandai kembali, atau batalkan; pemesanan terlambat otomatis ditandai setelah lewat jam selesai |
 | **Pengingat terlambat** | Satu tap membuka WhatsApp dengan template pesan terisi |
 | **Ekspor CSV** | Unduh seluruh pemesanan ke CSV (UTF-8, pemisah titik koma) untuk rekap |
+| **Ekspor bukti ZIP** | Unduh semua bukti DP pemilik sekaligus dari antrean verifikasi |
 | **Kalender lintas unit** | Satu kalender penuh untuk semua pemesanan, klik hari untuk detail |
 | **Laporan** | Omzet 6 bulan, unit terlaris, okupasi 30 hari, rata-rata nilai sewa, DP terkumpul |
 | **Email bukti DP** | Pemilik menerima email otomatis saat penyewa mengupload bukti (default tercatat di log dev) |
@@ -203,12 +204,13 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 ### Pemakaian harian
 
 - **Bagikan link.** Pelanggan pilih unit, lihat kalender, hitung harga, dan pesan.
+- **Cek status.** Di beranda, tamu memasukkan kode pemesanan 10 karakter untuk langsung melihat status; tanpa perlu login.
 - **Verifikasi bukti.** Buka **Verifikasi**, periksa bukti DP, lalu **Terima** atau **Tolak** dengan alasan.
 - **Cek kalender.** Buka **Kalender** untuk melihat semua pemesanan lintas unit dalam satu tampilan bulanan.
 - **Lihat performa.** Buka **Laporan** untuk omzet 6 bulan, unit terlaris, okupasi, dan DP terkumpul.
 - **Kelola platform.** Di **Panel admin** (khusus operator Rentra), pantau semua tenant, tangguhkan rental yang melanggar, dan aktifkan kembali.
 - **Serah terima.** Di halaman **Pemesanan**, tandai **Serah terima** saat unit keluar dan **Unit kembali** saat unit masuk.
-- **Ekspor rekap.** Di halaman **Pemesanan**, klik **Ekspor CSV** untuk mengunduh seluruh pemesanan.
+- **Ekspor rekap.** Di halaman **Pemesanan**, klik **Ekspor CSV** untuk mengunduh seluruh pemesanan, atau **Ekspor ZIP** di antrean verifikasi untuk mengunduh semua bukti DP sekaligus.
 - **Blokir tanggal.** Pakai **Blok** untuk servis atau pemakaian pribadi; pemesanan yang bentrok minta konfirmasi.
 - **Ubah pengaturan.** Buka **Pengaturan rental** di menu profil untuk mengubah nama, nomor WA, rekening, durasi tahan, dan persen DP.
 - **Ingatkan keterlambatan.** Pemesanan terlambat ditandai otomatis; **Kirim pengingat WA** membuka WhatsApp dengan pesan terisi.
@@ -278,7 +280,7 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test                  # seluruh 84 test (feature dan unit, SQLite in-memory)
+php artisan test                  # seluruh 86 test (feature dan unit, SQLite in-memory)
 php artisan test --filter=KeamananTest   # 9 test keamanan khusus
 vendor/bin/pint --test            # cek gaya kode
 npm run build                     # build frontend tanpa error
@@ -286,7 +288,7 @@ npm run build                     # build frontend tanpa error
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 84 test) |
+| Test suite | Semua test lulus (saat ini 86 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |
@@ -384,4 +386,5 @@ Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, da
 ## Lisensi
 
 Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.
+
 

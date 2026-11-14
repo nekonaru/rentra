@@ -10,6 +10,7 @@ use App\Mail\BuktiMasuk;
 use App\Models\Pemesanan;
 use App\Models\Rental;
 use App\Services\LayananPemesanan;
+use App\Services\PembersihGambar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PemesananPublikController extends Controller
 {
-    public function __construct(private readonly LayananPemesanan $layananPemesanan) {}
+    public function __construct(private readonly LayananPemesanan $layananPemesanan, private readonly PembersihGambar $pembersihGambar) {}
 
     public function simpan(SimpanPemesananRequest $request, string $slug, int $unit): RedirectResponse
     {
@@ -83,7 +84,19 @@ class PemesananPublikController extends Controller
             'application/pdf' => 'pdf',
             default => 'bin',
         };
-        $path = $request->file('bukti')->storeAs('bukti', $pemesanan->kode.'-'.now()->format('YmdHis').'.'.$perpanjangan, 'local');
+
+        $bersih = null;
+        if (in_array($mime, ['image/jpeg', 'image/png'], true)) {
+            try {
+                // Strip EXIF/metadata (GPS, lokasi) dan payload tersembunyi.
+                $bersih = $this->pembersihGambar->bersihkan($request->file('bukti')->getRealPath(), $mime);
+            } catch (\InvalidArgumentException $e) {
+                return back()->withInput()->withErrors(['bukti' => $e->getMessage()]);
+            }
+        }
+
+        $path = 'bukti/'.$pemesanan->kode.'-'.now()->format('YmdHis').'.'.$perpanjangan;
+        Storage::disk('local')->put($path, $bersih ?? file_get_contents($request->file('bukti')->getRealPath()));
 
         $pemesanan->update([
             'jalur_bukti' => $path,
