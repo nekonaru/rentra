@@ -27,6 +27,7 @@
 - [Fitur](#fitur)
 - [Kebutuhan](#kebutuhan)
 - [Instalasi](#instalasi)
+- [Produksi](#produksi)
 - [Penggunaan](#penggunaan)
 - [Konfigurasi](#konfigurasi)
 - [Struktur Proyek](#struktur-proyek)
@@ -188,6 +189,35 @@ Tanpa scheduler aplikasi tetap jalan: pengecekan ketersediaan juga mengabaikan h
 
 ---
 
+## Produksi
+
+Batasan bahwa aplikasi ini aman dijalankan hanya ketika `.env` produksi diatur dengan benar. Berikut checklist singkat:
+
+```bash
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://domain-kamu.com
+SESSION_SECURE_COOKIE=true
+```
+
+Lalu:
+
+```bash
+composer install --no-dev -o
+npm ci && npm run build
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan key:generate     # sebenarnya hanya sekali
+php artisan migrate --force
+```
+
+Disarankan: aktifkan backup rutin (lihat `RESTORE.md`) dan saat email verifikasi diperlukan, ganti `MAIL_MAILER=log` dengan `MAIL_MAILER=smtp` dan atur kredensial SMTP provider kamu. Tanpa SMTP, pemilik tetap bisa masuk tetapi tidak menerima email verifikasi — Rentra tidak menggagalkan registrasi pemilik.
+
+Perhatikan bahwa `php artisan config:cache` mematikan fitur hot reload config. Saat butuh ubah `.env`, jalankan `php artisan config:clear` lalu `config:cache` lagi.
+
+---
+
 ## Penggunaan
 
 ### Peluncuran pertama
@@ -280,7 +310,7 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test                  # seluruh 91 test (feature dan unit, SQLite in-memory)
+php artisan test                  # seluruh 93 test (feature dan unit, SQLite in-memory)
 php artisan test --filter=KeamananTest   # 9 test keamanan khusus
 vendor/bin/pint --test            # cek gaya kode
 npm run build                     # build frontend tanpa error
@@ -288,7 +318,7 @@ npm run build                     # build frontend tanpa error
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 91 test) |
+| Test suite | Semua test lulus (saat ini 93 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |
@@ -386,6 +416,7 @@ Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, da
 ## Lisensi
 
 Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.
+
 
 
 

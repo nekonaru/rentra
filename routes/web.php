@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/onboarding/unit', [OnboardingController::class, 'unit'])->name('onboarding.unit');
         Route::post('/onboarding/unit', [OnboardingController::class, 'simpanUnit'])->name('onboarding.unit.simpan');
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('unit', UnitController::class)->except(['show'])->names([
             'index' => 'unit.index',
             'create' => 'unit.create',

@@ -1,5 +1,14 @@
 # Catatan Rilis
 
+## v1.5.0 - Perbaikan verifikasi email pengguna baru
+
+Pendaftaran pemilik Rentra tidak lagi terjebak di halaman verifikasi yang tidak akan pernah bisa diakses.
+
+### Perbaikan bug
+
+- **Registrasi pemilik terkunci.** Dashboard mengharuskan email terverifikasi, tapi default `MAIL_MAILER=log` membuat link verifikasi tidak pernah sampai. Pemilik baru yang self-register tidak bisa masuk dashboard walau passwordnya benar. Middleware `verified` dilepas dari `/dashboard`.
+- **Panduan produksi.** README menambahkan section Produksi: checklist env, `composer install --no-dev`, caching config, migrasi, backup.
+
 ## v1.4.0 - Onboarding tenant oleh admin
 
 Operator Rentra membuat rental baru langsung dari panel admin, tanpa proses registrasi mandiri.
