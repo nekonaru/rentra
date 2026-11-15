@@ -212,7 +212,7 @@ php artisan key:generate     # sebenarnya hanya sekali
 php artisan migrate --force
 ```
 
-Disarankan: aktifkan backup rutin (lihat `RESTORE.md`) dan saat email verifikasi diperlukan, ganti `MAIL_MAILER=log` dengan `MAIL_MAILER=smtp` dan atur kredensial SMTP provider kamu. Tanpa SMTP, pemilik tetap bisa masuk tetapi tidak menerima email verifikasi — Rentra tidak menggagalkan registrasi pemilik.
+Disarankan: aktifkan backup rutin (lihat `RESTORE.md`) dan saat email verifikasi diperlukan, ganti `MAIL_MAILER=log` dengan `MAIL_MAILER=smtp` dan atur kredensial SMTP provider kamu. Tanpa SMTP, pemilik tetap bisa masuk tetapi tidak menerima email verifikasi. Rentra tidak menggagalkan registrasi pemilik.
 
 Perhatikan bahwa `php artisan config:cache` mematikan fitur hot reload config. Saat butuh ubah `.env`, jalankan `php artisan config:clear` lalu `config:cache` lagi.
 
