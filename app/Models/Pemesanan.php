@@ -18,6 +18,7 @@ class Pemesanan extends Model
 
     protected $fillable = [
         'kode',
+        'kode_promo',
         'unit_id',
         'rental_id',
         'nama_penyewa',
@@ -25,6 +26,7 @@ class Pemesanan extends Model
         'mulai',
         'selesai',
         'total',
+        'diskon_nominal',
         'dp_nominal',
         'denda_nominal',
         'status',
@@ -40,6 +42,7 @@ class Pemesanan extends Model
             'selesai' => 'datetime',
             'tahan_sampai' => 'datetime',
             'total' => 'decimal:2',
+            'diskon_nominal' => 'decimal:2',
             'dp_nominal' => 'decimal:2',
             'denda_nominal' => 'decimal:2',
             'status' => StatusPemesanan::class,

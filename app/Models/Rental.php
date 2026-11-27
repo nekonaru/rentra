@@ -67,4 +67,9 @@ class Rental extends Model
     {
         return $this->hasMany(Ulasan::class);
     }
+
+    public function promo(): HasMany
+    {
+        return $this->hasMany(Promo::class);
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PemesananPublikController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PublikController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\UnitController;
@@ -67,6 +68,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/pemesanan/{pemesanan}/serah-terima', [PemesananController::class, 'serahTerima'])->name('pemesanan.serah-terima');
         Route::post('/pemesanan/{pemesanan}/selesai', [PemesananController::class, 'selesai'])->name('pemesanan.selesai');
         Route::post('/pemesanan/{pemesanan}/batal', [PemesananController::class, 'batal'])->name('pemesanan.batal');
+
+        Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+        Route::post('/promo', [PromoController::class, 'buat'])->name('promo.buat');
+        Route::delete('/promo/{promo}', [PromoController::class, 'hapus'])->name('promo.hapus');
 
         Route::get('/ulasan', [UlasanController::class, 'moderasiIndex'])->name('ulasan.index');
         Route::post('/ulasan/{ulasan}/moderasi', [UlasanController::class, 'moderasi'])->name('ulasan.moderasi');

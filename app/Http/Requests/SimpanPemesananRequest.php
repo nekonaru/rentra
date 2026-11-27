@@ -21,6 +21,7 @@ class SimpanPemesananRequest extends FormRequest
             'wa' => ['required', 'regex:/^62[0-9]{8,14}$/'],
             'mulai' => ['required', 'date', 'after:now'],
             'selesai' => ['required', 'date', 'after:mulai'],
+            'kode_promo' => ['nullable', 'string', 'max:32'],
         ];
     }
 

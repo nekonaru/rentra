@@ -24,9 +24,14 @@ class LayananPemesanan
      *
      * @param  array{mulai: string, selesai: string, nama_penyewa: string, wa: string}  $data
      */
-    public function buat(Rental $rental, Unit $unit, array $data, StatusPemesanan $statusAwal = StatusPemesanan::Ditahan): Pemesanan
-    {
-        return DB::transaction(function () use ($rental, $unit, $data, $statusAwal) {
+    public function buat(
+        Rental $rental,
+        Unit $unit,
+        array $data,
+        StatusPemesanan $statusAwal = StatusPemesanan::Ditahan,
+        ?string $kodePromo = null,
+    ): Pemesanan {
+        return DB::transaction(function () use ($rental, $unit, $data, $statusAwal, $kodePromo) {
             // Kunci baris unit. Pemesanan lain untuk unit ini menunggu di sini.
             $terkunci = Unit::whereKey($unit->id)->lockForUpdate()->firstOrFail();
 
@@ -53,6 +58,18 @@ class LayananPemesanan
                 $aturanTarif->tarif_weekend !== null ? (float) $aturanTarif->tarif_weekend : null,
             );
 
+            $diskon = 0.0;
+            if ($kodePromo !== null && $kodePromo !== '') {
+                $promo = $rental->promo()->where('kode', strtoupper($kodePromo))->lockForUpdate()->first();
+                $jam = (int) ($mulai->diffInMinutes($selesai) / 60);
+                if ($promo === null || ! $promo->masihBerlaku() || $jam < $promo->minimal_sewa_jam) {
+                    throw new SlotTumpangTindihException('Kode promo tidak valid atau sudah habis.');
+                }
+                $diskon = $promo->diskon($rincian['total']);
+                $promo->increment('terpakai');
+            }
+            $totalAkhir = round($rincian['total'] - $diskon, 2);
+
             return Pemesanan::create([
                 'kode' => $this->kodeUnik(),
                 'unit_id' => $terkunci->id,
@@ -61,8 +78,10 @@ class LayananPemesanan
                 'wa' => $data['wa'],
                 'mulai' => $mulai,
                 'selesai' => $selesai,
-                'total' => $rincian['total'],
-                'dp_nominal' => $rincian['dp_nominal'],
+                'total' => $totalAkhir,
+                'diskon_nominal' => $diskon,
+                'dp_nominal' => round($totalAkhir * $rental->persen_dp / 100, 2),
+                'kode_promo' => $kodePromo !== null && $kodePromo !== '' ? strtoupper($kodePromo) : null,
                 'status' => $statusAwal,
                 'tahan_sampai' => $statusAwal === StatusPemesanan::Ditahan
                     ? now()->addMinutes($rental->durasi_tahan_menit)

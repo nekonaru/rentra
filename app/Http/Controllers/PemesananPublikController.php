@@ -31,7 +31,13 @@ class PemesananPublikController extends Controller
         $unitModel = $rental->unit()->where('aktif', true)->findOrFail($unit);
 
         try {
-            $pemesanan = $this->layananPemesanan->buat($rental, $unitModel, $request->validated());
+            $pemesanan = $this->layananPemesanan->buat(
+                $rental,
+                $unitModel,
+                $request->validated(),
+                StatusPemesanan::Ditahan,
+                $request->validated('kode_promo'),
+            );
         } catch (SlotTumpangTindihException $e) {
             return back()->withInput()->withErrors(['mulai' => $e->getMessage()]);
         }

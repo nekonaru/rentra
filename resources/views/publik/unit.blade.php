@@ -228,6 +228,10 @@
                         Nomor WhatsApp (format 62)
                         <input type="text" name="wa" value="{{ old('wa') }}" inputmode="numeric" placeholder="6281234567890" required class="mt-1 block w-full rounded-xl border-gray-200 focus:border-rentra focus:ring-rentra text-sm">
                     </label>
+                    <label class="block text-xs font-semibold">
+                        Kode promo (opsional)
+                        <input type="text" name="kode_promo" value="{{ old('kode_promo') }}" placeholder="HEMAT10" class="input mt-1 uppercase tracking-widest" autocomplete="off">
+                    </label>
                 </div>
 
                 <button type="submit" x-bind:disabled="! hasil || ! hasil.tersedia || loading" class="mt-4 w-full inline-flex items-center justify-center rounded-xl bg-rentra-accent px-5 py-3 text-sm font-bold text-rentra-ink hover:bg-amber-400 transition disabled:opacity-40 disabled:cursor-not-allowed">
