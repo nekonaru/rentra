@@ -6,6 +6,7 @@ use App\Enums\StatusPemesanan;
 use App\Models\AturanTarif;
 use App\Models\Pemesanan;
 use App\Models\Rental;
+use App\Models\Ulasan;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -73,7 +74,7 @@ class FiturPublikTest extends TestCase
         $pemesanan = $this->buatPemesananSelesai();
         $unit = $pemesanan->unit;
 
-        \App\Models\Ulasan::create([
+        Ulasan::create([
             'pemesanan_id' => $pemesanan->id,
             'unit_id' => $unit->id,
             'rental_id' => $pemesanan->rental_id,
@@ -86,7 +87,7 @@ class FiturPublikTest extends TestCase
             ->assertOk()
             ->assertDontSee('Ulasan yang belum disetujui.');
 
-        \App\Models\Ulasan::where('pemesanan_id', $pemesanan->id)->update(['status' => 'tampil']);
+        Ulasan::where('pemesanan_id', $pemesanan->id)->update(['status' => 'tampil']);
 
         $this->get(route('publik.unit', [$pemesanan->rental->slug, $unit->id]))
             ->assertOk()

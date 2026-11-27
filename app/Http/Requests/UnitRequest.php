@@ -29,6 +29,7 @@ class UnitRequest extends FormRequest
             'aktif' => ['sometimes', 'boolean'],
             'tarif_per_hari' => ['required', 'numeric', 'min:0', 'max:100000000'],
             'tarif_per_jam' => ['required', 'numeric', 'min:0', 'max:100000000'],
+            'tarif_weekend' => ['nullable', 'numeric', 'min:0', 'max:100000000'],
             'minimal_sewa_jam' => ['required', 'integer', 'min:1', 'max:168'],
             'toleransi_menit' => ['required', 'integer', 'min:0', 'max:1440'],
         ];

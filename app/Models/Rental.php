@@ -36,6 +36,10 @@ class Rental extends Model
             'durasi_tahan_menit' => 'integer',
             'persen_dp' => 'integer',
             'aktif' => 'boolean',
+            'jam_buka' => 'datetime:H:i',
+            'jam_tutup' => 'datetime:H:i',
+            'denda_per_jam' => 'decimal:2',
+            'denda_maks' => 'decimal:2',
         ];
     }
 

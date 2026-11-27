@@ -121,6 +121,7 @@ class PengelolaUnit
             [
                 'tarif_per_hari' => $data['tarif_per_hari'],
                 'tarif_per_jam' => $data['tarif_per_jam'],
+                'tarif_weekend' => $data['tarif_weekend'] ?? null,
                 'minimal_sewa_jam' => $data['minimal_sewa_jam'],
                 'toleransi_menit' => $data['toleransi_menit'],
             ],

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\StatusPemesanan;
 use App\Exceptions\SlotTumpangTindihException;
 use App\Models\Pemesanan;
+use App\Services\KalkulatorHarga;
 use App\Services\LayananPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -148,9 +149,23 @@ class PemesananController extends Controller
 
         abort_unless(in_array($pemesanan->status, [StatusPemesanan::SedangDisewa, StatusPemesanan::Terlambat], true), 422);
 
-        $pemesanan->update(['status' => StatusPemesanan::Selesai]);
+        $kalkulator = app(KalkulatorHarga::class);
+        $rental = $request->user()->rental;
+        $denda = $kalkulator->denda(
+            (float) $rental->denda_per_jam,
+            (float) $rental->denda_maks,
+            $pemesanan->selesai,
+            now(),
+        );
 
-        return back()->with('status', 'Pemesanan '.$pemesanan->kode.' ditandai selesai.');
+        $pemesanan->update([
+            'status' => StatusPemesanan::Selesai,
+            'denda_nominal' => $denda,
+        ]);
+
+        return back()->with('status', $denda > 0
+            ? 'Pemesanan selesai. Denda Rp '.number_format($denda, 0, ',', '.').' tercatat.'
+            : 'Pemesanan '.$pemesanan->kode.' ditandai selesai.');
     }
 
     public function batal(Request $request, Pemesanan $pemesanan): RedirectResponse

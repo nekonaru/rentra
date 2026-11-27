@@ -50,6 +50,7 @@ class LayananPemesanan
                 $mulai,
                 $selesai,
                 $rental->persen_dp,
+                $aturanTarif->tarif_weekend !== null ? (float) $aturanTarif->tarif_weekend : null,
             );
 
             return Pemesanan::create([

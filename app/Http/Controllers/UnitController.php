@@ -16,8 +16,19 @@ class UnitController extends Controller
     public function index(Request $request): View
     {
         $rental = $request->user()->rental()->firstOrFail();
+        $q = trim((string) $request->query('q', ''));
 
-        return view('unit.index', ['unit' => $rental->unit()->with('aturanTarif')->orderBy('nama')->get()]);
+        $unit = $rental->unit()
+            ->with('aturanTarif')
+            ->when($q !== '', fn ($query) => $query->where(function ($w) use ($q) {
+                $w->where('nama', 'like', "%$q%")
+                    ->orWhere('kategori', 'like', "%$q%")
+                    ->orWhere('merek', 'like', "%$q%");
+            }))
+            ->orderBy('nama')
+            ->get();
+
+        return view('unit.index', ['unit' => $unit, 'q' => $q]);
     }
 
     public function create(): View
@@ -29,7 +40,7 @@ class UnitController extends Controller
     {
         $rental = $request->user()->rental;
 
-        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
         $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);
@@ -52,7 +63,7 @@ class UnitController extends Controller
     {
         $this->authorize('update', $unit);
 
-        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', false);
 
         $this->pengelolaUnit->perbarui($unit, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);

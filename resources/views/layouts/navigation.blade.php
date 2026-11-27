@@ -15,6 +15,7 @@
                     <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">{{ __('Verifikasi') }}</x-nav-link>
                     <x-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">{{ __('Pemesanan') }}</x-nav-link>
                     <x-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">{{ __('Kalender') }}</x-nav-link>
+                    <x-nav-link :href="route('ulasan.index')" :active="request()->routeIs('ulasan.*')">{{ __('Ulasan') }}</x-nav-link>
                     <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">{{ __('Laporan') }}</x-nav-link>
                     <x-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">{{ __('Blok') }}</x-nav-link>
                 </div>
@@ -22,6 +23,20 @@
 
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
                 <x-ganti-tema />
+                @if (auth()->user()->rental)
+                    @php
+                        $rentalAktif = auth()->user()->rental;
+                        $jumlahNotif = $rentalAktif->pemesanan()
+                            ->whereIn('status', [\App\Enums\StatusPemesanan::MenungguVerifikasi, \App\Enums\StatusPemesanan::Terlambat])
+                            ->count();
+                    @endphp
+                    <a href="{{ route('verifikasi.index') }}" class="relative inline-flex h-9 w-9 items-center justify-center rounded-tombol border border-[var(--warna-tepi)] transition hover:border-rentra" aria-label="Notifikasi: {{ $jumlahNotif }} pemesanan perlu perhatian">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        @if ($jumlahNotif > 0)
+                            <span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-status-terlambat px-1 text-[10px] font-bold text-white">{{ $jumlahNotif }}</span>
+                        @endif
+                    </a>
+                @endif
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 text-sm font-medium rounded-tombol transition" style="color: var(--warna-teks-redup);">
@@ -68,6 +83,7 @@
             <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">{{ __('Verifikasi') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">{{ __('Pemesanan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">{{ __('Kalender') }}</x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('ulasan.index')" :active="request()->routeIs('ulasan.*')">{{ __('Ulasan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">{{ __('Laporan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('blok.index')" :active="request()->routeIs('blok.*')">{{ __('Blok') }}</x-responsive-nav-link>
         </div>

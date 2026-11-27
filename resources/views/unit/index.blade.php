@@ -15,6 +15,11 @@
                 <div class="mb-4 rounded-xl bg-red-50 border border-red-100 text-status-terlambat text-sm font-medium px-4 py-3">{{ session('error') }}</div>
             @endif
 
+            <form method="GET" action="{{ route('unit.index') }}" class="mb-5 flex gap-2">
+                <input type="search" name="q" value="{{ $q }}" placeholder="Cari unit, kategori, merek..." class="input flex-1">
+                <button type="submit" class="tombol tombol-sekunder">Cari</button>
+            </form>
+
             @if ($unit->isEmpty())
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-10 text-center">
                     <p class="text-rentra-ink font-semibold">Belum ada unit.</p>

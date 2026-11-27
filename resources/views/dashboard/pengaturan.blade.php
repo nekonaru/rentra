@@ -43,6 +43,28 @@
                 </div>
 
                 <div class="border-t border-[var(--warna-tepi)] pt-5">
+                    <h3 class="font-semibold text-rentra-ink mb-3">Operasional & denda</h3>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <x-input-label for="jam_buka" value="Jam buka" />
+                            <x-text-input id="jam_buka" name="jam_buka" type="time" class="input mt-1" :value="old('jam_buka', $rental->jam_buka?->format('H:i'))" />
+                        </div>
+                        <div>
+                            <x-input-label for="jam_tutup" value="Jam tutup" />
+                            <x-text-input id="jam_tutup" name="jam_tutup" type="time" class="input mt-1" :value="old('jam_tutup', $rental->jam_tutup?->format('H:i'))" />
+                        </div>
+                        <div>
+                            <x-input-label for="denda_per_jam" value="Denda keterlambatan per jam (Rp)" />
+                            <x-text-input id="denda_per_jam" name="denda_per_jam" type="number" min="0" step="1000" class="input mt-1" :value="old('denda_per_jam', $rental->denda_per_jam)" />
+                        </div>
+                        <div>
+                            <x-input-label for="denda_maks" value="Maksimal denda (Rp)" />
+                            <x-text-input id="denda_maks" name="denda_maks" type="number" min="0" step="1000" class="input mt-1" :value="old('denda_maks', $rental->denda_maks)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-[var(--warna-tepi)] pt-5">
                     <h3 class="font-semibold text-rentra-ink mb-3">Identitas halaman publik</h3>
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div>

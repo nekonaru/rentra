@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use DateTimeInterface;
 use InvalidArgumentException;
 
@@ -13,7 +14,7 @@ use InvalidArgumentException;
 class KalkulatorHarga
 {
     /**
-     * @return array{hari:int, sisa_jam:float, jam_part:float, total:float, dp_nominal:float, durasi_menit:int, dibebankan_menit:int}
+     * @return array{hari:int, hari_weekend:int, sisa_jam:float, jam_part:float, total:float, dp_nominal:float, durasi_menit:int, dibebankan_menit:int}
      */
     public function hitung(
         float $tarifPerHari,
@@ -23,6 +24,7 @@ class KalkulatorHarga
         DateTimeInterface $mulai,
         DateTimeInterface $selesai,
         int $persenDp = 0,
+        ?float $tarifWeekend = null,
     ): array {
         $durasiMenit = intdiv($selesai->getTimestamp() - $mulai->getTimestamp(), 60);
 
@@ -30,10 +32,7 @@ class KalkulatorHarga
             throw new InvalidArgumentException('Waktu selesai harus setelah waktu mulai.');
         }
 
-        // Toleransi: keterlambatan singkat tidak ditagih.
         $dibebankan = max(0, $durasiMenit - $toleransiMenit);
-
-        // Minimal sewa: minimal minimalSewaJam jam yang ditagih.
         $minimalMenit = $minimalSewaJam * 60;
         if ($dibebankan < $minimalMenit) {
             $dibebankan = $minimalMenit;
@@ -43,11 +42,25 @@ class KalkulatorHarga
         $sisaMenit = $dibebankan % 1440;
         $sisaJam = $sisaMenit / 60.0;
 
+        $tarifWeekend ??= $tarifPerHari;
+        $hariWeekend = 0;
+        if ($hari > 0) {
+            $cursor = Carbon::parse($mulai)->startOfDay();
+            for ($i = 0; $i < $hari; $i++) {
+                if (in_array((int) $cursor->format('N'), [6, 7], true)) {
+                    $hariWeekend++;
+                }
+                $cursor->addDay();
+            }
+        }
+        $hariBiasa = $hari - $hariWeekend;
+
         $jamPart = min($sisaJam * $tarifPerJam, $tarifPerHari);
-        $total = ($hari * $tarifPerHari) + $jamPart;
+        $total = ($hariBiasa * $tarifPerHari) + ($hariWeekend * $tarifWeekend) + $jamPart;
 
         return [
             'hari' => $hari,
+            'hari_weekend' => $hariWeekend,
             'sisa_jam' => $sisaJam,
             'jam_part' => round($jamPart, 2),
             'total' => round($total, 2),
@@ -55,5 +68,24 @@ class KalkulatorHarga
             'durasi_menit' => $durasiMenit,
             'dibebankan_menit' => $dibebankan,
         ];
+    }
+
+    /**
+     * Hitung denda keterlambatan berdasarkan jam terlambat, dibatasi maksimum.
+     */
+    public function denda(
+        float $tarifPerJam,
+        float $dendaMaks,
+        DateTimeInterface $selesai,
+        DateTimeInterface $kembali,
+    ): float {
+        if ($kembali <= $selesai) {
+            return 0.0;
+        }
+
+        $menit = intdiv($kembali->getTimestamp() - $selesai->getTimestamp(), 60);
+        $jam = max(1, (int) ceil($menit / 60));
+
+        return round(min($jam * $tarifPerJam, $dendaMaks > 0 ? $dendaMaks : PHP_FLOAT_MAX), 2);
     }
 }

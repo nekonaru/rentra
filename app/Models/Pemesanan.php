@@ -26,6 +26,7 @@ class Pemesanan extends Model
         'selesai',
         'total',
         'dp_nominal',
+        'denda_nominal',
         'status',
         'tahan_sampai',
         'jalur_bukti',
@@ -40,6 +41,7 @@ class Pemesanan extends Model
             'tahan_sampai' => 'datetime',
             'total' => 'decimal:2',
             'dp_nominal' => 'decimal:2',
+            'denda_nominal' => 'decimal:2',
             'status' => StatusPemesanan::class,
         ];
     }

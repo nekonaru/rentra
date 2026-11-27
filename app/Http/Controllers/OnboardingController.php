@@ -52,7 +52,7 @@ class OnboardingController extends Controller
     {
         $rental = $request->user()->rental;
 
-        $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
         $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'));

@@ -66,6 +66,11 @@
     </div>
 
     <div>
+        <x-input-label for="tarif_weekend" value="Tarif weekend per hari (opsional)" />
+        <x-text-input id="tarif_weekend" name="tarif_weekend" type="number" min="0" step="1000" class="input mt-1" :value="old('tarif_weekend', $aturanTarif?->tarif_weekend)" placeholder="Sama dengan tarif harian jika kosong" />
+    </div>
+
+    <div>
         <x-input-label for="minimal_sewa_jam" value="Minimal sewa (jam)" />
         <x-text-input id="minimal_sewa_jam" name="minimal_sewa_jam" type="number" min="1" class="input mt-1" :value="old('minimal_sewa_jam', $aturanTarif?->minimal_sewa_jam ?? 3)" required />
     </div>
