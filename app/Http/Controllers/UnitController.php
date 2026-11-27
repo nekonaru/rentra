@@ -29,10 +29,10 @@ class UnitController extends Controller
     {
         $rental = $request->user()->rental;
 
-        $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
-        $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'));
+        $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);
 
         return redirect()->route('unit.index')
             ->with('status', 'Unit "'.$unit->nama.'" berhasil ditambahkan.');
@@ -43,7 +43,7 @@ class UnitController extends Controller
         $this->authorize('update', $unit);
 
         return view('unit.form', [
-            'unit' => $unit->load('aturanTarif'),
+            'unit' => $unit->load(['aturanTarif', 'foto']),
             'aturanTarif' => $unit->aturanTarif,
         ]);
     }
@@ -52,10 +52,10 @@ class UnitController extends Controller
     {
         $this->authorize('update', $unit);
 
-        $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', false);
 
-        $this->pengelolaUnit->perbarui($unit, $data, $request->file('foto'));
+        $this->pengelolaUnit->perbarui($unit, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);
 
         return redirect()->route('unit.index')
             ->with('status', 'Unit "'.$unit->nama.'" berhasil diperbarui.');

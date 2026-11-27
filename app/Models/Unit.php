@@ -20,6 +20,9 @@ class Unit extends Model
         'rental_id',
         'nama',
         'kategori',
+        'spesifikasi',
+        'merek',
+        'tahun',
         'jalur_foto',
         'aktif',
     ];
@@ -49,5 +52,15 @@ class Unit extends Model
     public function blok(): HasMany
     {
         return $this->hasMany(BlokUnit::class);
+    }
+
+    public function foto(): HasMany
+    {
+        return $this->hasMany(FotoUnit::class)->orderBy('urutan');
+    }
+
+    public function ulasan(): HasMany
+    {
+        return $this->hasMany(Ulasan::class)->where('status', 'tampil');
     }
 }

@@ -11,9 +11,11 @@ use App\Models\Pemesanan;
 use App\Models\Rental;
 use App\Services\LayananPemesanan;
 use App\Services\PembersihGambar;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -114,6 +116,31 @@ class PemesananPublikController extends Controller
 
         return redirect()->route('publik.pemesanan', $kode)
             ->with('status', 'Bukti DP terkirim. Pemilik akan memverifikasi secepatnya.');
+    }
+
+    public function kalender(string $kode): Response
+    {
+        $pemesanan = Pemesanan::where('kode', $kode)->with('unit')->firstOrFail();
+
+        $format = fn (Carbon $c) => $c->utc()->format('Ymd\THis\Z');
+        $isi = implode("\r\n", [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Rentra//ID',
+            'BEGIN:VEVENT',
+            'UID:'.$pemesanan->kode.'@rentra',
+            'DTSTAMP:'.$format(now()),
+            'DTSTART:'.$format($pemesanan->mulai),
+            'DTEND:'.$format($pemesanan->selesai),
+            'SUMMARY:Sewa '.$pemesanan->unit->nama,
+            'DESCRIPTION:Kode pemesanan '.$pemesanan->kode,
+            'END:VEVENT',
+            'END:VCALENDAR',
+        ]);
+
+        return response($isi, 200)
+            ->header('Content-Type', 'text/calendar; charset=utf-8')
+            ->header('Content-Disposition', 'attachment; filename="'.$pemesanan->kode.'.ics"');
     }
 
     public function bukti(Request $request, Pemesanan $pemesanan): StreamedResponse|RedirectResponse

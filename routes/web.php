@@ -11,6 +11,7 @@ use App\Http\Controllers\PemesananPublikController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikController;
+use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Http\Request;
@@ -67,6 +68,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/pemesanan/{pemesanan}/selesai', [PemesananController::class, 'selesai'])->name('pemesanan.selesai');
         Route::post('/pemesanan/{pemesanan}/batal', [PemesananController::class, 'batal'])->name('pemesanan.batal');
 
+        Route::get('/ulasan', [UlasanController::class, 'moderasiIndex'])->name('ulasan.index');
+        Route::post('/ulasan/{ulasan}/moderasi', [UlasanController::class, 'moderasi'])->name('ulasan.moderasi');
+
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/kalender', [KalenderController::class, 'index'])->name('kalender.index');
         Route::get('/blok', [BlokUnitController::class, 'index'])->name('blok.index');
@@ -113,6 +117,13 @@ Route::post('/{slug}/{unit}/pemesanan', [PemesananPublikController::class, 'simp
 Route::get('/pemesanan/{kode}', [PemesananPublikController::class, 'tampil'])
     ->where('kode', '[A-Z0-9]{10}')
     ->name('publik.pemesanan');
+Route::get('/pemesanan/{kode}/kalender', [PemesananPublikController::class, 'kalender'])
+    ->where('kode', '[A-Z0-9]{10}')
+    ->name('publik.pemesanan.kalender');
+Route::post('/pemesanan/{kode}/ulasan', [UlasanController::class, 'simpan'])
+    ->where('kode', '[A-Z0-9]{10}')
+    ->middleware('throttle:10,1')
+    ->name('publik.pemesanan.ulasan');
 Route::post('/pemesanan/{kode}/bukti', [PemesananPublikController::class, 'unggahBukti'])
     ->where('kode', '[A-Z0-9]{10}')
     ->middleware('throttle:10,1')

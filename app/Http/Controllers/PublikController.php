@@ -34,12 +34,17 @@ class PublikController extends Controller
 
         $bulan = $this->uraiBulan($request->query('bulan'));
 
+        $ulasan = $unitModel->ulasan()->latest()->take(5)->get();
+        $ratingRata = (float) ($unitModel->ulasan()->avg('rating') ?? 0);
+
         return view('publik.unit', [
             'rental' => $rental,
             'unit' => $unitModel,
             'aturanTarif' => $unitModel->aturanTarif,
             'bulan' => $bulan,
             'ringkasan' => $this->ketersediaan->ringkasanBulan($unitModel, $bulan),
+            'ulasan' => $ulasan,
+            'ratingRata' => $ratingRata,
         ]);
     }
 

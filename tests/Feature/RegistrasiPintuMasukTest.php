@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Rental;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,17 +24,17 @@ class RegistrasiPintuMasukTest extends TestCase
 
         // Setelah registrasi, user diarahkan ke onboarding (alur yang benar),
         // bukan ke halaman verifikasi email yang tidak akan pernah sampai.
-        $this->actingAs(\App\Models\User::where('email', 'pemilik-baru@rentra.test')->firstOrFail())
+        $this->actingAs(User::where('email', 'pemilik-baru@rentra.test')->firstOrFail())
             ->get(route('dashboard'))
             ->assertRedirect(route('onboarding.buat'));
     }
 
     public function test_pemilik_dengan_rental_bisa_akses_dashboard_tanpa_verifikasi_email(): void
     {
-        $pemilik = \App\Models\User::factory()->create([
+        $pemilik = User::factory()->create([
             'email_verified_at' => null, // belum terverifikasi
         ]);
-        \App\Models\Rental::factory()->for($pemilik)->create(['slug' => 'milik-saya']);
+        Rental::factory()->for($pemilik)->create(['slug' => 'milik-saya']);
 
         $this->actingAs($pemilik)->get(route('dashboard'))->assertOk();
     }

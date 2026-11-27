@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="theme-color" content="#0F766E">
+        <meta name="theme-color" content="{{ $rental->warna_aksen ?? '#0F766E' }}">
 
         <title>{{ isset($title) ? $title . ' - ' : '' }}{{ $rental->nama ?? config('app.name') }}</title>
         <meta name="description" content="Cek ketersediaan unit, kalkulator harga, dan Pemesanan langsung di {{ $rental->nama ?? 'Rentra' }}.">
@@ -27,10 +27,15 @@
         <header class="border-b sticky top-0 z-10" style="background-color: var(--warna-permukaan); border-color: var(--warna-tepi);">
             <div class="max-w-4xl mx-auto h-14 px-4 sm:px-6 flex items-center justify-between">
                 <a href="{{ isset($rental) ? url('/' . $rental->slug) : url('/') }}" class="flex items-center gap-2 min-w-0">
-                    <span class="text-rentra shrink-0"><x-logo variant="icon" class="h-6 w-6" /></span>
                     @isset($rental)
+                        @if ($rental->logo_path)
+                            <img src="{{ Storage::disk('public')->url($rental->logo_path) }}" alt="Logo {{ $rental->nama }}" class="h-7 w-7 rounded-lg object-cover shrink-0">
+                        @else
+                            <span class="text-rentra shrink-0"><x-logo variant="icon" class="h-6 w-6" /></span>
+                        @endif
                         <span class="font-semibold text-rentra-ink truncate">{{ $rental->nama }}</span>
                     @else
+                        <span class="text-rentra shrink-0"><x-logo variant="icon" class="h-6 w-6" /></span>
                         <span class="font-semibold text-rentra-ink">rentra</span>
                     @endisset
                 </a>

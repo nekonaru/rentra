@@ -25,6 +25,9 @@ class Rental extends Model
         'durasi_tahan_menit',
         'persen_dp',
         'aktif',
+        'logo_path',
+        'warna_aksen',
+        'deskripsi',
     ];
 
     protected function casts(): array
@@ -54,5 +57,10 @@ class Rental extends Model
     public function pemesanan(): HasMany
     {
         return $this->hasMany(Pemesanan::class);
+    }
+
+    public function ulasan(): HasMany
+    {
+        return $this->hasMany(Ulasan::class);
     }
 }
