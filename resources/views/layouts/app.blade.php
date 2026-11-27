@@ -10,44 +10,41 @@
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-        <!-- Font -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Script -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-rentra-bg text-rentra-ink">
-        <div class="min-h-screen flex flex-col">
+    <body class="font-sans antialiased">
+        <a href="#konten-utama" class="skip-link">Lewati ke konten</a>
+
+        @if (session('status'))
+            <span data-toast="{{ session('status') }}" data-jenis="sukses" class="hidden"></span>
+        @endif
+
+        <div class="min-h-screen flex flex-col transisi-halaman">
             @include('layouts.navigation')
 
-            <!-- Judul halaman -->
             @isset($header)
-                <header class="bg-white border-b border-teal-50">
+                <header class="border-b" style="background-color: var(--warna-permukaan); border-color: var(--warna-tepi);">
                     <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endisset
 
-            <!-- Konten halaman -->
-            <main class="flex-1">
+            <main id="konten-utama" class="flex-1">
                 {{ $slot }}
             </main>
 
-            <footer class="bg-white border-t border-teal-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
+            <footer class="border-t" style="background-color: var(--warna-permukaan); border-color: var(--warna-tepi);">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-[var(--warna-teks-redup)]">
                     <span>&copy; {{ date('Y') }} {{ config('app.name') }}</span>
                     <span>Dibuat dengan Rentra</span>
                 </div>
             </footer>
         </div>
+
+        <x-toast />
     </body>
 </html>
-
-
-
-
-
-
-

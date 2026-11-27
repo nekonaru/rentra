@@ -2,4 +2,149 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Token desain Rentra. Satu sumber kebenaran untuk terang/gelap.
+   ============================================================ */
+:root {
+    --warna-utama: #0f766e;
+    --warna-utama-50: #f0fdfa;
+    --warna-utama-100: #ccfbf1;
+    --warna-utama-600: #0d9488;
+    --warna-utama-700: #0f766e;
+    --warna-utama-800: #115e59;
+    --warna-teks: #0b1f24;
+    --warna-aksen: #f59e0b;
+    --warna-latar: #f6faf9;
+    --warna-permukaan: #ffffff;
+    --warna-tepi: #e2e8f0;
+    --warna-teks-redup: #64748b;
+    --radius-kartu: 12px;
+    --radius-tombol: 10px;
+    --bayangan-kartu: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --bayangan-angkat: 0 10px 25px rgba(15, 23, 42, 0.10);
+}
+
+.dark {
+    --warna-utama: #2dd4bf;
+    --warna-utama-50: #134e4a;
+    --warna-utama-100: #115e59;
+    --warna-utama-600: #2dd4bf;
+    --warna-utama-700: #5eead4;
+    --warna-utama-800: #99f6e4;
+    --warna-teks: #f1f5f9;
+    --warna-aksen: #fbbf24;
+    --warna-latar: #0b1120;
+    --warna-permukaan: #111c2e;
+    --warna-tepi: #1e293b;
+    --warna-teks-redup: #94a3b8;
+    --bayangan-kartu: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --bayangan-angkat: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   Dasar
+   ============================================================ */
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--warna-latar);
+    color: var(--warna-teks);
+    transition: background-color 250ms ease, color 250ms ease;
+}
+
 [x-cloak] { display: none !important; }
+
+::selection { background: var(--warna-utama-100); color: var(--warna-teks); }
+
+/* Fokus konsisten */
+:focus-visible {
+    outline: 2px solid var(--warna-utama);
+    outline-offset: 2px;
+}
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--warna-utama);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 0 0 var(--radius-tombol) 0;
+}
+.skip-link:focus { left: 0; }
+
+/* ============================================================
+   Komponen
+   ============================================================ */
+@layer components {
+    .kartu {
+        @apply rounded-kartu border shadow-kartu;
+        background-color: var(--warna-permukaan);
+        border-color: var(--warna-tepi);
+    }
+
+    .tombol {
+        @apply inline-flex items-center justify-center gap-2 rounded-tombol px-4 py-2.5 text-sm font-semibold transition duration-200;
+    }
+    .tombol-utama {
+        @apply tombol text-white;
+        background-color: var(--warna-utama);
+    }
+    .tombol-utama:hover { filter: brightness(0.92); transform: translateY(-1px); }
+    .tombol-aksen {
+        @apply tombol;
+        background-color: var(--warna-aksen);
+        color: #0b1f24;
+    }
+    .tombol-aksen:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .tombol-sekunder {
+        @apply tombol border;
+        background-color: var(--warna-permukaan);
+        border-color: var(--warna-tepi);
+        color: var(--warna-teks);
+    }
+    .tombol-sekunder:hover { border-color: var(--warna-utama); color: var(--warna-utama); }
+
+    .input {
+        @apply block w-full rounded-tombol border px-3 py-2.5 text-sm transition;
+        background-color: var(--warna-permukaan);
+        border-color: var(--warna-tepi);
+        color: var(--warna-teks);
+    }
+    .input:focus { border-color: var(--warna-utama); box-shadow: 0 0 0 3px var(--warna-utama-100); }
+
+    .badge {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold;
+    }
+}
+
+/* ============================================================
+   Animasi & aksesibilitas gerak
+   ============================================================ */
+.transisi-halaman {
+    animation: masuk-atas 250ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Skeleton loading */
+.skeleton {
+    background: linear-gradient(90deg, var(--warna-tepi) 25%, transparent 50%, var(--warna-tepi) 75%);
+    background-size: 200% 100%;
+    animation: gedip 1.5s ease-in-out infinite;
+}
+
+/* Print */
+@media print {
+    nav, aside, footer, .no-print { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+}

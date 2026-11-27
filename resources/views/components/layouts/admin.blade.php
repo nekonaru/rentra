@@ -14,6 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-rentra-ink text-white min-h-screen">
+        <a href="#konten-utama" class="skip-link">Lewati ke konten</a>
         <div class="min-h-screen flex">
             <aside class="w-56 shrink-0 border-r border-white/10 p-4 hidden sm:flex flex-col gap-1">
                 <a href="{{ route('admin.index') }}" class="flex items-center gap-2 px-2 py-3 text-teal-300 font-bold text-lg tracking-tight">
@@ -21,8 +22,8 @@
                     Rentra Admin
                 </a>
                 @php
-                    $klathAktif = 'bg-white/10 text-teal-300';
-                    $klathNormal = 'text-white/70 hover:bg-white/5 hover:text-white';
+                    $klathAktif = 'style="background-color: var(--warna-permukaan);"/10 text-teal-300';
+                    $klathNormal = 'text-white/70 hover:style="background-color: var(--warna-permukaan);"/5 hover:text-white';
                 @endphp
                 <a href="{{ route('admin.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('admin.index') ? $klathAktif : $klathNormal }}">Dashboard</a>
                 <a href="{{ route('admin.tenant.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('admin.tenant.*') ? $klathAktif : $klathNormal }}">Tenant</a>
@@ -31,7 +32,7 @@
                     <div class="px-2 text-[10px] text-white/30 truncate">{{ Auth::user()->email }}</div>
                     <form method="POST" action="{{ route('logout') }}" class="mt-2">
                         @csrf
-                        <button type="submit" class="w-full text-start px-2 py-2 text-xs font-semibold text-red-300 hover:bg-white/5 rounded-lg">Keluar</button>
+                        <button type="submit" class="w-full text-start px-2 py-2 text-xs font-semibold text-red-300 hover:style="background-color: var(--warna-permukaan);"/5 rounded-lg">Keluar</button>
                     </form>
                 </div>
             </aside>
@@ -51,3 +52,5 @@
         </div>
     </body>
 </html>
+
+

@@ -1,0 +1,13 @@
+{
+    "name": "Rentra - Sewa Alat Mudah",
+    "short_name": "Rentra",
+    "description": "Cek ketersediaan unit, hitung harga, dan booking langsung dari HP.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F6FAF9",
+    "theme_color": "#0F766E",
+    "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+        { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+    ]
+}

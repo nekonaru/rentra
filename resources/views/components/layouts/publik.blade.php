@@ -2,23 +2,29 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="theme-color" content="#0F766E">
 
         <title>{{ isset($title) ? $title . ' - ' : '' }}{{ $rental->nama ?? config('app.name') }}</title>
         <meta name="description" content="Cek ketersediaan unit, kalkulator harga, dan Pemesanan langsung di {{ $rental->nama ?? 'Rentra' }}.">
         <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
 
-        <!-- Font -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
 
-        <!-- Script -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-rentra-bg text-rentra-ink">
-        <header class="bg-white border-b border-teal-50 sticky top-0 z-10">
+    <body class="font-sans antialiased transisi-halaman">
+        <a href="#konten-utama" class="skip-link">Lewati ke konten</a>
+
+        @if (session('status'))
+            <span data-toast="{{ session('status') }}" data-jenis="sukses" class="hidden"></span>
+        @endif
+
+        <header class="border-b sticky top-0 z-10" style="background-color: var(--warna-permukaan); border-color: var(--warna-tepi);">
             <div class="max-w-4xl mx-auto h-14 px-4 sm:px-6 flex items-center justify-between">
                 <a href="{{ isset($rental) ? url('/' . $rental->slug) : url('/') }}" class="flex items-center gap-2 min-w-0">
                     <span class="text-rentra shrink-0"><x-logo variant="icon" class="h-6 w-6" /></span>
@@ -28,24 +34,42 @@
                         <span class="font-semibold text-rentra-ink">rentra</span>
                     @endisset
                 </a>
-                <a href="https://wa.me/{{ $rental->no_wa ?? '' }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-xl bg-status-tersedia text-white px-3 py-1.5 text-xs font-semibold hover:bg-green-700 transition shrink-0">
-                    <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.1.55 4.14 1.6 5.95L2.05 22l4.34-1.13a9.87 9.87 0 0 0 5.65 1.8h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.13h-.01a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-2.48.65.66-2.42-.2-.31a8.17 8.17 0 0 1-1.26-4.37c0-4.53 3.69-8.22 8.24-8.22a8.2 8.2 0 0 1 5.82 2.41 8.18 8.18 0 0 1 2.4 5.83c0 4.53-3.7 8.22-8.16 8.22Z"/></svg>
-                    Tanya WA
-                </a>
+                <div class="flex items-center gap-2 shrink-0">
+                    <x-ganti-tema />
+                    @if (isset($rental))
+                        <a href="https://wa.me/{{ $rental->no_wa }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-tombol bg-status-tersedia text-white px-3 py-1.5 text-xs font-semibold hover:bg-green-700 transition">
+                            Tanya WA
+                        </a>
+                    @endif
+                </div>
             </div>
         </header>
 
-        <main class="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+        <main id="konten-utama" class="max-w-4xl mx-auto px-4 sm:px-6 py-6 pb-24 sm:pb-6">
             {{ $slot }}
         </main>
 
-        <footer class="max-w-4xl mx-auto px-4 sm:px-6 py-6 border-t border-teal-50 text-center text-xs text-gray-500">
+        <nav class="sm:hidden fixed bottom-0 inset-x-0 z-10 border-t pb-[env(safe-area-inset-bottom)]" style="background-color: var(--warna-permukaan); border-color: var(--warna-tepi);" aria-label="Navigasi bawah">
+            <div class="flex items-center justify-around h-14">
+                <a href="{{ isset($rental) ? url('/' . $rental->slug) : url('/') }}" class="flex flex-col items-center gap-1 text-rentra px-3 py-2">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/></svg>
+                    <span class="text-[10px] font-semibold">Beranda</span>
+                </a>
+                <a href="https://wa.me/{{ $rental->no_wa ?? '' }}" target="_blank" rel="noopener" class="flex flex-col items-center gap-1 text-[var(--warna-teks-redup)] px-3 py-2">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15l-1.3 4.7 4.8-1.25A10 10 0 1 0 12 2Z"/></svg>
+                    <span class="text-[10px] font-semibold">Chat</span>
+                </a>
+                <button type="button" onclick="window.toast('Pilih unit dulu untuk booking', 'info')" class="flex flex-col items-center gap-1 text-[var(--warna-teks-redup)] px-3 py-2">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h12l2 6H4l2-6ZM4 8v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M9 12h6"/></svg>
+                    <span class="text-[10px] font-semibold">Pesan</span>
+                </button>
+            </div>
+        </nav>
+
+        <footer class="max-w-4xl mx-auto px-4 sm:px-6 py-6 border-t text-center text-xs text-[var(--warna-teks-redup)]" style="border-color: var(--warna-tepi);">
             Dibuat dengan <a href="{{ url('/') }}" class="font-semibold text-rentra hover:underline">Rentra</a>
         </footer>
+
+        <x-toast />
     </body>
 </html>
-
-
-
-
-
