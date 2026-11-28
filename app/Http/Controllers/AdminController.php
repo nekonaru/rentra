@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminController extends Controller
 {
@@ -128,6 +129,29 @@ class AdminController extends Controller
                 'email_pemilik' => $pemilik->email,
                 'slug' => $tervalidasi['slug'],
             ]);
+    }
+
+    public function ekspor(Request $request): StreamedResponse
+    {
+        abort_unless($request->user()->isAdmin(), 403);
+
+        $tenant = Rental::with('user')
+            ->withCount(['unit', 'pemesanan'])
+            ->orderBy('created_at')
+            ->get();
+
+        return response()->streamDownload(function () use ($tenant) {
+            $out = fopen('php://output', 'w');
+            fwrite($out, "\xEF\xBB\xBF");
+            fputcsv($out, ['Rental', 'Slug', 'Pemilik', 'Email', 'WA', 'Unit', 'Pemesanan', 'Status'], ';');
+            foreach ($tenant as $r) {
+                fputcsv($out, [
+                    $r->nama, $r->slug, $r->user->name, $r->user->email, $r->no_wa,
+                    $r->unit_count, $r->pemesanan_count, $r->aktif ? 'Aktif' : 'Ditangguhkan',
+                ], ';');
+            }
+            fclose($out);
+        }, 'daftar-tenant-'.now()->format('Y-m-d').'.csv', ['Content-Type' => 'text/csv; charset=utf-8']);
     }
 
     public function tenantShow(Request $request, Rental $rental): View

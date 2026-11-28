@@ -310,7 +310,7 @@ rentra/
 ## Pengujian
 
 ```bash
-php artisan test                  # seluruh 93 test (feature dan unit, SQLite in-memory)
+php artisan test                  # seluruh 99 test (feature dan unit, SQLite in-memory)
 php artisan test --filter=KeamananTest   # 9 test keamanan khusus
 vendor/bin/pint --test            # cek gaya kode
 npm run build                     # build frontend tanpa error
@@ -318,7 +318,7 @@ npm run build                     # build frontend tanpa error
 
 | Cek | Requirement |
 |-------|-------------|
-| Test suite | Semua test lulus (saat ini 93 test) |
+| Test suite | Semua test lulus (saat ini 99 test) |
 | Pint | Nol masalah gaya |
 | Build frontend | `npm run build` selesai tanpa error |
 | Keamanan | `composer audit` tidak melaporkan advisory |
@@ -416,6 +416,7 @@ Rentra adalah alat bantu manajemen pemesanan. Perjanjian sewa, cek identitas, da
 ## Lisensi
 
 Disebarkan di bawah **MIT License**. Lihat [`LICENSE`](LICENSE) untuk informasi lebih lanjut.
+
 
 
 

@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/tenant/buat', [AdminController::class, 'tenantCreate'])->name('admin.tenant.buat');
+    Route::get('/admin/tenant/ekspor', [AdminController::class, 'ekspor'])->name('admin.tenant.ekspor');
     Route::post('/admin/tenant', [AdminController::class, 'tenantSimpan'])->name('admin.tenant.simpan');
     Route::get('/admin/tenant', [AdminController::class, 'tenant'])->name('admin.tenant.index');
     Route::get('/admin/tenant/{rental}', [AdminController::class, 'tenantShow'])->name('admin.tenant.show');

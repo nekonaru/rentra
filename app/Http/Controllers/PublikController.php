@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 
 class PublikController extends Controller
@@ -34,6 +35,18 @@ class PublikController extends Controller
 
         $bulan = $this->uraiBulan($request->query('bulan'));
 
+        $fingerprint = (string) $unitModel->pemesanan()
+            ->where('mulai', '<', $bulan->copy()->endOfMonth()->endOfDay())
+            ->where('selesai', '>', $bulan->copy()->startOfMonth()->startOfDay())
+            ->max('updated_at');
+        $fingerprint .= '|'.$unitModel->blok()->max('updated_at');
+
+        $ringkasan = Cache::remember(
+            'ringkasan:'.$unitModel->id.':'.$bulan->format('Y-m').':'.md5($fingerprint),
+            60,
+            fn () => $this->ketersediaan->ringkasanBulan($unitModel, $bulan),
+        );
+
         $ulasan = $unitModel->ulasan()->latest()->take(5)->get();
         $ratingRata = (float) ($unitModel->ulasan()->avg('rating') ?? 0);
 
@@ -42,7 +55,7 @@ class PublikController extends Controller
             'unit' => $unitModel,
             'aturanTarif' => $unitModel->aturanTarif,
             'bulan' => $bulan,
-            'ringkasan' => $this->ketersediaan->ringkasanBulan($unitModel, $bulan),
+            'ringkasan' => $ringkasan,
             'ulasan' => $ulasan,
             'ratingRata' => $ratingRata,
         ]);

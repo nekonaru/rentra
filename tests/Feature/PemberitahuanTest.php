@@ -39,6 +39,6 @@ class PemberitahuanTest extends TestCase
             'bukti' => UploadedFile::fake()->image('bukti.jpg'),
         ])->assertRedirect(route('publik.pemesanan', $pemesanan->kode));
 
-        Mail::assertSent(BuktiMasuk::class, fn ($mail) => $mail->hasTo('pemilik@rentra.test'));
+        Mail::assertQueued(BuktiMasuk::class, fn ($mail) => $mail->hasTo('pemilik@rentra.test'));
     }
 }

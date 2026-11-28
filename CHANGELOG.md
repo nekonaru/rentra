@@ -1,5 +1,32 @@
 # Catatan Rilis
 
+## v2.3.0 - Admin lanjutan dan performa
+
+### Fitur baru
+
+- **Ekspor tenant CSV.** Operator bisa mengunduh seluruh daftar rental beserta jumlah unit dan pemesanan.
+- **Email antrean.** Notifikasi bukti DP masuk diproses lewat queue database agar upload tetap cepat.
+
+### Peningkatan
+
+- **Cache kalender ketersediaan.** Ringkasan di-cache 60 detik dengan fingerprint dari perubahan pemesanan dan blok.
+- **99 test lulus.**
+
+## v2.2.0 - Kode promo
+
+- **Kode promo.** Diskon persen atau nominal dengan kuota dan minimal sewa, dihitung server dalam transaksi.
+
+## v2.1.0 - Tarif weekend dan denda
+
+- **Tarif weekend.** Tarif harian berbeda untuk Sabtu dan Minggu.
+- **Denda keterlambatan.** Dihitung otomatis saat unit kembali, dengan batas maksimal.
+- **Jam operasional, notifikasi, pencarian unit, cetak laporan.**
+
+## v2.0.0 - Generasi desain v2
+
+- **Sistem desain.** Token tersentralisasi, dark mode, komponen Blade reusable, toast, skeleton, PWA.
+- **Galeri foto, spesifikasi unit, rating dan ulasan, kalender ICS, identitas toko.**
+
 ## v1.5.0 - Perbaikan verifikasi email pengguna baru
 
 Pendaftaran pemilik Rentra tidak lagi terjebak di halaman verifikasi yang tidak akan pernah bisa diakses.

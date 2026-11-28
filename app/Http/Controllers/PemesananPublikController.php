@@ -115,7 +115,7 @@ class PemesananPublikController extends Controller
         // Pemberitahuan ke pemilik. Kegagalan mail tidak boleh menggagalkan upload bukti.
         try {
             $pemesanan->loadMissing(['unit.rental.user']);
-            Mail::to($pemesanan->rental->user->email)->send(new BuktiMasuk($pemesanan));
+            Mail::to($pemesanan->rental->user->email)->queue(new BuktiMasuk($pemesanan));
         } catch (\Throwable $e) {
             Log::warning('gagal kirim email bukti masuk', ['kode' => $pemesanan->kode, 'error' => $e->getMessage()]);
         }

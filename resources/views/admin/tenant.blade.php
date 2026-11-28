@@ -5,6 +5,7 @@
             <span class="text-xs text-white/50">{{ $tenant->total() }} rental terdaftar</span>
         </div>
         <a href="{{ route('admin.tenant.buat') }}" class="inline-flex items-center gap-2 rounded-xl bg-teal-500 px-4 py-2 text-sm font-bold text-white hover:bg-teal-600 transition">+ Tambah tenant</a>
+        <a href="{{ route('admin.tenant.ekspor') }}" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 hover:text-white transition">Ekspor CSV</a>
     </div>
 
     @if (session('password_baru'))
