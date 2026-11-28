@@ -27,6 +27,7 @@
                 @endphp
                 <a href="{{ route('admin.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('admin.index') ? $klathAktif : $klathNormal }}">Dashboard</a>
                 <a href="{{ route('admin.tenant.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('admin.tenant.*') ? $klathAktif : $klathNormal }}">Tenant</a>
+                <a href="{{ route('admin.pengumuman.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('admin.pengumuman.*') ? $klathAktif : $klathNormal }}">Pengumuman</a>
                 <div class="mt-auto pt-4 border-t border-white/10">
                     <div class="px-2 text-xs text-white/60">{{ Auth::user()->name }}</div>
                     <div class="px-2 text-[10px] text-white/30 truncate">{{ Auth::user()->email }}</div>

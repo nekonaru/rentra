@@ -18,6 +18,7 @@
                 ['label' => 'Pemesanan hari ini', 'nilai' => $statistik['pemesananHariIni']],
                 ['label' => 'Menunggu verifikasi', 'nilai' => $statistik['menungguVerifikasi']],
                 ['label' => 'Omzet diakui', 'nilai' => 'Rp '.number_format($statistik['omzetTotal'], 0, ',', '.')],
+                 ['label' => 'Tenant pasif (30 hari)', 'nilai' => $tenantPasif],
             ];
         @endphp
         @foreach ($kartu as $item)
@@ -27,6 +28,22 @@
             </div>
         @endforeach
     </div>
+
+    <section class="mt-6 rounded-xl bg-white/5 border border-white/10 p-5">
+        <h2 class="font-semibold text-white">Pertumbuhan tenant (6 bulan)</h2>
+        <div class="mt-4 flex items-end gap-2 h-40 border-b border-white/10 pb-2" role="img" aria-label="Diagram batang pertumbuhan tenant">
+            @foreach ($bulanData as $bulan)
+                @php $tinggi = max(4, (int) round(($bulan['jumlah'] / $maxBulan) * 100)); @endphp
+                <div class="flex-1 flex flex-col items-center gap-1">
+                    <div class="text-[10px] font-bold text-white">{{ $bulan['jumlah'] }}</div>
+                    <div class="w-full bg-teal-400/20 rounded-t-md flex items-end" style="height: 100%;">
+                        <div class="w-full bg-teal-400 rounded-t-md" style="height: {{ $tinggi }}%"></div>
+                    </div>
+                    <div class="text-[10px] text-white/50 whitespace-nowrap">{{ $bulan['label'] }}</div>
+                </div>
+            @endforeach
+        </div>
+    </section>
 
     <section class="mt-6 rounded-xl bg-white/5 border border-white/10 p-5">
         <h2 class="font-semibold text-white">Tenant terbaru</h2>
@@ -47,3 +64,5 @@
         @endif
     </section>
 </x-layouts.admin>
+
+

@@ -27,13 +27,13 @@
                     @csrf
 
                     <div>
-                        <x-input-label for="unit_id" value="Unit" />
-                        <select id="unit_id" name="unit_id" required class="mt-1 block w-full rounded-xl border-gray-200 focus:border-rentra focus:ring-rentra text-sm">
-                            <option value="">Pilih unit...</option>
+                        <x-input-label for="unit_id" value="Unit (bisa pilih lebih dari satu)" />
+                        <select id="unit_id" name="unit_ids[]" multiple size="4" class="input mt-1">
                             @foreach ($unit as $item)
-                                <option value="{{ $item->id }}" @selected(old('unit_id') == $item->id)>{{ $item->nama }} - Rp {{ number_format((float) ($item->aturanTarif->tarif_per_hari ?? 0), 0, ',', '.') }}/hari</option>
+                                <option value="{{ $item->id }}" @selected(is_array(old('unit_ids')) && in_array($item->id, old('unit_ids')))>{{ $item->nama }} - Rp {{ number_format((float) ($item->aturanTarif->tarif_per_hari ?? 0), 0, ',', '.') }}/hari</option>
                             @endforeach
                         </select>
+                        <p class="text-[11px] text-[var(--warna-teks-redup)] mt-1">Tahan Ctrl (Windows) atau Cmd (Mac) untuk memilih beberapa unit. Semua unit harus kosong pada jadwal ini.</p>
                     </div>
 
                     <div class="grid sm:grid-cols-2 gap-4">

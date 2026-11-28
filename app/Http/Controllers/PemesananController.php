@@ -10,6 +10,8 @@ use App\Services\LayananPemesanan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PemesananController extends Controller
@@ -61,7 +63,9 @@ class PemesananController extends Controller
         $rental = $request->user()->rental()->firstOrFail();
 
         $tervalidasi = $request->validate([
-            'unit_id' => ['required', 'integer'],
+            'unit_id' => ['required_without:unit_ids', 'integer'],
+            'unit_ids' => ['nullable', 'array', 'min:1'],
+            'unit_ids.*' => ['integer'],
             'nama_penyewa' => ['required', 'string', 'max:120'],
             'wa' => ['required', 'regex:/^62[0-9]{8,14}$/'],
             'mulai' => ['required', 'date'],
@@ -70,10 +74,23 @@ class PemesananController extends Controller
             'wa.regex' => 'Nomor WA harus format 62 diikuti angka, tanpa spasi atau tanda +.',
         ]);
 
-        $unit = $rental->unit()->where('aktif', true)->findOrFail($tervalidasi['unit_id']);
+        $unitIds = $tervalidasi['unit_ids'] ?? [$tervalidasi['unit_id']];
+        $units = $rental->unit()->where('aktif', true)->whereIn('id', $unitIds)->get();
+        abort_if($units->isEmpty(), 404);
 
         try {
-            $pemesanan = $this->layananPemesanan->buat($rental, $unit, $tervalidasi, StatusPemesanan::Terkonfirmasi);
+            $kodeGroup = count($units) > 1 ? strtoupper(Str::random(10)) : null;
+            $pemesanan = DB::transaction(function () use ($rental, $units, $tervalidasi, $kodeGroup) {
+                $terakhir = null;
+                foreach ($units as $item) {
+                    $terakhir = $this->layananPemesanan->buat($rental, $item, $tervalidasi, StatusPemesanan::Terkonfirmasi);
+                    if ($kodeGroup !== null) {
+                        $terakhir->update(['kode_group' => $kodeGroup]);
+                    }
+                }
+
+                return $terakhir;
+            });
         } catch (SlotTumpangTindihException $e) {
             return back()->withInput()->withErrors(['mulai' => $e->getMessage()]);
         }
@@ -138,7 +155,17 @@ class PemesananController extends Controller
 
         abort_unless($pemesanan->status === StatusPemesanan::Terkonfirmasi, 422);
 
-        $pemesanan->update(['status' => StatusPemesanan::SedangDisewa]);
+        $checklist = $request->validate([
+            'checklist' => ['nullable', 'array'],
+            'checklist.*' => ['string', 'max:120'],
+        ]);
+
+        $pemesanan->update([
+            'status' => StatusPemesanan::SedangDisewa,
+            'checklist_keluar' => $checklist['checklist'] ?? [],
+        ]);
+
+        $this->catatAktivitas($pemesanan->rental_id, 'Serah terima unit', $pemesanan->kode);
 
         return back()->with('status', 'Pemesanan '.$pemesanan->kode.' ditandai sedang disewa.');
     }
@@ -158,9 +185,15 @@ class PemesananController extends Controller
             now(),
         );
 
+        $checklist = $request->validate([
+            'checklist' => ['nullable', 'array'],
+            'checklist.*' => ['string', 'max:120'],
+        ]);
+
         $pemesanan->update([
             'status' => StatusPemesanan::Selesai,
             'denda_nominal' => $denda,
+            'checklist_kembali' => $checklist['checklist'] ?? [],
         ]);
 
         return back()->with('status', $denda > 0

@@ -31,6 +31,8 @@ class PengaturanController extends Controller
             'denda_per_jam' => ['nullable', 'numeric', 'min:0', 'max:100000000'],
             'denda_maks' => ['nullable', 'numeric', 'min:0', 'max:100000000'],
             'deskripsi' => ['nullable', 'string', 'max:500'],
+            'alamat' => ['nullable', 'string', 'max:500'],
+            'peta_url' => ['nullable', 'url', 'max:500'],
             'warna_aksen' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:1024'],
         ], [

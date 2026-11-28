@@ -24,6 +24,29 @@ class AdminController extends Controller
             StatusPemesanan::Terlambat->value,
         ];
 
+        // Pertumbuhan tenant 6 bulan terakhir.
+        $pertumbuhan = Rental::query()
+            ->where('created_at', '>=', now()->subMonths(5)->startOfMonth())
+            ->get(['created_at'])
+            ->groupBy(fn ($r) => $r->created_at->format('Y-m'))
+            ->map(fn ($rows) => $rows->count())
+            ->all();
+
+        $bulanData = collect(range(5, 0))->map(function (int $mundur) use ($pertumbuhan) {
+            $bulan = now()->subMonths($mundur);
+
+            return [
+                'label' => $bulan->translatedFormat('M Y'),
+                'jumlah' => $pertumbuhan[$bulan->format('Y-m')] ?? 0,
+            ];
+        });
+        $maxBulan = max(1, (int) $bulanData->max('jumlah'));
+
+        // Tenang pasif: tidak ada pemesanan 30 hari terakhir.
+        $tenantPasif = Rental::where('aktif', true)
+            ->whereDoesntHave('pemesanan', fn ($q) => $q->where('created_at', '>=', now()->subDays(30)))
+            ->count();
+
         $statistik = [
             'pemilik' => User::where('role', 'pemilik')->count(),
             'rentalAktif' => Rental::where('aktif', true)->count(),
@@ -44,6 +67,9 @@ class AdminController extends Controller
         return view('admin.index', [
             'statistik' => $statistik,
             'terbaru' => $terbaru,
+            'bulanData' => $bulanData,
+            'maxBulan' => $maxBulan,
+            'tenantPasif' => $tenantPasif,
         ]);
     }
 

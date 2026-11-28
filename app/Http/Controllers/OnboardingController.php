@@ -55,6 +55,21 @@ class OnboardingController extends Controller
         $data = $request->safe()->only(['nama', 'kategori', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
+        $namaUnit = trim((string) $request->input('nama_unit', ''));
+        if ($namaUnit !== '') {
+            $daftar = array_values(array_filter(array_map('trim', preg_split('/\R/', $namaUnit)), fn ($n) => $n !== ''));
+            abort_if(count($daftar) > 10, 422);
+            foreach ($daftar as $nama) {
+                $salinan = $data;
+                $salinan['nama'] = $nama;
+                $this->pengelolaUnit->buat($rental->id, $salinan);
+            }
+            $this->catatAktivitas($rental->id, 'Tambah unit massal', count($daftar).' unit');
+
+            return redirect()->route('onboarding.unit')
+                ->with('status', count($daftar).' unit berhasil ditambahkan.');
+        }
+
         $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'));
 
         return redirect()->route('onboarding.unit')

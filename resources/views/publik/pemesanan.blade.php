@@ -99,7 +99,7 @@
                         Upload bukti DP (jpg, png, atau pdf, maks 5 MB)
                         <input type="file" name="bukti" accept="image/jpeg,image/png,application/pdf" required class="mt-1 block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-amber-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-amber-800 hover:file:bg-amber-200">
                     </label>
-                    <button type="submit" class="mt-3 w-full inline-flex items-center justify-center rounded-xl bg-rentra-accent px-5 py-3 text-sm font-bold text-rentra-ink hover:bg-amber-400 transition">Kirim bukti DP</button>
+                    <div><label class="block text-xs font-semibold">Nominal DP dibayar (opsional)</label><input type="number" name="nominal" min="0" step="1000" class="input mt-1" placeholder="Jumlah transfer"></div><button type="submit" class="mt-3 w-full tombol tombol-aksen">Kirim bukti DP</button>
                 </form>
             </div>
         @elseif ($status === \App\Enums\StatusPemesanan::MenungguVerifikasi)
@@ -171,3 +171,4 @@
         </div>
     </div>
 </x-layouts.publik>
+

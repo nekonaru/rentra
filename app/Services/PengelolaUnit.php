@@ -25,6 +25,7 @@ class PengelolaUnit
             'spesifikasi' => $data['spesifikasi'] ?? null,
             'merek' => $data['merek'] ?? null,
             'tahun' => $data['tahun'] ?? null,
+            'kode_internal' => $data['kode_internal'] ?? null,
             'aktif' => $data['aktif'] ?? true,
             'jalur_foto' => $foto !== null ? $this->simpanFotoBersih($foto) : null,
         ]);
@@ -59,6 +60,7 @@ class PengelolaUnit
             'spesifikasi' => $data['spesifikasi'] ?? null,
             'merek' => $data['merek'] ?? null,
             'tahun' => $data['tahun'] ?? null,
+            'kode_internal' => $data['kode_internal'] ?? null,
             'aktif' => $data['aktif'] ?? false,
         ])->save();
 

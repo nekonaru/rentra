@@ -61,6 +61,44 @@ document.addEventListener('click', (event) => {
 });
 
 /* ============================================================
+   Favorit & bandingkan unit (tersimpan di localStorage).
+   ============================================================ */
+(function () {
+    const kunciFavorit = 'rentra-favorit';
+    const kunciBanding = 'rentra-banding';
+
+    const baca = (kunci) => {
+        try { return JSON.parse(localStorage.getItem(kunci) || '[]'); } catch { return []; }
+    };
+    const tulis = (kunci, nilai) => localStorage.setItem(kunci, JSON.stringify(nilai));
+
+    window.favorit = baca(kunciFavorit);
+    window.banding = baca(kunciBanding);
+
+    window.toogleFavorit = function (id) {
+        const i = window.favorit.indexOf(id);
+        if (i >= 0) { window.favorit.splice(i, 1); window.toast('Dihapus dari favorit', 'info'); }
+        else { window.favorit.push(id); window.toast('Disimpan ke favorit', 'sukses'); }
+        tulis(kunciFavorit, window.favorit);
+        document.querySelectorAll(`[data-favorit="${id}"]`).forEach((el) => {
+            el.setAttribute('aria-pressed', window.favorit.includes(id) ? 'true' : 'false');
+            el.classList.toggle('text-amber-500', window.favorit.includes(id));
+        });
+    };
+
+    window.toogleBanding = function (id, nama) {
+        const ada = window.banding.find((b) => b.id === id);
+        if (ada) { window.banding = window.banding.filter((b) => b.id !== id); window.toast('Dihapus dari bandingan', 'info'); }
+        else {
+            if (window.banding.length >= 3) { window.toast('Maksimal 3 unit dibandingkan', 'gagal'); return; }
+            window.banding.push({ id, nama });
+            window.toast(`${nama} ditambahkan ke bandingan`, 'sukses');
+        }
+        tulis(kunciBanding, window.banding);
+    };
+})();
+
+/* ============================================================
    PWA: daftarkan service worker.
    ============================================================ */
 if ('serviceWorker' in navigator) {

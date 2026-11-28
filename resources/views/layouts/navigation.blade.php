@@ -15,6 +15,7 @@
                     <x-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">{{ __('Verifikasi') }}</x-nav-link>
                     <x-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">{{ __('Pemesanan') }}</x-nav-link>
                     <x-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">{{ __('Kalender') }}</x-nav-link>
+                    <x-nav-link :href="route('aktivitas.index')" :active="request()->routeIs('aktivitas.*')">{{ __('Aktivitas') }}</x-nav-link>
                     <x-nav-link :href="route('promo.index')" :active="request()->routeIs('promo.*')">{{ __('Promo') }}</x-nav-link>
                     <x-nav-link :href="route('ulasan.index')" :active="request()->routeIs('ulasan.*')">{{ __('Ulasan') }}</x-nav-link>
                     <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">{{ __('Laporan') }}</x-nav-link>
@@ -84,6 +85,7 @@
             <x-responsive-nav-link :href="route('verifikasi.index')" :active="request()->routeIs('verifikasi.*')">{{ __('Verifikasi') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('pemesanan.index')" :active="request()->routeIs('pemesanan.*')">{{ __('Pemesanan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('kalender.index')" :active="request()->routeIs('kalender.*')">{{ __('Kalender') }}</x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('aktivitas.index')" :active="request()->routeIs('aktivitas.*')">{{ __('Aktivitas') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('promo.index')" :active="request()->routeIs('promo.*')">{{ __('Promo') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('ulasan.index')" :active="request()->routeIs('ulasan.*')">{{ __('Ulasan') }}</x-responsive-nav-link>
             <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">{{ __('Laporan') }}</x-responsive-nav-link>

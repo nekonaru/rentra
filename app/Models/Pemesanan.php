@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pemesanan extends Model
 {
@@ -18,6 +19,7 @@ class Pemesanan extends Model
 
     protected $fillable = [
         'kode',
+        'kode_group',
         'kode_promo',
         'unit_id',
         'rental_id',
@@ -33,6 +35,8 @@ class Pemesanan extends Model
         'tahan_sampai',
         'jalur_bukti',
         'catatan_tolak',
+        'checklist_keluar',
+        'checklist_kembali',
     ];
 
     protected function casts(): array
@@ -46,6 +50,8 @@ class Pemesanan extends Model
             'dp_nominal' => 'decimal:2',
             'denda_nominal' => 'decimal:2',
             'status' => StatusPemesanan::class,
+            'checklist_keluar' => 'array',
+            'checklist_kembali' => 'array',
         ];
     }
 
@@ -57,6 +63,11 @@ class Pemesanan extends Model
     public function rental(): BelongsTo
     {
         return $this->belongsTo(Rental::class);
+    }
+
+    public function buktiDp(): HasMany
+    {
+        return $this->hasMany(BuktiDp::class);
     }
 
     /**

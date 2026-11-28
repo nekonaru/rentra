@@ -72,6 +72,14 @@
                             <textarea id="deskripsi" name="deskripsi" rows="3" maxlength="500" class="input mt-1" placeholder="Rental kamera terpercaya di kota kamu">{{ old('deskripsi', $rental->deskripsi) }}</textarea>
                         </div>
                         <div>
+                            <x-input-label for="alamat" value="Alamat" />
+                            <textarea id="alamat" name="alamat" rows="2" maxlength="500" class="input mt-1">{{ old('alamat', $rental->alamat) }}</textarea>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <x-input-label for="peta_url" value="Tautan peta (Google Maps / OSM)" />
+                            <x-text-input id="peta_url" name="peta_url" type="url" class="input mt-1" :value="old('peta_url', $rental->peta_url)" placeholder="https://maps.google.com/..." />
+                        </div>
+                        <div>
                             <x-input-label for="warna_aksen" value="Warna aksen (hex)" />
                             <x-text-input id="warna_aksen" name="warna_aksen" type="text" class="input mt-1" :value="old('warna_aksen', $rental->warna_aksen)" placeholder="#0F766E" />
                             <div>

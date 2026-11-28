@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusPemesanan;
+use App\Models\Pengumuman;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,7 @@ class DashboardController extends Controller
             'statistik' => $statistik,
             'terlambat' => $terlambat,
             'agenda' => $agenda,
+            'pengumuman' => Pengumuman::aktif()->first(),
         ]);
     }
 }

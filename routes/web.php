@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\BlokUnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalenderController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PemesananPublikController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PublikController;
@@ -50,6 +52,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'unit.destroy',
         ]);
         Route::patch('/unit/{unit}/ganti-aktif', [UnitController::class, 'gantiAktif'])->name('unit.ganti-aktif');
+        Route::post('/unit/aksi-massal', [UnitController::class, 'aksiMassal'])->name('unit.aksi-massal');
 
         Route::get('/pengaturan', [PengaturanController::class, 'edit'])->name('pengaturan.edit');
         Route::put('/pengaturan', [PengaturanController::class, 'perbarui'])->name('pengaturan.perbarui');
@@ -69,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/pemesanan/{pemesanan}/selesai', [PemesananController::class, 'selesai'])->name('pemesanan.selesai');
         Route::post('/pemesanan/{pemesanan}/batal', [PemesananController::class, 'batal'])->name('pemesanan.batal');
 
+        Route::get('/aktivitas', [AktivitasController::class, 'index'])->name('aktivitas.index');
         Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
         Route::post('/promo', [PromoController::class, 'buat'])->name('promo.buat');
         Route::delete('/promo/{promo}', [PromoController::class, 'hapus'])->name('promo.hapus');
@@ -91,6 +95,9 @@ Route::middleware('auth')->group(function () {
 // Panel admin Rentra (operator platform). Semua route di belakang auth + admin.
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/pengumuman', [PengumumanController::class, 'index'])->name('admin.pengumuman.index');
+    Route::post('/admin/pengumuman', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
+    Route::delete('/admin/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('admin.pengumuman.destroy');
     Route::get('/admin/tenant/buat', [AdminController::class, 'tenantCreate'])->name('admin.tenant.buat');
     Route::get('/admin/tenant/ekspor', [AdminController::class, 'ekspor'])->name('admin.tenant.ekspor');
     Route::post('/admin/tenant', [AdminController::class, 'tenantSimpan'])->name('admin.tenant.simpan');

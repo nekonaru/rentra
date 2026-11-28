@@ -23,6 +23,7 @@ class Unit extends Model
         'spesifikasi',
         'merek',
         'tahun',
+        'kode_internal',
         'jalur_foto',
         'aktif',
     ];

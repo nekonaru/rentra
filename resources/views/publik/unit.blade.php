@@ -92,6 +92,11 @@
                 </div>
             @endif
 
+            <a href="https://wa.me/?text={{ rawurlencode("Lihat unit {$unit->nama} di ".$rental->nama.": ".route('publik.unit', [$rental->slug, $unit->id])) }}" target="_blank" rel="noopener" class="mt-2 flex items-center justify-center gap-2 rounded-tombol border border-[var(--warna-tepi)] px-5 py-2.5 text-sm font-semibold transition hover:border-rentra">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                Bagikan ke WhatsApp
+            </a>
+
             <a href="https://wa.me/{{ $rental->no_wa }}?text={{ rawurlencode("Halo, saya mau tanya tentang unit {$unit->nama}") }}" target="_blank" rel="noopener" class="mt-4 flex items-center justify-center gap-2 rounded-xl border border-status-tersedia/40 text-status-tersedia px-5 py-3 text-sm font-semibold hover:bg-green-50 transition">
                 <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.1.55 4.14 1.6 5.95L2.05 22l4.34-1.13a9.87 9.87 0 0 0 5.65 1.8h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.13h-.01a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-2.48.65.66-2.42-.2-.31a8.17 8.17 0 0 1-1.26-4.37c0-4.53 3.69-8.22 8.24-8.22a8.2 8.2 0 0 1 5.82 2.41 8.18 8.18 0 0 1 2.4 5.83c0 4.53-3.7 8.22-8.16 8.22Z"/></svg>
                 Tanya pemilik via WhatsApp

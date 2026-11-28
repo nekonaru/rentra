@@ -106,6 +106,11 @@ class PemesananPublikController extends Controller
         $path = 'bukti/'.$pemesanan->kode.'-'.now()->format('YmdHis').'.'.$perpanjangan;
         Storage::disk('local')->put($path, $bersih ?? file_get_contents($request->file('bukti')->getRealPath()));
 
+        $pemesanan->buktiDp()->create([
+            'jalur' => $path,
+            'nominal' => $request->input('nominal'),
+        ]);
+
         $pemesanan->update([
             'jalur_bukti' => $path,
             'status' => StatusPemesanan::MenungguVerifikasi,

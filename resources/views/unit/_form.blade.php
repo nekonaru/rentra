@@ -26,6 +26,11 @@
     </div>
 
     <div>
+        <x-input-label for="kode_internal" value="Nomor seri / kode internal" />
+        <x-text-input id="kode_internal" name="kode_internal" type="text" class="input mt-1" :value="old('kode_internal', $unit?->kode_internal)" placeholder="SN-001" />
+    </div>
+
+    <div>
         <x-input-label for="foto" value="Foto utama (maks 2 MB)" />
         <input id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm file:mr-3 file:rounded-tombol file:border-0 file:bg-rentra-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-rentra hover:file:bg-rentra-100" />
         <x-input-error :messages="$errors->get('foto')" class="mt-2" />

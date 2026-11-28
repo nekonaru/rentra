@@ -35,14 +35,20 @@
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('pemesanan.cetak', $pemesanan) }}" target="_blank" class="inline-flex items-center rounded-xl border border-gray-200 text-gray-600 px-4 py-2 text-xs font-semibold hover:bg-gray-50 transition">Cetak</a>
                                     @if ($pemesanan->status === \App\Enums\StatusPemesanan::Terkonfirmasi)
-                                        <form method="POST" action="{{ route('pemesanan.serah-terima', $pemesanan) }}">
+                                        <form method="POST" action="{{ route('pemesanan.serah-terima', $pemesanan) }}" class="flex items-center gap-2">
                                             @csrf
+                                            <label class="flex items-center gap-1 text-[11px] text-[var(--warna-teks-redup)]">
+                                                <input type="checkbox" name="checklist[]" value="Unit lengkap" class="rounded"> Lengkap
+                                            </label>
                                             <button type="submit" class="inline-flex items-center rounded-xl bg-rentra px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-teal-800 transition">Serah terima</button>
                                         </form>
                                     @endif
                                     @if (in_array($pemesanan->status, [\App\Enums\StatusPemesanan::SedangDisewa, \App\Enums\StatusPemesanan::Terlambat], true))
-                                        <form method="POST" action="{{ route('pemesanan.selesai', $pemesanan) }}">
+                                        <form method="POST" action="{{ route('pemesanan.selesai', $pemesanan) }}" class="flex items-center gap-2">
                                             @csrf
+                                            <label class="flex items-center gap-1 text-[11px] text-[var(--warna-teks-redup)]">
+                                                <input type="checkbox" name="checklist[]" value="Kembali baik" class="rounded"> Baik
+                                            </label>
                                             <button type="submit" class="inline-flex items-center rounded-xl bg-status-tersedia px-4 py-2 text-xs font-bold uppercase tracking-widest text-white hover:bg-green-700 transition">Unit kembali</button>
                                         </form>
                                     @endif

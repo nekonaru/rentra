@@ -28,6 +28,8 @@ class Rental extends Model
         'logo_path',
         'warna_aksen',
         'deskripsi',
+        'alamat',
+        'peta_url',
     ];
 
     protected function casts(): array
@@ -71,5 +73,10 @@ class Rental extends Model
     public function promo(): HasMany
     {
         return $this->hasMany(Promo::class);
+    }
+
+    public function aktivitas(): HasMany
+    {
+        return $this->hasMany(LogAktivitas::class);
     }
 }

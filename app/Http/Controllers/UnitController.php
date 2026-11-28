@@ -40,10 +40,12 @@ class UnitController extends Controller
     {
         $rental = $request->user()->rental;
 
-        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'kode_internal', 'aktif', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', true);
 
         $unit = $this->pengelolaUnit->buat($rental->id, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);
+
+        $this->catatAktivitas($rental->id, 'Menambah unit', $unit->nama);
 
         return redirect()->route('unit.index')
             ->with('status', 'Unit "'.$unit->nama.'" berhasil ditambahkan.');
@@ -63,7 +65,7 @@ class UnitController extends Controller
     {
         $this->authorize('update', $unit);
 
-        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
+        $data = $request->safe()->only(['nama', 'kategori', 'spesifikasi', 'merek', 'tahun', 'kode_internal', 'aktif', 'hapus_foto', 'tarif_per_hari', 'tarif_per_jam', 'tarif_weekend', 'minimal_sewa_jam', 'toleransi_menit']);
         $data['aktif'] = $request->boolean('aktif', false);
 
         $this->pengelolaUnit->perbarui($unit, $data, $request->file('foto'), $request->file('foto_tambahan') ?? []);
@@ -87,11 +89,33 @@ class UnitController extends Controller
             ->with('status', 'Unit berhasil dihapus.');
     }
 
+    public function aksiMassal(Request $request): RedirectResponse
+    {
+        $rental = $request->user()->rental()->firstOrFail();
+        $tervalidasi = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+            'aksi' => ['required', 'in:aktifkan,nonaktifkan'],
+        ]);
+
+        $unit = $rental->unit()->whereIn('id', $tervalidasi['ids'])->get();
+        abort_if($unit->isEmpty(), 404);
+
+        $status = $tervalidasi['aksi'] === 'aktifkan';
+        $rental->unit()->whereIn('id', $unit->pluck('id'))->update(['aktif' => $status]);
+
+        $this->catatAktivitas($rental->id, 'Aksi massal unit', count($unit).' unit '.($status ? 'diaktifkan' : 'dinonaktifkan'));
+
+        return back()->with('status', count($unit).' unit berhasil '.($status ? 'diaktifkan' : 'dinonaktifkan').'.');
+    }
+
     public function gantiAktif(Request $request, Unit $unit): RedirectResponse
     {
         $this->authorize('update', $unit);
 
         $unit->update(['aktif' => ! $unit->aktif]);
+
+        $this->catatAktivitas($unit->rental_id, $unit->aktif ? 'Mengaktifkan unit' : 'Menonaktifkan unit', $unit->nama);
 
         return back()->with('status', $unit->aktif ? 'Unit diaktifkan.' : 'Unit dinonaktifkan.');
     }

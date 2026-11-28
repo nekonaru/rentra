@@ -11,6 +11,13 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+
+            @if ($pengumuman)
+                <div class="kartu p-4 border-l-4 border-rentra">
+                    <div class="font-semibold text-rentra-ink">{{ $pengumuman->judul }}</div>
+                    <p class="text-sm text-[var(--warna-teks-redup)] mt-1">{{ $pengumuman->isi }}</p>
+                </div>
+            @endif
             <!-- Statistik -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-4">
@@ -92,6 +99,7 @@
         </div>
     </div>
 </x-app-layout>
+
 
 
 

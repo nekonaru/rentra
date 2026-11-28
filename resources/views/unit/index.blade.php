@@ -20,6 +20,16 @@
                 <button type="submit" class="tombol tombol-sekunder">Cari</button>
             </form>
 
+            <form method="POST" action="{{ route('unit.aksi-massal') }}" id="form-massal" class="mb-4 flex flex-wrap items-center gap-2 kartu p-3">
+                @csrf
+                <select name="aksi" class="input w-auto text-sm" required>
+                    <option value="aktifkan">Aktifkan yang dipilih</option>
+                    <option value="nonaktifkan">Nonaktifkan yang dipilih</option>
+                </select>
+                <button type="submit" class="tombol tombol-sekunder text-xs">Terapkan</button>
+                <span class="text-xs text-[var(--warna-teks-redup)]">Centang unit di bawah untuk aksi massal.</span>
+            </form>
+
             @if ($unit->isEmpty())
                 <div class="bg-white rounded-xl border border-teal-50 shadow-sm p-10 text-center">
                     <p class="text-rentra-ink font-semibold">Belum ada unit.</p>
@@ -29,7 +39,10 @@
             @else
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($unit as $unit)
-                        <div class="bg-white rounded-xl border border-teal-50 shadow-sm overflow-hidden flex flex-col">
+                        <div class="kartu overflow-hidden flex flex-col relative">
+                            <div class="absolute top-2 left-2 z-10">
+                                <input type="checkbox" form="form-massal" name="ids[]" value="{{ $unit->id }}" class="h-5 w-5 rounded border-gray-300 text-rentra focus:ring-rentra bg-white/90" aria-label="Pilih {{ $unit->nama }}">
+                            </div>
                             @if ($unit->jalur_foto)
                                 <img src="{{ Storage::disk('public')->url($unit->jalur_foto) }}" alt="Foto {{ $unit->nama }}" class="h-40 w-full object-cover">
                             @else
