@@ -1,5 +1,15 @@
 # Catatan Rilis
 
+## v2.4.1 - Keamanan dependensi
+
+### Perbaikan bug
+
+- **Advisory Symfony.** Paket symfony/http-kernel, symfony/mailer, dan symfony/routing diperbarui ke versi patched. composer audit bersih kembali.
+
+## v2.4.0 - Fitur lanjutan
+
+- **Favorit & bandingkan, bagikan WA, alamat & peta, riwayat aktivitas, onboarding massal, aksi massal unit, nomor seri, checklist serah terima, DP bertahap, booking multi unit, pengumuman, grafik admin.**
+
 ## v2.3.0 - Admin lanjutan dan performa
 
 ### Fitur baru
@@ -139,3 +149,4 @@ Rentra adalah SaaS multi-tenant untuk pemilik rental kecil: satu link publik ber
 
 - **Keamanan dependensi.** Tidak ada `npm audit` / `composer audit` advisories; CSV injection di ekspor ditutup.
 - **Trust proxy.** Hanya rentang privat yang dipercaya untuk `X-Forwarded-For`.
+
